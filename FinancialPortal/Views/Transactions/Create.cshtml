@@ -1,0 +1,335 @@
+﻿<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark" style="font-weight: bold; font-size: 300%">Create Transaction</h1>
+
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        @*@using (Html.BeginForm("Create", "Tickets", FormMethod.Post, new { id = "ticketForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("priorityName", null, new { id = "hiddenTypeId" })
+            @Html.Hidden("typeName", null, new { id = "hiddenAccountId" })
+            @Html.Hidden("userId", Model.User.Id)
+            @Html.Hidden("Ticket.ProjectId", Model.Ticket.ProjectId)
+            @Html.HiddenFor(m => m.Project.Id, new { id = "hiddenProjectId" })
+            @Html.HiddenFor(m => m.Ticket.AssignedToUserId, new { id = "hiddenDeveloperId" })*@
+
+            <div class="row">
+                <div class="col-3">
+                    <div class="accordion" id="ticketAccordion">
+                        <div id="accountHeader" class="info-box mb-3" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="accountCollapse">
+                            <span id="spanAccountBgColor" class="info-box-icon bg-gradient-cyan elevation-1"><i id="spanAccountIcon" class="iAccountClass fas fa-exclamation"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text" style="font-size: large; font-weight: bold">Account:</span>
+                                <span id="spanAccount" class="info-box-text">Select an Account</span>
+                            </div>
+                            <i class="fas fa-chevron-down float-right"></i>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <div id="accountCollapse" class="collapse" aria-labelledby="accountHeader"
+                             data-parent="#ticketAccordion">
+                            <div style="padding-left: 20%">
+                                <a class="aAccountClass" href="#" style="color:black">
+                                    <div id="accountHeader" class="info-box mb-3" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
+                                        <span class="info-box-icon bg-gradient-green elevation-1"><i class="iAccountClass fas fa-money-bill"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text" style="font-size: large; font-weight: bold">Checking</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </a>
+                            </div>
+                            <div style="padding-left: 20%">
+                                <a class="aAccountClass" href="#" style="color:black">
+                                    <div id="accountHeader" class="info-box mb-3" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="accountCollapse">
+                                        <span class="info-box-icon bg-gradient-blue elevation-1"><i class="iAccountClass fas fa-university"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text" style="font-size: large; font-weight: bold">Savings</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="typeHeader" class="info-box mb-3" style="cursor: pointer" data-target="#typeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="typeCollapse">
+                            <span id="spanTypeBgColor" class="info-box-icon bg-gradient-cyan elevation-1"><i id="spanTypeIcon" class="fas fa-exclamation"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text" style="font-size: large; font-weight: bold">Type:</span>
+                                <span id="spanType" class="info-box-text">Select a Type</span>
+                            </div>
+                            <i class="fas fa-chevron-down float-right"></i>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <div id="typeCollapse" class="collapse" aria-labelledby="typeHeader"
+                             data-parent="#ticketAccordion">
+                            <div style="padding-left: 20%">
+                                <a class="aTypeClass" href="#" style="color:black">
+                                    <div class="info-box mb-3" style="cursor: pointer" data-target="#typeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
+                                        <span class="info-box-icon bg-gradient-yellow elevation-1"><i class="iPriorityClass fas fa-sign-out-alt"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text" style="font-size: large; font-weight: bold">Withdrawal</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </a>
+                            </div>
+                            <div style="padding-left: 20%">
+                                <a class="aTypeClass" href="#" style="color:black">
+                                    <div class="info-box mb-3" style="cursor: pointer" data-target="#typeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
+                                        <span class="info-box-icon bg-gradient-green elevation-1"><i class="iPriorityClass fas fa-sign-in-alt"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text" style="font-size: large; font-weight: bold">Deposit</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div>
+                        <h3 id="errorHeader" style="font-weight: bold; text-align: center"></h3>
+                    </div>
+
+                    <div>
+                        <a href=@Url.Action("Index", "Home") style="color: black">
+                            <div class="info-box mb-3 bg-red">
+                                <span class="info-box-icon bg-white elevation-1"><i class="fas fa-exclamation-triangle" style="color: #dc3545"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text" style="font-size: large; font-weight: bold">Cancel</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                        </a>
+                    </div>
+                    <div>
+                        <a id="submitTicketId" href="#" onclick="submitTicket()">
+                            <div class="info-box mb-3 bg-green">
+                                <span class="info-box-icon bg-white elevation-1"><i class="fas fa-check" style="color: #208637"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text" style="font-size: large; font-weight: bold">Submit</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="col">
+                    <div class="card card-widget">
+                        <div class="card-header">
+                            <div class="user-block">
+                                <img class="img-circle" src="../dist/img/user1-128x128.jpg">
+                                <span class="username">DISPLAYNAME</span>
+                                <span class="description">DATETIMENOW</span>
+                            </div>
+                            <!-- /.user-block -->
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <h3 style="font-weight: bold">Memo</h3>
+                            @*@Html.TextBoxFor(model => model.Ticket.Title, new { id = "ticketTitleId", type = "text", style = "width: 50%" })*@
+                            <textarea style="width: 100%" class="form-control" rows="9"></textarea>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+        @*}*@
+    </div>
+</section>
+
+<div id="selectProjectModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" style="font-weight: bold">Select a Project</h2>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    @*@foreach (var project in Model.Projects)
+                    {*@
+                        <div class="col-lg-4 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h4 style="font-weight: bold">PROJECTNAME</h4>
+                                </div>
+                                <a href="#" class="small-box-footer selectProjectClass" data-dismiss="modal">Add <i class="fas fa-plus-circle">@*@Html.Hidden("projectId", project.Id, new { @class = "projectIdClass" }) @Html.Hidden("projectName", project.Name, new { @class = "projectNameClass" })*@</i></a>
+                            </div>
+                        </div>
+                    @*}*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+@section scripts {
+
+    <script>
+        var projectId = ""
+        var typeText = ""
+        var priorityText = ""
+
+        $(document).ready(function () {
+
+
+
+                @*@if (Model.Project != null)
+            {
+                @:projectId = @Model.Project.Id
+                @:projectName = "@Model.Project.Name"
+                @:$("#projectInfoBox").removeClass()
+                @:$("#projectBgSpan").removeClass()
+                @:$("#projectIcon").removeClass()
+                @:$("#projectInfoBox").addClass("info-box mb-3 bg-gradient-blue")
+                @:$("#projectBgSpan").addClass("info-box-icon bg-white elevation-1")
+                @:$("#projectIcon").addClass("fas fa-check")
+                @:$("#projectIcon").css("color", "#0067d6")
+                @:$("#projectName").text(projectName)
+
+                @:$("#hiddenProjectId").val(projectId)
+            }*@
+
+        })
+
+        $(".aTypeClass").on("click", function () {
+            //Step 1: Get the icon from the thing we clicked
+            var icon = $(this).find(".iPriorityClass").attr("class").replace("iPriorityClass", "");
+
+            //Step 2: Get the BG color...
+            var bgColor = $(this).find(".elevation-1").attr("class");
+
+            //Step 3: Get the text from the thing we clicked
+            priorityText = $(this).find(".info-box-content > span").text();
+
+            //Get the current class we are replacing
+            var bgClass = $("#spanTypeBgColor").attr("class");
+            $("#spanTypeBgColor").removeClass(bgClass);
+            $("#spanTypeBgColor").addClass(bgColor);
+
+            var icoClass = $("#spanTypeIcon").attr("class");
+            $("#spanTypeIcon").removeClass(icoClass);
+            $("#spanTypeIcon").addClass(icon);
+            $("#spanType").text(priorityText);
+            $("#hiddenTypeId").val(priorityText);
+            $("#errorHeader").text("")
+        })
+
+        $(".aAccountClass").on("click", function () {
+            //Step 1: Get the icon from the thing we clicked
+            var icon = $(this).find(".iAccountClass").attr("class").replace("iAccountClass", "");
+
+            //Step 2: Get the BG color...
+            var bgColor = $(this).find(".elevation-1").attr("class");
+
+            //Step 3: Get the text from the thing we clicked
+            typeText = $(this).find(".info-box-content > span").text();
+
+            //Get the current class we are replacing
+            var bgClass = $("#spanAccountBgColor").attr("class");
+            $("#spanAccountBgColor").removeClass(bgClass);
+            $("#spanAccountBgColor").addClass(bgColor);
+
+            var icoClass = $("#spanAccountIcon").attr("class");
+            $("#spanAccountIcon").removeClass(icoClass);
+            $("#spanAccountIcon").addClass(icon);
+            $("#spanAccount").text(typeText);
+            $("#hiddenAccountId").val(typeText);
+            $("#errorHeader").text("")
+        })
+
+        $(".selectProjectClass").on("click", function () {
+            projectId = $(this).find(".projectIdClass").val();
+            projectName = $(this).find(".projectNameClass").val();
+            $("#projectInfoBox").removeClass()
+            $("#projectBgSpan").removeClass()
+            $("#projectIcon").removeClass()
+            $("#projectInfoBox").addClass("info-box mb-3 bg-gradient-blue")
+            $("#projectBgSpan").addClass("info-box-icon bg-white elevation-1")
+            $("#projectIcon").addClass("fas fa-check")
+            $("#projectIcon").css("color", "#0067d6")
+            $("#projectName").text(projectName)
+
+            $("#hiddenProjectId").val(projectId)
+            $("#errorHeader").text("")
+
+        })
+
+        function submitTicket() {
+            var projectIsSelected = false
+            var typeIsSelected = false
+            var priorityIsSelected = false
+            var titleIsEntered = false
+            var descriptionIsEntered = false
+            var ticketTitle = $("#ticketTitleId").val()
+            var ticketDescription = $("#ticketDescriptionId").val()
+
+            if (projectId != "") {
+                projectIsSelected = true
+            }
+            if (typeText != "") {
+                typeIsSelected = true
+            }
+            if (priorityText != "") {
+                priorityIsSelected = true
+            }
+            if (ticketDescription != "") {
+                descriptionIsEntered = true
+            }
+            if (ticketTitle != "") {
+                titleIsEntered = true
+            }
+
+            if (priorityIsSelected && typeIsSelected && projectIsSelected && titleIsEntered && descriptionIsEntered) {
+                $("#ticketForm").submit();
+            } else {
+                $("#errorHeader").text("Fill the fields above.")
+            }
+
+            if (!descriptionIsEntered) {
+                $("#errorHeader").text("Enter a description.")
+            }
+            if (!titleIsEntered) {
+                $("#errorHeader").text("Enter a title.")
+            }
+
+
+        }
+
+
+    </script>
+
+
+
+
+
+}`
