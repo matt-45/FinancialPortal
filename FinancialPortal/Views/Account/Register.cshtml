@@ -1,4 +1,5 @@
-﻿@model BugTracker.Models.RegisterViewModel
+﻿@using FinancialPortal.Models
+@model RegisterViewModel
 @{
     Layout = null;
 }
@@ -23,118 +24,139 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition register-page">
-    <div class="register-box">
-        <div class="register-logo">
-            <img src="/Uploads/de_bug-grey-logo@2x.png" width="340px" />
-        </div>
 
-        <div class="card">
-            <div class="card-body register-card-body">
-                <p class="login-box-msg">Register a new account</p>
-
-                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "Multipart/form-data" }))
-                {
-                    @Html.AntiForgeryToken()
-
-
-                    <input name="avatar" type="file" class="form-control avatarImageInputId" id="avatarImageInputId" accept=".jpg, .png" hidden />
-
-                    <a style="cursor: pointer; background-color: #c9e3ff" id="showAvatarUploadAnchor" >
-                        <div class="input-group mb-3" style="width: 100%">
-                            <input class="form-control" disabled style="background-color: #c9e3ff; cursor: pointer" placeholder="Click to Upload Avatar Image" id="placeholderTextForAvatar"/>
-                            <div class="input-group-append">
-                                <div class="input-group-text" style="background-color: #c9e3ff">
-                                    <span class="fas fa-image"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    @Html.ValidationMessage("firstName", new { @class = "text-danger" })
-                    <div class="input-group mb-3">
-                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First name"})
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @Html.ValidationMessage("lastName", new { @class = "text-danger" })
-                    <div class="input-group mb-3">
-                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last name" })
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @Html.ValidationMessage("displayName", new { @class = "text-danger" })
-                    <div class="input-group mb-3">
-                        @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", @placeholder = "Display name" })
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    <div class="input-group mb-3">
-                        @*<input type="email" class="form-control" placeholder="Email">*@
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    <div class="input-group mb-3">
-                        @*<input type="password" class="form-control" placeholder="Password">*@
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
-                    <div class="input-group mb-3">
-                        @*<input type="password" class="form-control" placeholder="Retype password">*@
-                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Retype Password" })
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <!-- /.col -->
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                }
-
-                <!--<div class="social-auth-links text-center">
-      <p>- OR -</p>
-      <a href="#" class="btn btn-block btn-primary">
-        <i class="fab fa-facebook mr-2"></i>
-        Sign up using Facebook
-      </a>
-      <a href="#" class="btn btn-block btn-danger">
-        <i class="fab fa-google-plus mr-2"></i>
-        Sign up using Google+
-      </a>
-    </div>-->
-                <div class="col-12 text-center" style="padding-top:5%">
-                    @Html.ActionLink("I already have an account", "Login", "Account", new { @class = "text-center" })
-                </div>
-
-            </div>
-            <!-- /.form-box -->
-        </div><!-- /.card -->
+    
+    <div class="row">
+        <h1>Financial Portal</h1>
     </div>
+    <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card card-primary card-outline">
+            <div class="card-header p-0 pt-1 border-bottom-0">
+                <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Messages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-settings-tab" data-toggle="pill" href="#custom-tabs-two-settings" role="tab" aria-controls="custom-tabs-two-settings" aria-selected="false">Settings</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="custom-tabs-two-tabContent">
+                    <div class="tab-pane fade active show" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+                            <div class="card">
+                                <div class="card-body register-card-body">
+                                    <p class="login-box-msg">Register a new account</p>
+
+                                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationMessage("firstName", new { @class = "text-danger" })
+                                        <div class="input-group mb-3">
+                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First name" })
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-user"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @Html.ValidationMessage("lastName", new { @class = "text-danger" })
+                                        <div class="input-group mb-3">
+                                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last name" })
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-user"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                        <div class="input-group mb-3">
+                                            @*<input type="email" class="form-control" placeholder="Email">*@
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-envelope"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                        <div class="input-group mb-3">
+                                            @*<input type="password" class="form-control" placeholder="Password">*@
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-lock"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                                        <div class="input-group mb-3">
+                                            @*<input type="password" class="form-control" placeholder="Retype password">*@
+                                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Retype Password" })
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-lock"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <!-- /.col -->
+                                            <div class="col-12">
+                                                <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                                            </div>
+                                            <!-- /.col -->
+                                        </div>
+                                    }
+
+                                    <!--<div class="social-auth-links text-center">
+                                    <p>- OR -</p>
+                                    <a href="#" class="btn btn-block btn-primary">
+                                    <i class="fab fa-facebook mr-2"></i>
+                                    Sign up using Facebook
+                                    </a>
+                                    <a href="#" class="btn btn-block btn-danger">
+                                    <i class="fab fa-google-plus mr-2"></i>
+                                    Sign up using Google+
+                                    </a>
+                                </div>-->
+                                    <div class="col-12 text-center" style="padding-top:5%">
+                                        @Html.ActionLink("I already have an account", "Login", "Account", new { @class = "text-center" })
+                                    </div>
+
+                                </div>
+                                <!-- /.form-box -->
+                            </div><!-- /.card -->
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
+                        Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-two-messages" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
+                        Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+                    </div>
+                    <div class="tab-pane fade" id="custom-tabs-two-settings" role="tabpanel" aria-labelledby="custom-tabs-two-settings-tab">
+                        Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
+                    </div>
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
+   
+
+
+
+
+
+
+
+
     <!-- /.register-box -->
     <!-- jQuery -->
     <script src="../../Scripts/jquery/jquery.min.js"></script>
@@ -172,22 +194,6 @@
 
 
     <script src="~/Scripts/dist/js/adminlte.js"></script>
-
-    <script>
-
-        $(document).ready(function () {
-            $("#showAvatarUploadAnchor").on("click", function (e) {
-                e.preventDefault();
-                $("#avatarImageInputId").trigger('click');
-            })
-            $(".avatarImageInputId").change(function () {
-                var value = this.value.toString().split("\\")[2]
-                $("#placeholderTextForAvatar").val(value)
-                console.log(value)
-            });
-        })
-
-    </script>
 
 
 </body>

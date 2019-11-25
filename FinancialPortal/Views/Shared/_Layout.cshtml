@@ -144,9 +144,9 @@
                                 </li>
                                 <li class="nav-item has-treeview">
                                     <a href="#" class="nav-link">
-                                        <i class="nav-icon fa fa-edit"></i>
+                                        <i class="nav-icon fa fa-users"></i>
                                         <p>
-                                            Projects
+                                            Group
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
@@ -173,9 +173,9 @@
                                 </li>
                                 <li class="nav-item has-treeview">
                                     <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-ticket-alt"></i>
+                                        <i class="nav-icon fas fa-layer-group"></i>
                                         <p>
-                                            Tickets
+                                            Budgets
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
@@ -202,13 +202,19 @@
                                 </li>
                                 <li class="nav-item has-treeview">
                                     <a href="#" class="nav-link">
-                                        <i class="nav-icon fa fa-user"></i>
+                                        <i class="nav-icon fas fa-money-bill "></i>
                                         <p>
-                                            Users
+                                            Transactions
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="" class="nav-link">
+                                                <i class="fa fa-plus-circle nav-icon"></i>
+                                                <p>Create</p>
+                                            </a>
+                                        </li>
                                         <li class="nav-item">
                                             <a href="" class="nav-link">
                                                 <i class="far fa-circle nav-icon"></i>
@@ -244,13 +250,13 @@
                             </ul>
                             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="padding-top: 250px">
                                 <li class="nav-item">
-                                    <a href="" class="bg-green nav-link">
+                                    <a href=@Url.Action("Create", "Transactions") class="bg-green nav-link">
                                         <i class="nav-icon fas fa-edit"></i>
                                         <p>Create Transaction</p>
                                     </a>
                                 </li>
                                 <li class="nav-item" style="padding-top: 10px">
-                                    <a href="" class="nav-link bg-red ">
+                                    <a href=@Url.Action("CustomLogOff", "Account") class="nav-link bg-red ">
                                         <i class="nav-icon fas fa-door-open"></i>
                                         <p>Log Off</p>
                                     </a>

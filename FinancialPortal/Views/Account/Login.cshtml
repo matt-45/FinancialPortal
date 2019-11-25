@@ -1,4 +1,4 @@
-﻿@using BugTracker.Models
+﻿@using FinancialPortal.Models
 @model LoginViewModel
 @{
     Layout = null;
@@ -27,7 +27,7 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <img src="/Uploads/de_bug-grey-logo@2x.png" width="340px" />
+            <h1>Financial Portal</h1>
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -58,7 +58,7 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
-                                @Html.CheckBoxFor(m => m.RememberMe, new { @id = "remember"})
+                                @Html.CheckBoxFor(m => m.RememberMe, new { @id = "remember" })
                                 <label for="remember">
                                     Remember Me
                                 </label>
@@ -73,24 +73,23 @@
                 }
 
                 <!--<div class="social-auth-links text-center mb-3">
-                  <p>- OR -</p>
-                  <a href="#" class="btn btn-block btn-primary">
-                    <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                  </a>
-                  <a href="#" class="btn btn-block btn-danger">
-                    <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                  </a>
-                </div>-->
+      <p>- OR -</p>
+      <a href="#" class="btn btn-block btn-primary">
+        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+      </a>
+      <a href="#" class="btn btn-block btn-danger">
+        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+      </a>
+    </div>-->
                 <!-- /.social-auth-links -->
-
+                <p class="mb-1" style="padding-top: 5%">
+                    <a href=@Url.Action("Index", "Home")>HOME INDEX TEMP</a>
+                </p>
                 <p class="mb-1" style="padding-top: 5%">
                     <a href=@Url.Action("ForgotPassword", "Account")>I forgot my password</a>
                 </p>
-                <p class="mb-1">
-                    @Html.ActionLink("Register a new account", "register", "account", new { @class = "text-center" })
-                </p>
                 <p class="mb-0">
-                    @Html.ActionLink("Sign in as demo user", "Demo", "account", new { @class = "text-center" })
+                    @Html.ActionLink("Register a new account", "register", "account", new { @class = "text-center" })
                 </p>
             </div>
             <!-- /.login-card-body -->

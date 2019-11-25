@@ -23,7 +23,7 @@ namespace FinancialPortal.Models
             }
         }
         
-        public int GroupId { get; set; }
+        //public int GroupId { get; set; }
         public Group Group { get; set; }
 
         public ICollection<Transaction> Transactions { get; set; }
@@ -31,7 +31,13 @@ namespace FinancialPortal.Models
         public ICollection<Budget> Budgets { get; set; }
         public ICollection<BankAccount> BankAccounts { get; set; }
 
-
+        public ApplicationUser()
+        {
+            Transactions = new HashSet<Transaction>();
+            Notifications = new HashSet<Notification>();
+            Budgets = new HashSet<Budget>();
+            BankAccounts = new HashSet<BankAccount>();
+        }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
