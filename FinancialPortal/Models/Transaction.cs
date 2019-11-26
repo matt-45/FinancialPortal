@@ -8,7 +8,7 @@ namespace FinancialPortal.Models
     public class Transaction
     {
         public int Id { get; set; }
-        public int Amount { get; set; }
+        public double Amount { get; set; }
         public string Memo { get; set; }
         public DateTime Created { get; set; }
         public TransactionType Type { get; set; }

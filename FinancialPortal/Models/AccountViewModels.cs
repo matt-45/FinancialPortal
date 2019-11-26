@@ -62,7 +62,7 @@ namespace FinancialPortal.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+    public class RegisterNewUserViewModel
     {
         [Required(ErrorMessage = "Enter a name.")]
         public string FirstName { get; set; }
@@ -85,6 +85,24 @@ namespace FinancialPortal.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Enter a name.")]
+        public string GroupName { get; set; }
+
+        [Required(ErrorMessage = "Enter a name.")]
+        public string CheckingName { get; set; }
+        [Required(ErrorMessage = "Enter an amount.")]
+        public double CheckingAmount { get; set; }
+
+        [Required(ErrorMessage = "Enter a name.")]
+        public string SavingsName { get; set; }
+        [Required(ErrorMessage = "Enter an amount.")]
+        public double SavingsAmount { get; set; }
+
+        [Required(ErrorMessage = "Enter an amount.")]
+        public double IncomeAmount { get; set; }
+        [Required(ErrorMessage = "Select a type.")]
+        public IncomeType IncomeType { get; set; }
     }
 
     public class ResetPasswordViewModel

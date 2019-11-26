@@ -8,7 +8,7 @@ namespace FinancialPortal.Models
     public class BudgetItem
     {
         public int Id { get; set; }
-        public int Amount { get; set; }
+        public double Amount { get; set; }
         public string Name { get; set; }
 
         public int BudgetId { get; set; }

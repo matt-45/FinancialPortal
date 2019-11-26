@@ -34,11 +34,13 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
-                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
+                
+                <div class="form-horizontal">
+
+
                     @Html.AntiForgeryToken()
                     <div class="input-group mb-3">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email", @placeholder = "Email" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email", @placeholder = "Email", @id = "email" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -47,7 +49,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @type = "password", @placeholder = "Password" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @type = "password", @placeholder = "Password", @id = "password" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -66,11 +68,11 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                            <button type="submit" class="btn btn-primary btn-block btn-flat" id="registerAccountButton" onclick="">Sign In</button>
                         </div>
                         <!-- /.col -->
                     </div>
-                }
+                </div>
 
                 <!--<div class="social-auth-links text-center mb-3">
       <p>- OR -</p>
@@ -89,7 +91,7 @@
                     <a href=@Url.Action("ForgotPassword", "Account")>I forgot my password</a>
                 </p>
                 <p class="mb-0">
-                    @Html.ActionLink("Register a new account", "register", "account", new { @class = "text-center" })
+                    @Html.ActionLink("Register a new account", "RegisterNewUser", "Account", new { @class = "text-center" })
                 </p>
             </div>
             <!-- /.login-card-body -->
@@ -132,6 +134,22 @@
 
 
     <script src="~/Scripts/dist/js/adminlte.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            
+
+        })
+
+        function registerAccount() {
+            var email = $("#email").val();
+                var password = $("#password").val()
+                var rememberMe = $("#remember").val();
+                console.log(email)
+                console.log(password)
+                console.log(rememberMe)
+        }
+    </script>
 
 
 </body>

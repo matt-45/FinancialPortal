@@ -1,0 +1,399 @@
+﻿@using FinancialPortal.Models
+@model RegisterNewUserViewModel
+@{
+    Layout = null;
+}
+    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>de_bug | Register</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../Content/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="../../Content/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../Content/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition register-page">
+    <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card card-primary card-outline">
+            <div class="card-header p-0 pt-1 border-bottom-0">
+                <h1 style="text-align: center">Financial Portal</h1>
+                <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Group</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Bank</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-settings-tab" data-toggle="pill" href="#custom-tabs-two-settings" role="tab" aria-controls="custom-tabs-two-settings" aria-selected="false">Invite</a>
+                    </li>
+                </ul>
+            </div>
+            @using (Html.BeginForm("RegisterNewUser", "Account", FormMethod.Post, new { id = "RegistrationForm"}))
+            {
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-two-tabContent">
+                        <div class="tab-pane fade active show" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+                            <p class="login-box-msg">Register a new account</p>
+                            <div class="form-horizontal">
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First name", @id = "firstName" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last name", @id = "lastName" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email", @id = "email" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-envelope"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @id = "password" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-lock"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Retype Password", @id = "passwordConfirm" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-lock"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col" style="text-align: center">
+                                        <h3 id="errorHeaderRegistration"></h3>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <!-- /.col -->
+                                    <div class="col-12">
+                                        <a class="btn btn-primary btn-block btn-flat" style="color: white" onclick="registerAccount()">
+                                            Register
+                                        </a>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
+                            <p class="login-box-msg">Create a new Group</p>
+                            <div class="form-horizontal">
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.GroupName, new { @class = "form-control", @placeholder = "Group Name", @id = "groupName" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-layer-group"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col" style="text-align: center">
+                                        <h3 id="errorHeaderGroup"></h3>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <!-- /.col -->
+                                    <div class="col-12">
+                                        <a class="btn btn-primary btn-block btn-flat" style="color: white" onclick="createGroup()">
+                                            Create Group
+                                        </a>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-two-messages" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
+                            <p class="login-box-msg">Create Accounts</p>
+                            <div class="form-horizontal">
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.CheckingName, new { @class = "form-control", @placeholder = "Checking Name", @id = "checkingName" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-university"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.CheckingAmount, new { @class = "form-control", @placeholder = "Checking Amount", @id = "checkingAmount", @type = "Number" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-money-bill"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.SavingsName, new { @class = "form-control", @placeholder = "Savings Name", @id = "savingsName" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-university"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.SavingsAmount, new { @class = "form-control", @placeholder = "Savings Amount", @id = "savingsAmount", @type = "Number" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-money-bill"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col" style="text-align: center">
+                                        <h3 id="errorHeaderBank"></h3>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <!-- /.col -->
+                                    <div class="col-12">
+                                        <a class="btn btn-primary btn-block btn-flat" style="color: white" onclick="createBanks()">
+                                            Save Accounts
+                                        </a>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-two-settings" role="tabpanel" aria-labelledby="custom-tabs-two-settings-tab">
+                            <p class="login-box-msg">Create a new Group</p>
+                            <div class="form-horizontal">
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.IncomeAmount, new { @class = "form-control", @placeholder = "Checking Name", @id = "incomeAmount" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-university"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="dropdown">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                            Dropdown button
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#">Link 1</a>
+                                            <a class="dropdown-item" href="#">Link 2</a>
+                                            <a class="dropdown-item" href="#">Link 3</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col" style="text-align: center">
+                                        <h3 id="errorHeaderBank"></h3>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <!-- /.col -->
+                                    <div class="col-12">
+                                        <a class="btn btn-primary btn-block btn-flat" style="color: white" onclick="createBanks()">
+                                            Save Accounts
+                                        </a>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="col-12 text-center m-1">
+                @Html.ActionLink("I already have an account", "Login", "Account", new { @class = "text-center" })
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- /.register-box -->
+    <!-- jQuery -->
+    <script src="~/Scripts/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Scripts/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Scripts/dist/js/adminlte.min.js"></script>
+    <!-- jQuery -->
+    <script src="~/Scripts/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/Scripts/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>$.widget.bridge('uibutton', $.ui.button)</script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Scripts/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/Scripts/chart.js/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="~/Scripts/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="~/Scripts/jqvmap/jquery.vmap.min.js"></script>
+    <script src="~/Scripts/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="~/Scripts/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="~/Scripts/moment/moment.min.js"></script>
+    <script src="~/Scripts/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/Scripts/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="~/Scripts/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/Scripts/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+
+
+    <script src="~/Scripts/dist/js/adminlte.js"></script>
+
+    <script>
+
+        var allIsEntered = false
+
+        var nameIsEntered = false;
+        var emailIsEntered = false;
+        var passwordsAreEntered = false;
+        var passwordsMatch = false;
+
+        var groupNameIsEntered = false;
+
+        var bankNamesAreEntered = false;
+        var bankBalancesAreEntered = false;
+
+        var errorHeaderRegistration = $("#errorHeaderRegistration");
+
+        $(document).ready(function () {
+
+            
+
+        })
+
+        function registerAccount() {
+            
+            var firstName = $("#firstName").val();
+            var lastName = $("#lastName").val();
+            var email = $("#email").val();
+            var password = $("#password").val();
+            var passwordConfirm = $("#passwordConfirm").val();
+            if (password == passwordConfirm) {
+                passwordsMatch = true;
+                errorHeaderRegistration.text("")
+            } else {
+                errorHeaderRegistration.text("Passwords do not match.")
+            }
+            if (password == "" || passwordConfirm == "") {
+                errorHeaderRegistration.text("Enter a Password");
+            } else {
+                passwordsAreEntered = true;
+            }
+            if (email == "") {
+                errorHeaderRegistration.text("Enter an Email")
+            } else {
+                emailIsEntered = true;
+            }
+            if (firstName == "" || lastName == "") {
+                errorHeaderRegistration.text("Enter a Name")
+            } else {
+                nameIsEntered = true;
+            }
+
+            if (passwordsMatch && emailIsEntered && nameIsEntered && passwordsAreEntered) {
+                errorHeaderRegistration.text("")
+                $("#custom-tabs-two-profile-tab").click();
+            }
+
+        }
+
+        function createGroup() {
+            var groupName = $("#groupName").val();
+            if (groupName == "") {
+                $("#errorHeaderGroup").text("Enter a Name")
+            } else {
+                $("#custom-tabs-two-messages-tab").click();
+            }
+        }
+
+        function createBanks() {
+
+            var errorHeader = $("#errorHeaderBank")
+            var checkingName = $("#checkingName").val();
+            var checkingAmount = $("#checkingAmount").val();
+            var savingsName = $("#savingsName").val();
+            var savingsAmount = $("#savingsAmount").val();
+
+            if (checkingName == "" || savingsName == "") {
+                errorHeader.text("Enter a Name")
+            } else {
+                bankNamesAreEntered = true
+            }
+            if (checkingAmount == "" || savingsAmount == "") {
+                errorHeader.text("Enter an Amount")
+            } else {
+                bankBalancesAreEntered = true
+            }
+            if (bankNamesAreEntered && bankBalancesAreEntered) {
+                errorHeader.text("")
+                $("#custom-tabs-two-settings-tab").click();
+            }
+        }
+
+        function setIncome() {
+
+        }
+    </script>
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

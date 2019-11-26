@@ -8,8 +8,8 @@ namespace FinancialPortal.Models
     public class BankAccount
     {
         public int Id { get; set; }
-        public int Amount { get; set; }
         public string Name { get; set; }
+        public double Balance { get; set; }
         public AccountType Type { get; set; }
 
         public string UserId { get; set; }

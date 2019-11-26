@@ -138,7 +138,7 @@ namespace FinancialPortal.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult RegisterNewUser()
         {
             return View();
         }
@@ -148,7 +148,7 @@ namespace FinancialPortal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> RegisterNewUser(RegisterNewUserViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -163,8 +163,39 @@ namespace FinancialPortal.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     FirstName = model.FirstName,
-                    LastName = model.LastName
+                    LastName = model.LastName,
+                    IncomeAmount = model.IncomeAmount,
+                    IncomeType = model.IncomeType
                 };
+                user.setUserIncome();
+
+                db.SaveChanges();
+
+                BankAccount checking = new BankAccount
+                {
+                    Name = model.CheckingName,
+                    Balance = model.CheckingAmount,
+                    User = user
+                };
+
+                BankAccount savings = new BankAccount { 
+                    Name = model.SavingsName,
+                    Balance = model.SavingsAmount,
+                    User = user
+                };
+
+                db.SaveChanges();
+
+                user.BankAccounts.Add(checking);
+                user.BankAccounts.Add(savings);
+
+                Group group = new Group();
+                group.Name = model.GroupName;
+
+                db.SaveChanges();
+
+                user.Group = group;
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

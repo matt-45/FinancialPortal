@@ -74,7 +74,7 @@
                             <div style="padding-left: 20%">
                                 <a class="aTypeClass" href="#" style="color:black">
                                     <div class="info-box mb-3" style="cursor: pointer" data-target="#typeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
-                                        <span class="info-box-icon bg-gradient-yellow elevation-1"><i class="iPriorityClass fas fa-sign-out-alt"></i></span>
+                                        <span class="info-box-icon bg-gradient-yellow elevation-1"><i class="iTypeClass fas fa-sign-out-alt"></i></span>
                                         <div class="info-box-content">
                                             <span class="info-box-text" style="font-size: large; font-weight: bold">Withdrawal</span>
                                         </div>
@@ -85,7 +85,41 @@
                             <div style="padding-left: 20%">
                                 <a class="aTypeClass" href="#" style="color:black">
                                     <div class="info-box mb-3" style="cursor: pointer" data-target="#typeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
-                                        <span class="info-box-icon bg-gradient-green elevation-1"><i class="iPriorityClass fas fa-sign-in-alt"></i></span>
+                                        <span class="info-box-icon bg-gradient-green elevation-1"><i class="iTypeClass fas fa-sign-in-alt"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text" style="font-size: large; font-weight: bold">Deposit</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="budgetHeader" class="info-box mb-3" style="cursor: pointer" data-target="#budgetCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="budgetCollapse">
+                            <span id="spanBudgetBgColor" class="info-box-icon bg-gradient-cyan elevation-1"><i id="spanBudgetIcon" class="fas fa-exclamation"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text" style="font-size: large; font-weight: bold">Budget:</span>
+                                <span id="spanBudget" class="info-box-text">Select a Budget</span>
+                            </div>
+                            <i class="fas fa-chevron-down float-right"></i>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <div id="budgetCollapse" class="collapse" aria-labelledby="budgetHeader"
+                             data-parent="#ticketAccordion">
+                            <div style="padding-left: 20%">
+                                <a class="aBudgetClass" href="#" style="color:black">
+                                    <div class="info-box mb-3" style="cursor: pointer" data-target="#budgetCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
+                                        <span class="info-box-icon bg-gradient-yellow elevation-1"><i class="iBudgetClass fas fa-sign-out-alt"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text" style="font-size: large; font-weight: bold">Withdrawal</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </a>
+                            </div>
+                            <div style="padding-left: 20%">
+                                <a class="aBudgetClass" href="#" style="color:black">
+                                    <div class="info-box mb-3" style="cursor: pointer" data-target="#budgetCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
+                                        <span class="info-box-icon bg-gradient-green elevation-1"><i class="iBudgetClass fas fa-sign-in-alt"></i></span>
                                         <div class="info-box-content">
                                             <span class="info-box-text" style="font-size: large; font-weight: bold">Deposit</span>
                                         </div>
@@ -95,33 +129,36 @@
                             </div>
                         </div>
 
-                    </div>
-                    <div>
-                        <h3 id="errorHeader" style="font-weight: bold; text-align: center"></h3>
-                    </div>
 
-                    <div>
-                        <a href=@Url.Action("Index", "Home") style="color: black">
-                            <div class="info-box mb-3 bg-red">
-                                <span class="info-box-icon bg-white elevation-1"><i class="fas fa-exclamation-triangle" style="color: #dc3545"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text" style="font-size: large; font-weight: bold">Cancel</span>
+
+                        <div>
+                            <h3 id="errorHeader" style="font-weight: bold; text-align: center"></h3>
+                        </div>
+
+                        <div>
+                            <a href=@Url.Action("Index", "Home") style="color: black">
+                                <div class="info-box mb-3 bg-red">
+                                    <span class="info-box-icon bg-white elevation-1"><i class="fas fa-exclamation-triangle" style="color: #dc3545"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text" style="font-size: large; font-weight: bold">Cancel</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
                                 </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                        </a>
-                    </div>
-                    <div>
-                        <a id="submitTicketId" href="#" onclick="submitTicket()">
-                            <div class="info-box mb-3 bg-green">
-                                <span class="info-box-icon bg-white elevation-1"><i class="fas fa-check" style="color: #208637"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text" style="font-size: large; font-weight: bold">Submit</span>
+                            </a>
+                        </div>
+                        <div>
+                            <a id="submitTransactionId" href="#" onclick="submitTransaction()">
+                                <div class="info-box mb-3 bg-green">
+                                    <span class="info-box-icon bg-white elevation-1"><i class="fas fa-check" style="color: #208637"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text" style="font-size: large; font-weight: bold">Submit</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
                                 </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
+                    
 
                 </div>
 
@@ -195,9 +232,9 @@
 @section scripts {
 
     <script>
-        var projectId = ""
+        var accountText = ""
         var typeText = ""
-        var priorityText = ""
+        var budgetText = ""
 
         $(document).ready(function () {
 
@@ -223,13 +260,13 @@
 
         $(".aTypeClass").on("click", function () {
             //Step 1: Get the icon from the thing we clicked
-            var icon = $(this).find(".iPriorityClass").attr("class").replace("iPriorityClass", "");
+            var icon = $(this).find(".iTypeClass").attr("class").replace("iTypeClass", "");
 
             //Step 2: Get the BG color...
             var bgColor = $(this).find(".elevation-1").attr("class");
 
             //Step 3: Get the text from the thing we clicked
-            priorityText = $(this).find(".info-box-content > span").text();
+            typeText = $(this).find(".info-box-content > span").text();
 
             //Get the current class we are replacing
             var bgClass = $("#spanTypeBgColor").attr("class");
@@ -239,8 +276,8 @@
             var icoClass = $("#spanTypeIcon").attr("class");
             $("#spanTypeIcon").removeClass(icoClass);
             $("#spanTypeIcon").addClass(icon);
-            $("#spanType").text(priorityText);
-            $("#hiddenTypeId").val(priorityText);
+            $("#spanType").text(typeText);
+            $("#hiddenTypeId").val(typeText);
             $("#errorHeader").text("")
         })
 
@@ -252,7 +289,7 @@
             var bgColor = $(this).find(".elevation-1").attr("class");
 
             //Step 3: Get the text from the thing we clicked
-            typeText = $(this).find(".info-box-content > span").text();
+            accountText = $(this).find(".info-box-content > span").text();
 
             //Get the current class we are replacing
             var bgClass = $("#spanAccountBgColor").attr("class");
@@ -267,24 +304,30 @@
             $("#errorHeader").text("")
         })
 
-        $(".selectProjectClass").on("click", function () {
-            projectId = $(this).find(".projectIdClass").val();
-            projectName = $(this).find(".projectNameClass").val();
-            $("#projectInfoBox").removeClass()
-            $("#projectBgSpan").removeClass()
-            $("#projectIcon").removeClass()
-            $("#projectInfoBox").addClass("info-box mb-3 bg-gradient-blue")
-            $("#projectBgSpan").addClass("info-box-icon bg-white elevation-1")
-            $("#projectIcon").addClass("fas fa-check")
-            $("#projectIcon").css("color", "#0067d6")
-            $("#projectName").text(projectName)
+        $(".aBudgetClass").on("click", function () {
+            //Step 1: Get the icon from the thing we clicked
+            var icon = $(this).find(".iBudgetClass").attr("class").replace("iBudgetClass", "");
 
-            $("#hiddenProjectId").val(projectId)
+            //Step 2: Get the BG color...
+            var bgColor = $(this).find(".elevation-1").attr("class");
+
+            //Step 3: Get the text from the thing we clicked
+            budgetText = $(this).find(".info-box-content > span").text();
+
+            //Get the current class we are replacing
+            var bgClass = $("#spanBudgetBgColor").attr("class");
+            $("#spanBudgetBgColor").removeClass(bgClass);
+            $("#spanBudgetBgColor").addClass(bgColor);
+
+            var icoClass = $("#spanBudgetIcon").attr("class");
+            $("#spanBudgetIcon").removeClass(icoClass);
+            $("#spanBudgetIcon").addClass(icon);
+            $("#spanBudget").text(budgetText);
+            $("#hiddenBudgetId").val(budgetText);
             $("#errorHeader").text("")
-
         })
 
-        function submitTicket() {
+        function submitTransaction() {
             var projectIsSelected = false
             var typeIsSelected = false
             var priorityIsSelected = false

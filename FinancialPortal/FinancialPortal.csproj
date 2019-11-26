@@ -728,6 +728,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -772,7 +773,7 @@
     <Content Include="Scripts\summernote\summernote-lite.js.map" />
     <Content Include="Scripts\summernote\summernote.js.map" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\RegisterNewUser.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
   </ItemGroup>
   <ItemGroup>
