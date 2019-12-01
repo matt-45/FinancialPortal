@@ -16,7 +16,14 @@ namespace FinancialPortal.Models
         public string CreatorId { get; set; }
         public ApplicationUser Creator { get; set; }
 
-        public int BudgetItemId { get; set; }
+        public int GroupId { get; set; }
+        public Group Group { get; set; }
+
+        public int? BudgetId { get; set; }
+        public Budget Budget { get; set; }
+
+
+        public int? BudgetItemId { get; set; }
         public BudgetItem BudgetItem { get; set; }
 
         public int BankAccountId { get; set; }

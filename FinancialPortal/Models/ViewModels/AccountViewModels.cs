@@ -105,6 +105,51 @@ namespace FinancialPortal.Models
         public IncomeType IncomeType { get; set; }
     }
 
+    public class RegisterUserViewModel
+    {
+        public int GroupId { get; set; }
+        public string GroupName { get; set; }
+
+        [Required(ErrorMessage = "Enter a name.")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Enter a name.")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Enter an email.")]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Enter a name.")]
+        public string CheckingName { get; set; }
+        [Required(ErrorMessage = "Enter an amount.")]
+        public double CheckingAmount { get; set; }
+
+        [Required(ErrorMessage = "Enter a name.")]
+        public string SavingsName { get; set; }
+        [Required(ErrorMessage = "Enter an amount.")]
+        public double SavingsAmount { get; set; }
+
+        [Required(ErrorMessage = "Enter an amount.")]
+        public double IncomeAmount { get; set; }
+        [Required(ErrorMessage = "Select a type.")]
+        public IncomeType IncomeType { get; set; }
+    }
+
+
+
     public class ResetPasswordViewModel
     {
         [Required]

@@ -1,5 +1,5 @@
 ﻿@using FinancialPortal.Models
-@model RegisterNewUserViewModel
+@model RegisterUserViewModel
 @{
     Layout = null;
 }
@@ -42,13 +42,10 @@
     <div class="col-12 col-sm-6 col-lg-4">
         <div class="card card-primary card-outline">
             <div class="card-header p-0 pt-1 border-bottom-0">
-                <h1 style="text-align: center">Financial Portal</h1>
+                <h1 style="text-align: center">Join @Model.GroupName</h1>
                 <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Group</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Bank</a>
@@ -120,29 +117,6 @@
                                     <div class="col-12">
                                         <a class="btn btn-primary btn-block btn-flat" style="color: white" onclick="registerAccount()">
                                             Register
-                                        </a>
-                                    </div>
-                                    <!-- /.col -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
-                            <p class="login-box-msg">Create a new Group</p>
-                            <div class="form-horizontal">
-                                @Html.ValidationMessageFor(m => m.GroupName, "", new { @class = "text-danger" })
-                                <div class="input-group mb-3">
-                                    @Html.TextBoxFor(m => m.GroupName, new { @class = "form-control", @placeholder = "Group Name", @id = "groupName" })
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-layer-group"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <!-- /.col -->
-                                    <div class="col-12">
-                                        <a class="btn btn-primary btn-block btn-flat" style="color: white" onclick="createGroup()">
-                                            Create Group
                                         </a>
                                     </div>
                                     <!-- /.col -->

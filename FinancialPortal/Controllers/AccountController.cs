@@ -148,7 +148,7 @@ namespace FinancialPortal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RegisterNewUser(RegisterNewUserViewModel model)
+        public async Task<ActionResult> RegisterNewUser(RegisterNewUserViewModel model, string incomeType)
         {
             if (ModelState.IsValid)
             {
@@ -158,45 +158,49 @@ namespace FinancialPortal.Controllers
                     return View(model);
                 }
 
-                var user = new ApplicationUser
+                Group group = new Group
                 {
-                    UserName = model.Email,
-                    Email = model.Email,
+                    Name = model.GroupName
+                };
+
+                db.Groups.Add(group);
+                await db.SaveChangesAsync();
+
+                ApplicationUser user = new ApplicationUser
+                {
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    IncomeAmount = model.IncomeAmount,
-                    IncomeType = model.IncomeType
+                    Email = model.Email,
+                    UserName = model.Email,
+                    IncomeType = (IncomeType)Enum.Parse(typeof(IncomeType), incomeType),
+                    GroupId = group.Id
                 };
                 user.setUserIncome();
-
-                db.SaveChanges();
+                await db.SaveChangesAsync();
 
                 BankAccount checking = new BankAccount
                 {
                     Name = model.CheckingName,
                     Balance = model.CheckingAmount,
-                    User = user
+                    Type = AccountType.Checking
                 };
 
-                BankAccount savings = new BankAccount { 
+                BankAccount savings = new BankAccount
+                {
                     Name = model.SavingsName,
                     Balance = model.SavingsAmount,
-                    User = user
+                    Type = AccountType.Savings
                 };
 
-                db.SaveChanges();
-
+                db.BankAccounts.Add(checking);
+                db.BankAccounts.Add(savings);
                 user.BankAccounts.Add(checking);
                 user.BankAccounts.Add(savings);
 
-                Group group = new Group();
-                group.Name = model.GroupName;
-
-                db.SaveChanges();
-
-                user.Group = group;
+                await db.SaveChangesAsync();
 
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
@@ -212,7 +216,93 @@ namespace FinancialPortal.Controllers
                 AddErrors(result);
             }
 
-            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+
+
+        [AllowAnonymous]
+        public ActionResult RegisterUser(string code)
+        {
+            var invitation = db.Invitations.FirstOrDefault(i => i.Code.ToString() == code);
+            var group = db.Groups.Find(invitation.GroupId);
+            RegisterUserViewModel viewModel = new RegisterUserViewModel();
+            viewModel.GroupId = invitation.GroupId;
+            viewModel.GroupName = group.Name;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterUser(RegisterNewUserViewModel model, string incomeType)
+        {
+            if (ModelState.IsValid)
+            {
+                if (db.Users.Any(u => u.Email == model.Email))
+                {
+                    ModelState.AddModelError("Email", "Email already used.");
+                    return View(model);
+                }
+
+                Group group = new Group
+                {
+                    Name = model.GroupName
+                };
+
+                db.Groups.Add(group);
+                await db.SaveChangesAsync();
+
+                ApplicationUser user = new ApplicationUser
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    UserName = model.Email,
+                    IncomeType = (IncomeType)Enum.Parse(typeof(IncomeType), incomeType),
+                    GroupId = group.Id
+                };
+                user.setUserIncome();
+                await db.SaveChangesAsync();
+
+                BankAccount checking = new BankAccount
+                {
+                    Name = model.CheckingName,
+                    Balance = model.CheckingAmount,
+                    Type = AccountType.Checking
+                };
+
+                BankAccount savings = new BankAccount
+                {
+                    Name = model.SavingsName,
+                    Balance = model.SavingsAmount,
+                    Type = AccountType.Savings
+                };
+
+                db.BankAccounts.Add(checking);
+                db.BankAccounts.Add(savings);
+                user.BankAccounts.Add(checking);
+                user.BankAccounts.Add(savings);
+
+                await db.SaveChangesAsync();
+
+                var result = await UserManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return RedirectToAction("Index", "Home");
+                }
+                AddErrors(result);
+            }
+
             return View(model);
         }
 

@@ -4,15 +4,51 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using FinancialPortal.Helpers;
 using FinancialPortal.Models;
+using Microsoft.AspNet.Identity;
 
 namespace FinancialPortal.Controllers
 {
     public class GroupsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        
+
+        [Authorize] // role head
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult InviteUser(string userId, int groupId, string email)
+        {
+            var user = db.Users.Find(userId);
+
+            Invitation invitation = new Invitation
+            {
+                Code = Guid.NewGuid(),
+                GroupId = groupId,
+                Created = DateTime.Now,
+                TimeToLive = DateTime.Now.AddDays(1),
+                IsValid = true,
+                RecipientEmail = email
+            };
+            db.Invitations.Add(invitation);
+            db.SaveChanges();
+
+            var callbackUrl = Url.Action("RegisterUser", "Account", new { code = invitation.Code }, protocol: Request.Url.Scheme);
+            var mailMessage = new MailMessage();
+            mailMessage.To.Add(new MailAddress(email));
+            mailMessage.From = new MailAddress("mattpark102@outlook.com");
+            mailMessage.Subject = "Invite to financial portal.";
+            mailMessage.Body = $"You got an invite from {user.FullName} to join group {user.Group.Name}. Click <a href=\"" + callbackUrl + "\">here</a>.";
+            mailMessage.IsBodyHtml = true;
+            ModelState.AddModelError("Message", "Message has been sent.");
+            SendEmail.Send(mailMessage);
+
+            return RedirectToAction("Index", "Home");
+        }
 
         // GET: Groups
         public ActionResult Index()
