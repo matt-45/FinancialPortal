@@ -14,20 +14,20 @@ namespace FinancialPortal.Models
         public TransactionType Type { get; set; }
 
         public string CreatorId { get; set; }
-        public ApplicationUser Creator { get; set; }
+        public virtual ApplicationUser Creator { get; set; }
 
         public int GroupId { get; set; }
-        public Group Group { get; set; }
+        public virtual Group Group { get; set; }
 
         public int? BudgetId { get; set; }
-        public Budget Budget { get; set; }
+        public virtual Budget Budget { get; set; }
 
 
         public int? BudgetItemId { get; set; }
-        public BudgetItem BudgetItem { get; set; }
+        public virtual BudgetItem BudgetItem { get; set; }
 
         public int BankAccountId { get; set; }
-        public BankAccount BankAccount { get; set; }
+        public virtual BankAccount BankAccount { get; set; }
     }
 
     public enum TransactionType

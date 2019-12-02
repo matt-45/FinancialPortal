@@ -13,7 +13,7 @@ namespace FinancialPortal.Models
         public AccountType Type { get; set; }
 
         public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
     }
     public enum AccountType

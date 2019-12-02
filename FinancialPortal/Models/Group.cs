@@ -10,11 +10,11 @@ namespace FinancialPortal.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public ICollection<Transaction> Transactions { get; set; }
-        public ICollection<Notification> Notifications { get; set; }
-        public ICollection<ApplicationUser> Users { get; set; }
-        public ICollection<Budget> Budgets { get; set; }
-        public ICollection<Invitation> Invitations { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
+        public virtual ICollection<Budget> Budgets { get; set; }
+        public virtual ICollection<Invitation> Invitations { get; set; }
 
         public Group()
         {
@@ -24,6 +24,8 @@ namespace FinancialPortal.Models
             Budgets = new HashSet<Budget>();
             Invitations = new HashSet<Invitation>();
         }
+
+        
 
     }
 }

@@ -144,8 +144,6 @@ namespace FinancialPortal.Models
 
         [Required(ErrorMessage = "Enter an amount.")]
         public double IncomeAmount { get; set; }
-        [Required(ErrorMessage = "Select a type.")]
-        public IncomeType IncomeType { get; set; }
     }
 
 

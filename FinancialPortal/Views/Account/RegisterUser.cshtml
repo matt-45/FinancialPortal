@@ -55,11 +55,12 @@
                     </li>
                 </ul>
             </div>
-            @using (Html.BeginForm("RegisterNewUser", "Account", FormMethod.Post, new { id = "RegistrationForm" }))
+            @using (Html.BeginForm("RegisterUser", "Account", FormMethod.Post, new { id = "RegisterInvitedUserForm" }))
             {
                 @Html.AntiForgeryToken()
 
                 @Html.Hidden("incomeType", null, new { id = "hiddenIncomeType" })
+                @Html.HiddenFor(m => m.GroupId)
                 <div class="card-body">
                     <div class="tab-content" id="custom-tabs-two-tabContent">
                         <div class="tab-pane fade active show" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
@@ -138,7 +139,7 @@
 
                                 @Html.ValidationMessageFor(m => m.CheckingAmount, "", new { @class = "text-danger" })
                                 <div class="input-group mb-3">
-                                    @Html.TextBoxFor(m => m.CheckingAmount, new { @class = "form-control", @placeholder = "Checking Amount", @id = "checkingAmount", @type = "Number" })
+                                    @Html.TextBoxFor(m => m.CheckingAmount,  new { @class = "form-control", @placeholder = "Checking Amount", @id = "checkingAmount", @type = "Number" })
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-money-bill"></span>
@@ -208,9 +209,9 @@
                                 <div class="row">
                                     <!-- /.col -->
                                     <div class="col-12">
-                                        <button type="submit" class="btn btn-primary btn-block btn-flat">
-                                            Submit Test
-                                        </button>
+                                        <a onclick="submitForm()" class="btn btn-primary btn-block btn-flat">
+                                            Submit
+                                        </a>
                                     </div>
                                     <!-- /.col -->
                                 </div>
@@ -282,15 +283,15 @@
         })
 
         function registerAccount() {
-            $("#custom-tabs-two-profile-tab").click();
-        }
-
-        function createGroup() {
             $("#custom-tabs-two-messages-tab").click();
         }
 
         function createBanks() {
             $("#custom-tabs-two-settings-tab").click();
+        }
+
+        function submitForm() {
+            $("#RegisterInvitedUserForm").submit();
         }
 
     </script>

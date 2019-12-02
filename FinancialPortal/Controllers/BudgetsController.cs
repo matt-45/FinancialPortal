@@ -48,17 +48,18 @@ namespace FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Amount,GroupId")] Budget budget)
+        public ActionResult Create(string BudgetName, int GroupId)
         {
-            if (ModelState.IsValid)
+            var group = db.Groups.Find(GroupId);
+            var budget = new Budget
             {
-                db.Budgets.Add(budget);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name", budget.GroupId);
-            return View(budget);
+                Name = BudgetName,
+                GroupId = GroupId
+            };
+            db.Budgets.Add(budget);
+            group.Budgets.Add(budget);
+            db.SaveChanges();
+            return RedirectToAction("Details", "Budgets", new { id = budget.Id});
         }
 
         // GET: Budgets/Edit/5

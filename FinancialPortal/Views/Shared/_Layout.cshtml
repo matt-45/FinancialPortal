@@ -141,9 +141,9 @@
                         <nav class="mt-2">
                             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                 <!-- Add icons to the links using the .nav-icon class
-                        with font-awesome or any other icon font library -->
+                            with font-awesome or any other icon font library -->
                                 <li class="nav-item">
-                                    <a href="" class="nav-link active">
+                                    <a href=@Url.Action("Index", "Home") class="nav-link active">
                                         <i class="nav-icon fas fa-th"></i>
                                         <p>Dashboard</p>
                                     </a>
@@ -175,7 +175,7 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="" class="nav-link">
+                                            <a class="nav-link" data-toggle="modal" data-target="#createBudgetModal" style="cursor: pointer">
                                                 <i class="fa fa-plus-circle nav-icon"></i>
                                                 <p>Create New</p>
                                             </a>
@@ -186,12 +186,15 @@
                                                 <p>View All</p>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link">
-                                                <i class="fas fa-history nav-icon"></i>
-                                                <p>Histories</p>
-                                            </a>
-                                        </li>
+                                        @foreach (var budget in user.Group.Budgets)
+                                        {
+                                            <li class="nav-item">
+                                                <a href="" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>@budget.Name</p>
+                                                </a>
+                                            </li>
+                                        }
 
                                     </ul>
                                 </li>
@@ -214,30 +217,6 @@
                                             <a href="" class="nav-link">
                                                 <i class="far fa-circle nav-icon"></i>
                                                 <p>View All</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link">
-                                                <i class="fa fa-user-tie nav-icon"></i>
-                                                <p>Admins</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link">
-                                                <i class="fa fa-male nav-icon"></i>
-                                                <p>Managers</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link">
-                                                <i class="fa fa-laptop nav-icon"></i>
-                                                <p>Developers</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link">
-                                                <i class="fa fa-check nav-icon"></i>
-                                                <p>Submitters</p>
                                             </a>
                                         </li>
                                     </ul>
@@ -274,7 +253,7 @@
             <div class="content-wrapper">
                 @RenderBody()
             </div>
-            @using (Html.BeginForm("InviteUser", "Groups", FormMethod.Post, new { id = "inviteUserForm"}))
+            @using (Html.BeginForm("InviteUser", "Groups", FormMethod.Post, new { id = "inviteUserForm" }))
             {
                 <!-- Invite Modal -->
                 <div class="modal" id="inviteUserModal">
@@ -303,56 +282,81 @@
                 </div>
             }
         </div>
-        
+
+        <!-- Modal -->
+        <div id="createBudgetModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                @using (Html.BeginForm("Create", "Budgets", FormMethod.Post, new { id = "createBudgetForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("GroupId", user.GroupId)
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title" style="font-weight: bold" id="createBudgetErrorHeader">Create Budget</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Name</h4>
+                            @Html.TextBox("BudgetName", null, new { @class = "form-control", @id = "projectTitleTextBox", @maxlength = "15" })
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </div>
+                }
 
 
-
-            <!-- jQuery -->
-            <script src="~/Scripts/jquery/jquery.min.js"></script>
-            <!-- jQuery UI 1.11.4 -->
-            <script src="~/Scripts/jquery-ui/jquery-ui.min.js"></script>
-            <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-            <script>$.widget.bridge('uibutton', $.ui.button)</script>
-            <!-- Bootstrap 4 -->
-            <script src="~/Scripts/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <!-- ChartJS -->
-            <script src="~/Scripts/chart.js/Chart.min.js"></script>
-            <!-- Sparkline -->
-            <script src="~/Scripts/sparklines/sparkline.js"></script>
-            <!-- JQVMap -->
-            <script src="~/Scripts/jqvmap/jquery.vmap.min.js"></script>
-            <script src="~/Scripts/jqvmap/maps/jquery.vmap.usa.js"></script>
-            <!-- jQuery Knob Chart -->
-            <script src="~/Scripts/jquery-knob/jquery.knob.min.js"></script>
-            <!-- daterangepicker -->
-            <script src="~/Scripts/moment/moment.min.js"></script>
-            <script src="~/Scripts/daterangepicker/daterangepicker.js"></script>
-            <!-- Tempusdominus Bootstrap 4 -->
-            <script src="~/Scripts/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-            <!-- Summernote -->
-            <script src="~/Scripts/summernote/summernote-bs4.min.js"></script>
-            <!-- overlayScrollbars -->
-            <script src="~/Scripts/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-            <!-- AdminLTE App -->
+            </div>
+        </div>
 
 
-            <script src="~/Scripts/dist/js/adminlte.js"></script>
+        <!-- jQuery -->
+        <script src="~/Scripts/jquery/jquery.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="~/Scripts/jquery-ui/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>$.widget.bridge('uibutton', $.ui.button)</script>
+        <!-- Bootstrap 4 -->
+        <script src="~/Scripts/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- ChartJS -->
+        <script src="~/Scripts/chart.js/Chart.min.js"></script>
+        <!-- Sparkline -->
+        <script src="~/Scripts/sparklines/sparkline.js"></script>
+        <!-- JQVMap -->
+        <script src="~/Scripts/jqvmap/jquery.vmap.min.js"></script>
+        <script src="~/Scripts/jqvmap/maps/jquery.vmap.usa.js"></script>
+        <!-- jQuery Knob Chart -->
+        <script src="~/Scripts/jquery-knob/jquery.knob.min.js"></script>
+        <!-- daterangepicker -->
+        <script src="~/Scripts/moment/moment.min.js"></script>
+        <script src="~/Scripts/daterangepicker/daterangepicker.js"></script>
+        <!-- Tempusdominus Bootstrap 4 -->
+        <script src="~/Scripts/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+        <!-- Summernote -->
+        <script src="~/Scripts/summernote/summernote-bs4.min.js"></script>
+        <!-- overlayScrollbars -->
+        <script src="~/Scripts/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+        <!-- AdminLTE App -->
 
 
-            <script src="~/Scripts/datatables/jquery.dataTables.min.js"></script>
-            <script src="~/Scripts/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-            <script src="~/Scripts/datatables-select/js/dataTables.select.min.js"></script>
-            <script src="~/Scripts/datatables-select/js/select.bootstrap4.min.js"></script>
+        <script src="~/Scripts/dist/js/adminlte.js"></script>
 
-            <script src="~/Scripts/lodash.js"></script>
 
-            <script>
+        <script src="~/Scripts/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/Scripts/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="~/Scripts/datatables-select/js/dataTables.select.min.js"></script>
+        <script src="~/Scripts/datatables-select/js/select.bootstrap4.min.js"></script>
 
-                $("#submitInviteForm").on("click", function () {
-                    $("#inviteUserForm").submit()
-                })
+        <script src="~/Scripts/lodash.js"></script>
 
-            </script>
+        <script>
 
-            @RenderSection("scripts", required: false)
-        </body>
+            $("#submitInviteForm").on("click", function () {
+                $("#inviteUserForm").submit()
+            })
+
+        </script>
+
+        @RenderSection("scripts", required: false)
+    </body>

@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FinancialPortal.Models;
+using FinancialPortal.Helpers;
 
 namespace FinancialPortal.Controllers
 {
@@ -18,6 +19,7 @@ namespace FinancialPortal.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
+        private GroupHelper groupHelper = new GroupHelper();
 
         public AccountController()
         {
@@ -162,8 +164,98 @@ namespace FinancialPortal.Controllers
                 {
                     Name = model.GroupName
                 };
-
                 db.Groups.Add(group);
+
+                #region Budgets
+
+
+
+                Budget food = new Budget
+                {
+                    Name = "Food"
+                };
+
+                Budget utilities = new Budget
+                {
+                    Name = "Utilities"
+                };
+
+                Budget entertainment = new Budget
+                {
+                    Name = "Entertainment"
+                };
+
+                BudgetItem restaurant = new BudgetItem
+                {
+                    Name = "Restaurant"
+                };
+
+                BudgetItem fastFood = new BudgetItem
+                {
+                    Name = "Fast Food"
+                };
+
+                BudgetItem groceries = new BudgetItem
+                {
+                    Name = "Groceries"
+                };
+
+                BudgetItem electricity = new BudgetItem
+                {
+                    Name = "Electricity"
+                };
+
+                BudgetItem gas = new BudgetItem
+                {
+                    Name = "Gas"
+                };
+
+                BudgetItem water = new BudgetItem
+                {
+                    Name = "Water"
+                };
+
+                BudgetItem internet = new BudgetItem
+                {
+                    Name = "Cable and Internet"
+                };
+
+                await db.SaveChangesAsync();
+
+                food.BudgetItems.Add(groceries);
+                food.BudgetItems.Add(fastFood);
+                food.BudgetItems.Add(restaurant);
+
+                utilities.BudgetItems.Add(gas);
+                utilities.BudgetItems.Add(water);
+                utilities.BudgetItems.Add(electricity);
+
+                entertainment.BudgetItems.Add(internet);
+
+                await db.SaveChangesAsync();
+
+                group.Budgets.Add(food);
+                group.Budgets.Add(utilities);
+                group.Budgets.Add(entertainment);
+
+                await db.SaveChangesAsync();
+
+                db.BudgetItems.Add(groceries);
+                db.BudgetItems.Add(fastFood);
+                db.BudgetItems.Add(restaurant);
+                db.BudgetItems.Add(gas);
+                db.BudgetItems.Add(water);
+                db.BudgetItems.Add(electricity);
+                db.BudgetItems.Add(internet);
+
+                db.Budgets.Add(food);
+                db.Budgets.Add(utilities);
+                db.Budgets.Add(entertainment);
+
+                await db.SaveChangesAsync();
+
+                #endregion
+
                 await db.SaveChangesAsync();
 
                 ApplicationUser user = new ApplicationUser
@@ -173,7 +265,8 @@ namespace FinancialPortal.Controllers
                     Email = model.Email,
                     UserName = model.Email,
                     IncomeType = (IncomeType)Enum.Parse(typeof(IncomeType), incomeType),
-                    GroupId = group.Id
+                    GroupId = group.Id,
+                    Group = group
                 };
                 user.setUserIncome();
                 await db.SaveChangesAsync();
@@ -198,6 +291,8 @@ namespace FinancialPortal.Controllers
                 user.BankAccounts.Add(savings);
 
                 await db.SaveChangesAsync();
+
+                
 
                 var result = await UserManager.CreateAsync(user, model.Password);
 
@@ -235,7 +330,7 @@ namespace FinancialPortal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RegisterUser(RegisterNewUserViewModel model, string incomeType)
+        public async Task<ActionResult> RegisterUser(RegisterUserViewModel model, string incomeType)
         {
             if (ModelState.IsValid)
             {
@@ -245,12 +340,6 @@ namespace FinancialPortal.Controllers
                     return View(model);
                 }
 
-                Group group = new Group
-                {
-                    Name = model.GroupName
-                };
-
-                db.Groups.Add(group);
                 await db.SaveChangesAsync();
 
                 ApplicationUser user = new ApplicationUser
@@ -260,7 +349,7 @@ namespace FinancialPortal.Controllers
                     Email = model.Email,
                     UserName = model.Email,
                     IncomeType = (IncomeType)Enum.Parse(typeof(IncomeType), incomeType),
-                    GroupId = group.Id
+                    GroupId = model.GroupId
                 };
                 user.setUserIncome();
                 await db.SaveChangesAsync();
