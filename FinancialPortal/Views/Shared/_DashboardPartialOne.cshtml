@@ -1,0 +1,124 @@
+﻿@using FinancialPortal.Models
+@model Group
+<!--Quick Action-->
+<a href=@Url.Action("Create", "Transactions") style="color:black">
+    <div class="info-box mb-3 bg-green">
+        <span class="info-box-icon bg-white elevation-1"><i class="fas fa-dollar-sign" style="color: #29a746"></i></span>
+        <span class="info-box-content" style="font-size: large; font-weight: bold">Create Transaction</span>
+        <i class="fas fa-plus-circle pull-right" style="color: white"></i>
+        <!-- /.info-box-content -->
+    </div>
+</a>
+<!--Budgets Progress-->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title" style="font-weight: bold">Budget Status</h3>
+
+        <div class="card-tools">
+            <ul class="pagination pagination-sm float-right">
+                <li class="page-item"><a class="page-link" href="#">«</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">»</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Task</th>
+                    <th>Progress</th>
+                    <th style="width: 40px">Label</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.</td>
+                    <td>Update software</td>
+                    <td>
+                        <div class="progress progress-xs">
+                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                        </div>
+                    </td>
+                    <td><span class="badge bg-danger">55%</span></td>
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td>Clean database</td>
+                    <td>
+                        <div class="progress progress-xs">
+                            <div class="progress-bar bg-warning" style="width: 70%"></div>
+                        </div>
+                    </td>
+                    <td><span class="badge bg-warning">70%</span></td>
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td>Cron job running</td>
+                    <td>
+                        <div class="progress progress-xs progress-striped active">
+                            <div class="progress-bar bg-primary" style="width: 30%"></div>
+                        </div>
+                    </td>
+                    <td><span class="badge bg-primary">30%</span></td>
+                </tr>
+                <tr>
+                    <td>4.</td>
+                    <td>Fix and squish bugs</td>
+                    <td>
+                        <div class="progress progress-xs progress-striped active">
+                            <div class="progress-bar bg-success" style="width: 90%"></div>
+                        </div>
+                    </td>
+                    <td><span class="badge bg-success">90%</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<!--Users-->
+<div class="card">
+    <a style="cursor: pointer" data-card-widget="collapse">
+        <div class="card-header">
+            <h3 class="card-title" style="font-weight: bold">Users</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+    </a>
+    <div class="card-body">
+        <table id="usersTable" class="table table-bordered table-striped " style="table-layout: fixed">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Role
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr style="cursor: pointer">
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>@user.ReturnRole()</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Role</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

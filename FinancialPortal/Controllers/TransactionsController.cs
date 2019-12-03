@@ -37,12 +37,10 @@ namespace FinancialPortal.Controllers
         }
 
         // GET: Transactions/Create
-        public ActionResult Create()
+        public ActionResult Create(int groupId)
         {
-            ViewBag.BankAccountId = new SelectList(db.BankAccounts, "Id", "Name");
-            ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name");
-            ViewBag.CreatorId = new SelectList(db.Users, "Id", "FirstName");
-            return View();
+            var group = db.Groups.Find(groupId);
+            return View(group);
         }
 
         // POST: Transactions/Create
@@ -63,6 +61,23 @@ namespace FinancialPortal.Controllers
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
             ViewBag.CreatorId = new SelectList(db.Users, "Id", "FirstName", transaction.CreatorId);
             return View(transaction);
+        }
+
+
+        // GET: Transactions/Create
+        public ActionResult CreateDeposit(int bankId, double amount, string memo) // bankid, amount
+        {
+            var transaction = new Transaction
+            {
+                Memo = memo,
+                Amount = amount,
+                BankAccountId = bankId,
+                Type = TransactionType.Deposit
+            };
+            db.Transactions.Add(transaction);
+            db.SaveChanges();
+
+            return View();
         }
 
         // GET: Transactions/Edit/5

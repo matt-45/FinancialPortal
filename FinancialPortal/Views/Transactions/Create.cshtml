@@ -1,4 +1,6 @@
-﻿<!-- Content Header (Page header) -->
+﻿@using FinancialPortal.Models
+@model Group
+<!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -26,74 +28,7 @@
             <div class="row">
                 <div class="col-3">
                     <div class="accordion" id="ticketAccordion">
-                        <div id="accountHeader" class="info-box mb-3" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="accountCollapse">
-                            <span id="spanAccountBgColor" class="info-box-icon bg-gradient-cyan elevation-1"><i id="spanAccountIcon" class="iAccountClass fas fa-exclamation"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text" style="font-size: large; font-weight: bold">Account:</span>
-                                <span id="spanAccount" class="info-box-text">Select an Account</span>
-                            </div>
-                            <i class="fas fa-chevron-down float-right"></i>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <div id="accountCollapse" class="collapse" aria-labelledby="accountHeader"
-                             data-parent="#ticketAccordion">
-                            <div style="padding-left: 20%">
-                                <a class="aAccountClass" href="#" style="color:black">
-                                    <div id="accountHeader" class="info-box mb-3" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
-                                        <span class="info-box-icon bg-gradient-green elevation-1"><i class="iAccountClass fas fa-money-bill"></i></span>
-                                        <div class="info-box-content">
-                                            <span class="info-box-text" style="font-size: large; font-weight: bold">Checking</span>
-                                        </div>
-                                        <!-- /.info-box-content -->
-                                    </div>
-                                </a>
-                            </div>
-                            <div style="padding-left: 20%">
-                                <a class="aAccountClass" href="#" style="color:black">
-                                    <div id="accountHeader" class="info-box mb-3" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="accountCollapse">
-                                        <span class="info-box-icon bg-gradient-blue elevation-1"><i class="iAccountClass fas fa-university"></i></span>
-                                        <div class="info-box-content">
-                                            <span class="info-box-text" style="font-size: large; font-weight: bold">Savings</span>
-                                        </div>
-                                        <!-- /.info-box-content -->
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div id="typeHeader" class="info-box mb-3" style="cursor: pointer" data-target="#typeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="typeCollapse">
-                            <span id="spanTypeBgColor" class="info-box-icon bg-gradient-cyan elevation-1"><i id="spanTypeIcon" class="fas fa-exclamation"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text" style="font-size: large; font-weight: bold">Type:</span>
-                                <span id="spanType" class="info-box-text">Select a Type</span>
-                            </div>
-                            <i class="fas fa-chevron-down float-right"></i>
-                            <!-- /.info-box-content -->
-                        </div>
-                        <div id="typeCollapse" class="collapse" aria-labelledby="typeHeader"
-                             data-parent="#ticketAccordion">
-                            <div style="padding-left: 20%">
-                                <a class="aTypeClass" href="#" style="color:black">
-                                    <div class="info-box mb-3" style="cursor: pointer" data-target="#typeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
-                                        <span class="info-box-icon bg-gradient-yellow elevation-1"><i class="iTypeClass fas fa-sign-out-alt"></i></span>
-                                        <div class="info-box-content">
-                                            <span class="info-box-text" style="font-size: large; font-weight: bold">Withdrawal</span>
-                                        </div>
-                                        <!-- /.info-box-content -->
-                                    </div>
-                                </a>
-                            </div>
-                            <div style="padding-left: 20%">
-                                <a class="aTypeClass" href="#" style="color:black">
-                                    <div class="info-box mb-3" style="cursor: pointer" data-target="#typeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
-                                        <span class="info-box-icon bg-gradient-green elevation-1"><i class="iTypeClass fas fa-sign-in-alt"></i></span>
-                                        <div class="info-box-content">
-                                            <span class="info-box-text" style="font-size: large; font-weight: bold">Deposit</span>
-                                        </div>
-                                        <!-- /.info-box-content -->
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+
                         <div id="budgetHeader" class="info-box mb-3" style="cursor: pointer" data-target="#budgetCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="budgetCollapse">
                             <span id="spanBudgetBgColor" class="info-box-icon bg-gradient-cyan elevation-1"><i id="spanBudgetIcon" class="fas fa-exclamation"></i></span>
                             <div class="info-box-content">
@@ -105,28 +40,21 @@
                         </div>
                         <div id="budgetCollapse" class="collapse" aria-labelledby="budgetHeader"
                              data-parent="#ticketAccordion">
-                            <div style="padding-left: 20%">
-                                <a class="aBudgetClass" href="#" style="color:black">
-                                    <div class="info-box mb-3" style="cursor: pointer" data-target="#budgetCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
-                                        <span class="info-box-icon bg-gradient-yellow elevation-1"><i class="iBudgetClass fas fa-sign-out-alt"></i></span>
-                                        <div class="info-box-content">
-                                            <span class="info-box-text" style="font-size: large; font-weight: bold">Withdrawal</span>
+                            @foreach (var budget in Model.Budgets)
+                            {
+                                <div style="padding-left: 20%">
+                                    <a class="aBudgetClass" href="#" style="color:black">
+                                        <div class="info-box mb-3" style="cursor: pointer" data-target="#budgetCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
+                                            <span class="info-box-icon bg-gradient-green elevation-1"><i class="iBudgetClass fas fa-layer-group"></i></span>
+                                            <div class="info-box-content">
+                                                <span class="info-box-text" style="font-size: large; font-weight: bold">@budget.Name</span>
+                                            </div>
+                                            <!-- /.info-box-content -->
                                         </div>
-                                        <!-- /.info-box-content -->
-                                    </div>
-                                </a>
-                            </div>
-                            <div style="padding-left: 20%">
-                                <a class="aBudgetClass" href="#" style="color:black">
-                                    <div class="info-box mb-3" style="cursor: pointer" data-target="#budgetCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
-                                        <span class="info-box-icon bg-gradient-green elevation-1"><i class="iBudgetClass fas fa-sign-in-alt"></i></span>
-                                        <div class="info-box-content">
-                                            <span class="info-box-text" style="font-size: large; font-weight: bold">Deposit</span>
-                                        </div>
-                                        <!-- /.info-box-content -->
-                                    </div>
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
+                            }
+
                         </div>
 
 
@@ -192,38 +120,6 @@
     </div>
 </section>
 
-<div id="selectProjectModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <!-- Modal content-->
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" style="font-weight: bold">Select a Project</h2>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    @*@foreach (var project in Model.Projects)
-                    {*@
-                        <div class="col-lg-4 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h4 style="font-weight: bold">PROJECTNAME</h4>
-                                </div>
-                                <a href="#" class="small-box-footer selectProjectClass" data-dismiss="modal">Add <i class="fas fa-plus-circle">@*@Html.Hidden("projectId", project.Id, new { @class = "projectIdClass" }) @Html.Hidden("projectName", project.Name, new { @class = "projectNameClass" })*@</i></a>
-                            </div>
-                        </div>
-                    @*}*@
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-
-    </div>
-</div>
-
 
 
 
@@ -256,52 +152,6 @@
                 @:$("#hiddenProjectId").val(projectId)
             }*@
 
-        })
-
-        $(".aTypeClass").on("click", function () {
-            //Step 1: Get the icon from the thing we clicked
-            var icon = $(this).find(".iTypeClass").attr("class").replace("iTypeClass", "");
-
-            //Step 2: Get the BG color...
-            var bgColor = $(this).find(".elevation-1").attr("class");
-
-            //Step 3: Get the text from the thing we clicked
-            typeText = $(this).find(".info-box-content > span").text();
-
-            //Get the current class we are replacing
-            var bgClass = $("#spanTypeBgColor").attr("class");
-            $("#spanTypeBgColor").removeClass(bgClass);
-            $("#spanTypeBgColor").addClass(bgColor);
-
-            var icoClass = $("#spanTypeIcon").attr("class");
-            $("#spanTypeIcon").removeClass(icoClass);
-            $("#spanTypeIcon").addClass(icon);
-            $("#spanType").text(typeText);
-            $("#hiddenTypeId").val(typeText);
-            $("#errorHeader").text("")
-        })
-
-        $(".aAccountClass").on("click", function () {
-            //Step 1: Get the icon from the thing we clicked
-            var icon = $(this).find(".iAccountClass").attr("class").replace("iAccountClass", "");
-
-            //Step 2: Get the BG color...
-            var bgColor = $(this).find(".elevation-1").attr("class");
-
-            //Step 3: Get the text from the thing we clicked
-            accountText = $(this).find(".info-box-content > span").text();
-
-            //Get the current class we are replacing
-            var bgClass = $("#spanAccountBgColor").attr("class");
-            $("#spanAccountBgColor").removeClass(bgClass);
-            $("#spanAccountBgColor").addClass(bgColor);
-
-            var icoClass = $("#spanAccountIcon").attr("class");
-            $("#spanAccountIcon").removeClass(icoClass);
-            $("#spanAccountIcon").addClass(icon);
-            $("#spanAccount").text(typeText);
-            $("#hiddenAccountId").val(typeText);
-            $("#errorHeader").text("")
         })
 
         $(".aBudgetClass").on("click", function () {

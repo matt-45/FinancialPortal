@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 namespace FinancialPortal.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    public class ApplicationUser : IdentityUser
+    public partial class ApplicationUser : IdentityUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -41,39 +41,7 @@ namespace FinancialPortal.Models
             BankAccounts = new HashSet<BankAccount>();
         }
 
-        public void setUserIncome()
-        {
-            var user = this;
-            switch (user.IncomeType)
-            {
-                case IncomeType.Hourly:
-                    user.IncomeAmount = ((user.IncomeAmount * 24) * 365) / 12;
-                    user.IncomeType = IncomeType.Monthly;
-                    break;
-                case IncomeType.Daily:
-                    user.IncomeAmount = (user.IncomeAmount * 365) / 12;
-                    user.IncomeType = IncomeType.Monthly;
-                    break;
-                case IncomeType.Weekly:
-                    user.IncomeAmount = (user.IncomeAmount * 52) / 12;
-                    user.IncomeType = IncomeType.Monthly;
-                    break;
-                case IncomeType.BiWeekly:
-                    user.IncomeAmount = (user.IncomeAmount * 26) / 12;
-                    user.IncomeType = IncomeType.BiWeekly;
-                    break;
-                case IncomeType.SemiMonthly:
-                    user.IncomeAmount = (user.IncomeAmount / 2);
-                    user.IncomeType = IncomeType.SemiMonthly;
-                    break;
-                case IncomeType.Monthly:
-                    break;
-                case IncomeType.Annually:
-                    user.IncomeAmount = (user.IncomeAmount / 12);
-                    user.IncomeType = IncomeType.Annually;
-                    break;
-            }
-        }
+        
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

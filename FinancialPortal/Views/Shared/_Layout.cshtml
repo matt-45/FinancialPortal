@@ -208,7 +208,7 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href=@Url.Action("Create", "Transaction") class="nav-link">
+                                            <a href=@Url.Action("Create", "Transaction", new { groupId = user.GroupId}) class="nav-link">
                                                 <i class="fa fa-plus-circle nav-icon"></i>
                                                 <p>Create</p>
                                             </a>
@@ -224,7 +224,13 @@
                             </ul>
                             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="padding-top: 250px">
                                 <li class="nav-item">
-                                    <a href=@Url.Action("Create", "Transactions") class="bg-green nav-link">
+                                    <a class="bg-green nav-link" data-toggle="modal" data-target="#makeADepositModal" style="cursor: pointer">
+                                        <i class="nav-icon fas fa-sign-in-alt"></i>
+                                        <p>Make a Deposit</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href=@Url.Action("Create", "Transactions", new { groupId = user.GroupId}) class="bg-green nav-link">
                                         <i class="nav-icon fas fa-edit"></i>
                                         <p>Create Transaction</p>
                                     </a>
@@ -310,6 +316,69 @@
             </div>
         </div>
 
+        <!-- Modal -->
+        <div id="makeADepositModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                @using (Html.BeginForm("Create", "Budgets", FormMethod.Post, new { id = "createBudgetForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("GroupId", user.GroupId)
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title" style="font-weight: bold" id="depositHeader">Make a Deposit</h2>
+                        </div>
+                        <div class="modal-body">
+                            <div class="accordion" id="ticketAccordion">
+                                <div id="accountHeader" class="info-box mb-3" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="accountCollapse">
+                                    <span id="spanAccountBgColor" class="info-box-icon bg-gradient-cyan elevation-1"><i id="spanAccountIcon" class="iAccountClass fas fa-exclamation"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text" style="font-size: large; font-weight: bold">Account:</span>
+                                        <span id="spanAccount" class="info-box-text">Select an Account</span>
+                                    </div>
+                                    <i class="fas fa-chevron-down float-right"></i>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <div id="accountCollapse" class="collapse" aria-labelledby="accountHeader"
+                                     data-parent="#ticketAccordion">
+                                    <div style="padding-left: 20%">
+                                        <a class="aAccountClass" href="#" style="color:black">
+                                            <div id="accountHeader" class="info-box mb-3" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
+                                                <span class="info-box-icon bg-gradient-green elevation-1"><i class="iAccountClass fas fa-money-bill"></i></span>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text" style="font-size: large; font-weight: bold">Checking</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div style="padding-left: 20%">
+                                        <a class="aAccountClass" href="#" style="color:black">
+                                            <div id="accountHeader" class="info-box mb-3" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="accountCollapse">
+                                                <span class="info-box-icon bg-gradient-blue elevation-1"><i class="iAccountClass fas fa-university"></i></span>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text" style="font-size: large; font-weight: bold">Savings</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4>Amount</h4>
+                            @Html.TextBox("BudgetName", null, new { @class = "form-control", @id = "depositAmount", @type = "number" })
+                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-success">Save</button>
+                            </div>
+                        </div>
+                }
+
+
+            </div>
+        </div>
+
 
         <!-- jQuery -->
         <script src="~/Scripts/jquery/jquery.min.js"></script>
@@ -355,6 +424,29 @@
             $("#submitInviteForm").on("click", function () {
                 $("#inviteUserForm").submit()
             })
+
+            $(".aAccountClass").on("click", function () {
+            //Step 1: Get the icon from the thing we clicked
+            var icon = $(this).find(".iAccountClass").attr("class").replace("iAccountClass", "");
+
+            //Step 2: Get the BG color...
+            var bgColor = $(this).find(".elevation-1").attr("class");
+
+            //Step 3: Get the text from the thing we clicked
+            accountText = $(this).find(".info-box-content > span").text();
+
+            //Get the current class we are replacing
+            var bgClass = $("#spanAccountBgColor").attr("class");
+            $("#spanAccountBgColor").removeClass(bgClass);
+            $("#spanAccountBgColor").addClass(bgColor);
+
+            var icoClass = $("#spanAccountIcon").attr("class");
+            $("#spanAccountIcon").removeClass(icoClass);
+            $("#spanAccountIcon").addClass(icon);
+            $("#spanAccount").text(typeText);
+            $("#hiddenAccountId").val(typeText);
+            $("#errorHeader").text("")
+        })
 
         </script>
 
