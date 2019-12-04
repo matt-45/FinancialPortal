@@ -27,7 +27,6 @@ namespace FinancialPortal.Models
         public virtual Group Group { get; set; }
         public double IncomeAmount { get; set; }
         public IncomeType IncomeType { get; set; }
-        
 
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }

@@ -32,8 +32,10 @@ namespace FinancialPortal.Models
 
         public void Calculate()
         {
-            BankAccount.Balance -= Amount;
-            Group.Balance -= Amount;
+            var bank = db.BankAccounts.Find(BankAccountId);
+            var group = db.Groups.Find(GroupId);
+            bank.Balance -= Amount;
+            group.Balance -= Amount;
             // check to see if there is an overdraft etc.
             db.SaveChanges();
         }

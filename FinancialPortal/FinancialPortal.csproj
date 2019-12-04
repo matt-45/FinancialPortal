@@ -784,6 +784,7 @@
     <Content Include="Views\Account\RegisterUser.cshtml" />
     <Content Include="Views\Shared\_DashboardPartialOne.cshtml" />
     <Content Include="Views\Shared\_DashboardPartialTwo.cshtml" />
+    <Content Include="Views\Shared\_LayoutModals.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

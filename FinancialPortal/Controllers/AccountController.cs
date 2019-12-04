@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FinancialPortal.Models;
 using FinancialPortal.Helpers;
+using BugTracker.Models;
 
 namespace FinancialPortal.Controllers
 {
@@ -20,6 +21,7 @@ namespace FinancialPortal.Controllers
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
         private GroupHelper groupHelper = new GroupHelper();
+        private UserRoleHelper roleHelper = new UserRoleHelper();
 
         public AccountController()
         {
@@ -282,6 +284,7 @@ namespace FinancialPortal.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    roleHelper.AddUserToRole(user.Id, "Head");
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -604,7 +607,7 @@ namespace FinancialPortal.Controllers
         public ActionResult CustomLogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //
