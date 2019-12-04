@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FinancialPortal.Models;
+using Microsoft.AspNet.Identity;
 
 namespace FinancialPortal.Controllers
 {
@@ -37,10 +38,17 @@ namespace FinancialPortal.Controllers
         }
 
         // GET: Transactions/Create
-        public ActionResult Create(int groupId)
+        public ActionResult Create(int? budgetId)
         {
-            var group = db.Groups.Find(groupId);
-            return View(group);
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var viewModel = new TransactionCreateViewModel();
+            if (budgetId != null)
+            {
+                viewModel.Budget = db.Budgets.Find(budgetId);
+            }
+            viewModel.User = user;
+            viewModel.Group = user.Group;
+            return View(viewModel);
         }
 
         // POST: Transactions/Create
@@ -63,21 +71,26 @@ namespace FinancialPortal.Controllers
             return View(transaction);
         }
 
-
-        // GET: Transactions/Create
         public ActionResult CreateDeposit(int bankId, double amount, string memo) // bankid, amount
         {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var group = user.Group;
+            var account = db.BankAccounts.Find(bankId);
             var transaction = new Transaction
             {
                 Memo = memo,
                 Amount = amount,
                 BankAccountId = bankId,
-                Type = TransactionType.Deposit
+                Type = TransactionType.Deposit,
+                Created = DateTime.Now,
+                GroupId = user.GroupId,
+                CreatorId = user.Id
             };
+            account.Balance += amount;
             db.Transactions.Add(transaction);
             db.SaveChanges();
 
-            return View();
+            return PartialView("~/Views/Shared/_DashboardPartialTwo.cshtml", group);
         }
 
         // GET: Transactions/Edit/5

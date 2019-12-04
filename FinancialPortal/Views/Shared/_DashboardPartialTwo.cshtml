@@ -1,28 +1,7 @@
 ﻿@using FinancialPortal.Models
 @model Group
 
-<!--Line Chart-->
-<div class="row">
-    <div class="col">
-        <div class="card card-primary" style="width: 100%">
-            <div class="card-header">
-                <h3 class="card-title">Budget Status</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="chart">
-                    <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                    <canvas id="areaChart" style="height: 250px; min-height: 250px; display: block; width: 100%;" height="625" class="chartjs-render-monitor"></canvas>
-                </div>
-            </div>
-            <!-- /.card-body -->
-        </div>
-    </div>
-</div>
+
 <!--Transactions-->
 <div class="card">
     <a style="cursor: pointer" data-card-widget="collapse">
@@ -36,7 +15,7 @@
         </div>
     </a>
     <div class="card-body">
-        <table id="usersTable" class="table table-bordered table-striped " style="table-layout: fixed">
+        <table id="transactionsTable" class="table table-bordered table-striped " style="table-layout: fixed">
             <thead>
                 <tr>
                     <th>Bank Account</th>
@@ -50,14 +29,21 @@
             <tbody>
                 @foreach (var transaction in Model.Transactions)
                 {
-                    <tr style="cursor: pointer">
-                        <td>@transaction.BankAccount.Name</td>
+                <tr style="cursor: pointer">
+                    <td>@transaction.BankAccount.Name</td>
+                    @if (transaction.Budget == null)
+                    {
+                        <td>N/A</td>
+                    }
+                    else
+                    {
                         <td>@transaction.Budget.Name</td>
-                        <td>@transaction.Type.ToString()</td>
-                        <td>$@transaction.Amount</td>
-                        <td>@transaction.Creator.FullName</td>
-                        <td>@transaction.Created</td>
-                    </tr>
+                    }
+                    <td>@transaction.Type.ToString()</td>
+                    <td>$@transaction.Amount</td>
+                    <td>@transaction.Creator.FullName</td>
+                    <td>@transaction.Created</td>
+                </tr>
                 }
             </tbody>
             <tfoot>

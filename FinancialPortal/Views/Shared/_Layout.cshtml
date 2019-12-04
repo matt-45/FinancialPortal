@@ -230,7 +230,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href=@Url.Action("Create", "Transactions", new { groupId = user.GroupId}) class="bg-green nav-link">
+                                    <a class="bg-green nav-link" href=@Url.Action("Create", "Transactions", new { groupId = user.GroupId})>
                                         <i class="nav-icon fas fa-edit"></i>
                                         <p>Create Transaction</p>
                                     </a>
@@ -303,7 +303,7 @@
                         </div>
                         <div class="modal-body">
                             <h4>Name</h4>
-                            @Html.TextBox("BudgetName", null, new { @class = "form-control", @id = "projectTitleTextBox", @maxlength = "15" })
+                            @Html.TextBox("BudgetName", null, new { @class = "form-control", @id = "projectTitleTextBox" })
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
@@ -311,71 +311,85 @@
                         </div>
                     </div>
                 }
-
-
             </div>
         </div>
+
+        
+
 
         <!-- Modal -->
         <div id="makeADepositModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
-                @using (Html.BeginForm("Create", "Budgets", FormMethod.Post, new { id = "createBudgetForm" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("GroupId", user.GroupId)
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2 class="modal-title" style="font-weight: bold" id="depositHeader">Make a Deposit</h2>
-                        </div>
-                        <div class="modal-body">
-                            <div class="accordion" id="ticketAccordion">
-                                <div id="accountHeader" class="info-box mb-3" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="accountCollapse">
-                                    <span id="spanAccountBgColor" class="info-box-icon bg-gradient-cyan elevation-1"><i id="spanAccountIcon" class="iAccountClass fas fa-exclamation"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text" style="font-size: large; font-weight: bold">Account:</span>
-                                        <span id="spanAccount" class="info-box-text">Select an Account</span>
-                                    </div>
-                                    <i class="fas fa-chevron-down float-right"></i>
-                                    <!-- /.info-box-content -->
+                @Html.Hidden("bankId", null, new { @id = "hiddenBankId" })
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" style="font-weight: bold" id="depositHeader">Make a Deposit</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="accordion" id="ticketAccordion">
+                            <div id="accountHeader" class="info-box mb-3" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="accountCollapse">
+                                <span id="spanAccountBgColor" class="info-box-icon bg-gradient-cyan elevation-1"><i id="spanAccountIcon" class="iAccountClass fas fa-exclamation"></i></span>
+                                <div class="info-box-content">
+                                    <span id="spanAccount" class="info-box-text" style="font-size: large; font-weight: bold">Account:</span>
+                                    <span id="spanAccountBalance" class="info-box-text">Select an Account</span>
                                 </div>
-                                <div id="accountCollapse" class="collapse" aria-labelledby="accountHeader"
-                                     data-parent="#ticketAccordion">
-                                    <div style="padding-left: 20%">
-                                        <a class="aAccountClass" href="#" style="color:black">
-                                            <div id="accountHeader" class="info-box mb-3" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
-                                                <span class="info-box-icon bg-gradient-green elevation-1"><i class="iAccountClass fas fa-money-bill"></i></span>
-                                                <div class="info-box-content">
-                                                    <span class="info-box-text" style="font-size: large; font-weight: bold">Checking</span>
-                                                </div>
-                                                <!-- /.info-box-content -->
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div style="padding-left: 20%">
-                                        <a class="aAccountClass" href="#" style="color:black">
-                                            <div id="accountHeader" class="info-box mb-3" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="accountCollapse">
-                                                <span class="info-box-icon bg-gradient-blue elevation-1"><i class="iAccountClass fas fa-university"></i></span>
-                                                <div class="info-box-content">
-                                                    <span class="info-box-text" style="font-size: large; font-weight: bold">Savings</span>
-                                                </div>
-                                                <!-- /.info-box-content -->
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
+                                <i class="fas fa-chevron-down float-right"></i>
+                                <!-- /.info-box-content -->
                             </div>
-                            <h4>Amount</h4>
-                            @Html.TextBox("BudgetName", null, new { @class = "form-control", @id = "depositAmount", @type = "number" })
-                        </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-success">Save</button>
-                            </div>
-                        </div>
-                }
+                            <div id="accountCollapse" class="collapse" aria-labelledby="accountHeader"
+                                 data-parent="#ticketAccordion">
+                                @foreach (var account in user.BankAccounts)
+                                {
+                                    if (account.Type.ToString() == "Checking")
+                                    {
+                                        <div style="padding-left: 20%">
+                                            <a href="#" style="color:black" onclick="selectBank(@account.Id, @account.Balance)">
+                                                <div id="accountHeader" class="info-box mb-3 aAccountClass" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
+                                                    <span class="info-box-icon bg-gradient-green elevation-1"><i class="iAccountClass fas fa-money-bill"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-text accountNameClass" style="font-size: large; font-weight: bold">@account.Name</span>
+                                                        <span class="info-box-number accountBalanceClass">$@account.Balance</span>
+                                                    </div>
+                                                    <!-- /.info-box-content -->
+                                                </div>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div style="padding-left: 20%">
+                                            <a href="#" style="color:black" onclick="selectBank(@account.Id, @account.Balance)">
+                                                <div id="accountHeader" class="info-box mb-3 aAccountClass" style="cursor: pointer" data-target="#accountCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="accountCollapse">
+                                                    <span class="info-box-icon bg-gradient-blue elevation-1"><i class="iAccountClass fas fa-university"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-text accountNameClass" style="font-size: large; font-weight: bold">@account.Name</span>
+                                                        <span class="info-box-number accountBalanceClass">$@account.Balance</span>
+                                                    </div>
+                                                    <!-- /.info-box-content -->
+                                                </div>
+                                            </a>
+                                        </div>
+                                    }
+
+                                }
 
 
+                            </div>
+                        </div>
+                        <h4>Amount</h4>
+                        <input type="number" id="amountId" class="form-control" />
+                        <h4>Memo</h4>
+                        <input type="text" id="memoId" class="form-control" />
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-success" onclick="submitDepositForm()" data-dismiss="modal" style="color: white; cursor: pointer">
+                            Save
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -426,27 +440,59 @@
             })
 
             $(".aAccountClass").on("click", function () {
-            //Step 1: Get the icon from the thing we clicked
-            var icon = $(this).find(".iAccountClass").attr("class").replace("iAccountClass", "");
+                //Step 1: Get the icon from the thing we clicked
+                var icon = $(this).find(".iAccountClass").attr("class").replace("iAccountClass", "");
 
-            //Step 2: Get the BG color...
-            var bgColor = $(this).find(".elevation-1").attr("class");
+                //Step 2: Get the BG color...
+                var bgColor = $(this).find(".elevation-1").attr("class");
 
-            //Step 3: Get the text from the thing we clicked
-            accountText = $(this).find(".info-box-content > span").text();
+                //Step 3: Get the text from the thing we clicked
+                accountText = $(this).find(".accountNameClass").text();
+                accountAmount = $(this).find(".accountBalanceClass").text();
 
-            //Get the current class we are replacing
-            var bgClass = $("#spanAccountBgColor").attr("class");
-            $("#spanAccountBgColor").removeClass(bgClass);
-            $("#spanAccountBgColor").addClass(bgColor);
+                //Get the current class we are replacing
+                var bgClass = $("#spanAccountBgColor").attr("class");
+                $("#spanAccountBgColor").removeClass(bgClass);
+                $("#spanAccountBgColor").addClass(bgColor);
 
-            var icoClass = $("#spanAccountIcon").attr("class");
-            $("#spanAccountIcon").removeClass(icoClass);
-            $("#spanAccountIcon").addClass(icon);
-            $("#spanAccount").text(typeText);
-            $("#hiddenAccountId").val(typeText);
-            $("#errorHeader").text("")
-        })
+                var icoClass = $("#spanAccountIcon").attr("class");
+                $("#spanAccountIcon").removeClass(icoClass);
+                $("#spanAccountIcon").addClass(icon);
+                $("#spanAccount").text(accountText);
+                $("#spanAccountBalance").text(accountAmount)
+
+                $("#errorHeader").text("")
+            })
+
+            function selectBank(bankId) {
+                $("#hiddenBankId").val(bankId)
+            }
+
+            function submitDepositForm() {
+                var amount = $("#amountId").val();
+                var memo = $("#memoId").val();
+                var bankId = $("#hiddenBankId").val()
+                $.ajax({
+                type: "POST",
+                url: "@Url.Action("CreateDeposit", "Transactions")",
+                    data: {
+                        "bankId": bankId,
+                        "amount": amount,
+                        "memo": memo
+                    },
+                    success: function (partialViewResult) {
+                        $("#partialTwoDiv").html(partialViewResult);
+                    }
+                });
+            }
+
+            $("#usersTable").DataTable({
+                searching: false
+            });
+            $("#transactionsTable").DataTable({
+                searching: false
+            });
+
 
         </script>
 

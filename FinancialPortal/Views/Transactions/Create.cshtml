@@ -1,5 +1,5 @@
 ﻿@using FinancialPortal.Models
-@model Group
+@model TransactionCreateViewModel
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -15,39 +15,64 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        @*@using (Html.BeginForm("Create", "Tickets", FormMethod.Post, new { id = "ticketForm" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.Hidden("priorityName", null, new { id = "hiddenTypeId" })
-            @Html.Hidden("typeName", null, new { id = "hiddenAccountId" })
-            @Html.Hidden("userId", Model.User.Id)
-            @Html.Hidden("Ticket.ProjectId", Model.Ticket.ProjectId)
-            @Html.HiddenFor(m => m.Project.Id, new { id = "hiddenProjectId" })
-            @Html.HiddenFor(m => m.Ticket.AssignedToUserId, new { id = "hiddenDeveloperId" })*@
+        <div class="row">
+            <div class="col-3">
+                @if (Model.Budget == null)
+                {
+                    <div>
+                        <a data-toggle="modal" data-target="#selectBudgetModal" href="#" style="color: black">
+                            <div class="info-box mb-3" id="budgetInfoBox">
+                                <span class="info-box-icon bg-yellow elevation-1" id="budgetBgSpan"><i class="fas fa-exclamation" id="budgetIcon"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text" style="font-size: large; font-weight: bold">Budget:</span>
+                                    <span class="info-box-text" id="budgetName">Select a Budget</span>
+                                </div>
+                                <i class="fas fa-plus-circle float-right"></i>
+                                <!-- /.info-box-content -->
+                            </div>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <a data-toggle="modal" data-target="#selectBudgetModal" href="#" style="color: black">
+                            <div class="info-box mb-3 bg-blue" id="budgetInfoBox">
+                                <span class="info-box-icon bg-white elevation-1" id="budgetBgSpan"><i class="fas fa-cubes" id="budgetIcon" style="color: #037bff"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text" style="font-size: large; font-weight: bold">Budget:</span>
+                                    <span class="info-box-text" id="budgetName">@Model.Budget.Name</span>
+                                </div>
+                                <i class="fas fa-plus-circle float-right"></i>
+                                <!-- /.info-box-content -->
+                            </div>
+                        </a>
+                    </div>
+                }
 
-            <div class="row">
-                <div class="col-3">
-                    <div class="accordion" id="ticketAccordion">
+                <div class="accordion" id="ticketAccordion">
 
+                    @if (Model.Budget != null)
+                    {
                         <div id="budgetHeader" class="info-box mb-3" style="cursor: pointer" data-target="#budgetCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="budgetCollapse">
-                            <span id="spanBudgetBgColor" class="info-box-icon bg-gradient-cyan elevation-1"><i id="spanBudgetIcon" class="fas fa-exclamation"></i></span>
+                            <span id="spanBudgetBgColor" class="info-box-icon bg-gradient-yellow elevation-1"><i id="spanBudgetIcon" class="fas fa-exclamation"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text" style="font-size: large; font-weight: bold">Budget:</span>
-                                <span id="spanBudget" class="info-box-text">Select a Budget</span>
+                                <span class="info-box-text" style="font-size: large; font-weight: bold">Budget Item:</span>
+                                <span id="spanBudget" class="info-box-text">Select an Item</span>
                             </div>
                             <i class="fas fa-chevron-down float-right"></i>
                             <!-- /.info-box-content -->
                         </div>
                         <div id="budgetCollapse" class="collapse" aria-labelledby="budgetHeader"
                              data-parent="#ticketAccordion">
-                            @foreach (var budget in Model.Budgets)
+                            @foreach (var item in Model.Budget.BudgetItems)
                             {
                                 <div style="padding-left: 20%">
                                     <a class="aBudgetClass" href="#" style="color:black">
                                         <div class="info-box mb-3" style="cursor: pointer" data-target="#budgetCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
-                                            <span class="info-box-icon bg-gradient-green elevation-1"><i class="iBudgetClass fas fa-layer-group"></i></span>
+                                            <span class="info-box-icon bg-gradient-cyan elevation-1"><i class="iBudgetClass fas fa-cube"></i></span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text" style="font-size: large; font-weight: bold">@budget.Name</span>
+                                                <span class="info-box-text" style="font-size: large; font-weight: bold">@item.Name</span>
                                             </div>
                                             <!-- /.info-box-content -->
                                         </div>
@@ -56,68 +81,102 @@
                             }
 
                         </div>
+                    }
 
 
 
-                        <div>
-                            <h3 id="errorHeader" style="font-weight: bold; text-align: center"></h3>
-                        </div>
 
-                        <div>
-                            <a href=@Url.Action("Index", "Home") style="color: black">
-                                <div class="info-box mb-3 bg-red">
-                                    <span class="info-box-icon bg-white elevation-1"><i class="fas fa-exclamation-triangle" style="color: #dc3545"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text" style="font-size: large; font-weight: bold">Cancel</span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                            </a>
-                        </div>
-                        <div>
-                            <a id="submitTransactionId" href="#" onclick="submitTransaction()">
-                                <div class="info-box mb-3 bg-green">
-                                    <span class="info-box-icon bg-white elevation-1"><i class="fas fa-check" style="color: #208637"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text" style="font-size: large; font-weight: bold">Submit</span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                            </a>
-                        </div>
+
+                    <div>
+                        <h3 id="errorHeader" style="font-weight: bold; text-align: center"></h3>
                     </div>
-                    
 
+                    <div>
+                        <a href=@Url.Action("Index", "Home") style="color: black">
+                            <div class="info-box mb-3 bg-red">
+                                <span class="info-box-icon bg-white elevation-1"><i class="fas fa-exclamation-triangle" style="color: #dc3545"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text" style="font-size: large; font-weight: bold">Cancel</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                        </a>
+                    </div>
+                    <div>
+                        <a id="submitTransactionId" href="#" onclick="submitTransaction()">
+                            <div class="info-box mb-3 bg-green">
+                                <span class="info-box-icon bg-white elevation-1"><i class="fas fa-check" style="color: #208637"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text" style="font-size: large; font-weight: bold">Submit</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                        </a>
+                    </div>
                 </div>
 
-                <div class="col">
-                    <div class="card card-widget">
-                        <div class="card-header">
-                            <div class="user-block">
-                                <img class="img-circle" src="../dist/img/user1-128x128.jpg">
-                                <span class="username">DISPLAYNAME</span>
-                                <span class="description">DATETIMENOW</span>
-                            </div>
-                            <!-- /.user-block -->
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                            </div>
-                            <!-- /.card-tools -->
+
+            </div>
+
+            <div class="col">
+                <div class="card card-widget">
+                    <div class="card-header">
+                        <div class="user-block">
+                            <img class="img-circle" src="../dist/img/user1-128x128.jpg">
+                            <span class="username">DISPLAYNAME</span>
+                            <span class="description">DATETIMENOW</span>
                         </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <h3 style="font-weight: bold">Memo</h3>
-                            @*@Html.TextBoxFor(model => model.Ticket.Title, new { id = "ticketTitleId", type = "text", style = "width: 50%" })*@
-                            <textarea style="width: 100%" class="form-control" rows="9"></textarea>
+                        <!-- /.user-block -->
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
                         </div>
-                        <!-- /.card-body -->
+                        <!-- /.card-tools -->
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <h2 style="font-weight: bold">Amount</h2>
+                        <input style="width: 30%" class="form-control" type="number"/>
+                        <h3 style="font-weight: bold; padding-top: 10px">Memo</h3>
+                        <textarea style="width: 100%" class="form-control" rows="9"></textarea>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal-->
+    <div id="selectBudgetModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" style="font-weight: bold">Select a Budget</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        @foreach (var budget in Model.Group.Budgets)
+                        {
+                            <div class="col-6">
+                                <a href=@Url.Action("Create", "Transactions", new { budgetId = budget.Id}) class="small-box-footer selectBudgetClass" style="color: black">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-blue"><i class="fas fa-cubes"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text" style="font-weight: bold">@budget.Name</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </a>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
-        @*}*@
+        </div>
     </div>
+
 </section>
 
 
@@ -132,27 +191,6 @@
         var typeText = ""
         var budgetText = ""
 
-        $(document).ready(function () {
-
-
-
-                @*@if (Model.Project != null)
-            {
-                @:projectId = @Model.Project.Id
-                @:projectName = "@Model.Project.Name"
-                @:$("#projectInfoBox").removeClass()
-                @:$("#projectBgSpan").removeClass()
-                @:$("#projectIcon").removeClass()
-                @:$("#projectInfoBox").addClass("info-box mb-3 bg-gradient-blue")
-                @:$("#projectBgSpan").addClass("info-box-icon bg-white elevation-1")
-                @:$("#projectIcon").addClass("fas fa-check")
-                @:$("#projectIcon").css("color", "#0067d6")
-                @:$("#projectName").text(projectName)
-
-                @:$("#hiddenProjectId").val(projectId)
-            }*@
-
-        })
 
         $(".aBudgetClass").on("click", function () {
             //Step 1: Get the icon from the thing we clicked
@@ -177,8 +215,25 @@
             $("#errorHeader").text("")
         })
 
+        /*$(".selectBudgetClass").on("click", function () {
+            budgetId = $(this).find(".budgetIdClass").val();
+            budgetName = $(this).find(".budgetNameClass").val();
+            $("#budgetInfoBox").removeClass()
+            $("#budgetBgSpan").removeClass()
+            $("#budgetIcon").removeClass()
+            $("#budgetInfoBox").addClass("info-box mb-3 bg-blue")
+            $("#budgetBgSpan").addClass("info-box-icon bg-white elevation-1")
+            $("#budgetIcon").addClass("fas fa-check")
+            $("#budgetIcon").css("color", "#0067d6")
+            $("#budgetName").text(budgetName)
+
+            $("#hiddenbudgetId").val(budgetId)
+            $("#errorHeader").text("")
+
+        })*/
+
         function submitTransaction() {
-            var projectIsSelected = false
+            var budgetIsSelected = false
             var typeIsSelected = false
             var priorityIsSelected = false
             var titleIsEntered = false
@@ -186,8 +241,8 @@
             var ticketTitle = $("#ticketTitleId").val()
             var ticketDescription = $("#ticketDescriptionId").val()
 
-            if (projectId != "") {
-                projectIsSelected = true
+            if (budgetId != "") {
+                budgetIsSelected = true
             }
             if (typeText != "") {
                 typeIsSelected = true
@@ -202,7 +257,7 @@
                 titleIsEntered = true
             }
 
-            if (priorityIsSelected && typeIsSelected && projectIsSelected && titleIsEntered && descriptionIsEntered) {
+            if (priorityIsSelected && typeIsSelected && budgetIsSelected && titleIsEntered && descriptionIsEntered) {
                 $("#ticketForm").submit();
             } else {
                 $("#errorHeader").text("Fill the fields above.")
@@ -217,6 +272,8 @@
 
 
         }
+
+
 
 
     </script>

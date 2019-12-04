@@ -1,5 +1,8 @@
 namespace FinancialPortal.Migrations
 {
+    using FinancialPortal.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -12,12 +15,18 @@ namespace FinancialPortal.Migrations
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(FinancialPortal.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data.
+            if (!context.Roles.Any(r => r.Name == "Head"))
+            {
+                roleManager.Create(new IdentityRole { Name = "Head" });
+            }
+            if (!context.Roles.Any(r => r.Name == "Member"))
+            {
+                roleManager.Create(new IdentityRole { Name = "Member" });
+            }
         }
     }
 }
