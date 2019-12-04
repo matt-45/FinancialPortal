@@ -15,6 +15,13 @@ namespace FinancialPortal.Models
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
 
+        public virtual ICollection<Transaction> Transactions { get; set; }
+
+        public BankAccount()
+        {
+            Transactions = new HashSet<Transaction>();
+        }
+
     }
     public enum AccountType
     {

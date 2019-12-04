@@ -162,8 +162,10 @@ namespace FinancialPortal.Controllers
 
                 Group group = new Group
                 {
-                    Name = model.GroupName
+                    Name = model.GroupName,
+                    Balance = 10000
                 };
+
                 db.Groups.Add(group);
 
                 #region Budgets
@@ -238,22 +240,6 @@ namespace FinancialPortal.Controllers
                 group.Budgets.Add(utilities);
                 group.Budgets.Add(entertainment);
 
-                await db.SaveChangesAsync();
-
-                db.BudgetItems.Add(groceries);
-                db.BudgetItems.Add(fastFood);
-                db.BudgetItems.Add(restaurant);
-                db.BudgetItems.Add(gas);
-                db.BudgetItems.Add(water);
-                db.BudgetItems.Add(electricity);
-                db.BudgetItems.Add(internet);
-
-                db.Budgets.Add(food);
-                db.Budgets.Add(utilities);
-                db.Budgets.Add(entertainment);
-
-                await db.SaveChangesAsync();
-
                 #endregion
 
                 await db.SaveChangesAsync();
@@ -265,8 +251,7 @@ namespace FinancialPortal.Controllers
                     Email = model.Email,
                     UserName = model.Email,
                     IncomeType = (IncomeType)Enum.Parse(typeof(IncomeType), incomeType),
-                    GroupId = group.Id,
-                    Group = group
+                    GroupId = group.Id
                 };
                 user.setUserIncome();
                 await db.SaveChangesAsync();
@@ -285,8 +270,6 @@ namespace FinancialPortal.Controllers
                     Type = AccountType.Savings
                 };
 
-                db.BankAccounts.Add(checking);
-                db.BankAccounts.Add(savings);
                 user.BankAccounts.Add(checking);
                 user.BankAccounts.Add(savings);
 

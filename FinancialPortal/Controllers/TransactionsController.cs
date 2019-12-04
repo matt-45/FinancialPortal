@@ -56,19 +56,34 @@ namespace FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Amount,Memo,Created,Type,CreatorId,BudgetItemId,BankAccountId")] Transaction transaction)
+        public ActionResult Create(int budgetItemId, int bankAccountId, double amount, string memo)
         {
-            if (ModelState.IsValid)
-            {
-                db.Transactions.Add(transaction);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var item = db.BudgetItems.Find(budgetItemId);
+            var bankAccount = db.BankAccounts.Find(bankAccountId);
+            var budget = item.Budget;
 
-            ViewBag.BankAccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.BankAccountId);
-            ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
-            ViewBag.CreatorId = new SelectList(db.Users, "Id", "FirstName", transaction.CreatorId);
-            return View(transaction);
+            var transaction = new Transaction
+            {
+                Amount = amount,
+                Memo = memo,
+                Type = TransactionType.Withdrawal,
+                Created = DateTime.Now,
+                CreatorId = user.Id,
+                GroupId = user.GroupId,
+                BudgetId = budget.Id,
+                BudgetItemId = budgetItemId,
+                BankAccountId = bankAccountId
+            };
+            
+            db.Transactions.Add(transaction);
+            db.SaveChanges();
+            user.Group.Transactions.Add(transaction);
+            bankAccount.Transactions.Add(transaction);
+
+            transaction.Calculate();
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult CreateDeposit(int bankId, double amount, string memo) // bankid, amount

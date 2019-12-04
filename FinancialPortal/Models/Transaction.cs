@@ -7,6 +7,7 @@ namespace FinancialPortal.Models
 {
     public class Transaction
     {
+        ApplicationDbContext db = new ApplicationDbContext();
         public int Id { get; set; }
         public double Amount { get; set; }
         public string Memo { get; set; }
@@ -28,6 +29,15 @@ namespace FinancialPortal.Models
 
         public int BankAccountId { get; set; }
         public virtual BankAccount BankAccount { get; set; }
+
+        public void Calculate()
+        {
+            BankAccount.Balance -= Amount;
+            Group.Balance -= Amount;
+            // check to see if there is an overdraft etc.
+            db.SaveChanges();
+        }
+
     }
 
     public enum TransactionType
