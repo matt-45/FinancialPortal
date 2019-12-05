@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using BugTracker.Models;
 using FinancialPortal.Helpers;
 using FinancialPortal.Models;
 using Microsoft.AspNet.Identity;
@@ -16,6 +17,7 @@ namespace FinancialPortal.Controllers
     public class GroupsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserRoleHelper roleHelper = new UserRoleHelper();
         
 
         [Authorize] // role head
@@ -71,27 +73,108 @@ namespace FinancialPortal.Controllers
             return View(group);
         }
 
-        // GET: Groups/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Groups/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] Group group)
+        public ActionResult Create(string groupName)
         {
-            if (ModelState.IsValid)
-            {
-                db.Groups.Add(group);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            var user = db.Users.Find(User.Identity.GetUserId());
 
-            return View(group);
+            Group group = new Group
+            {
+                Name = groupName,
+                Balance = 10000
+            };
+
+            db.Groups.Add(group);
+
+            #region Budgets
+
+            Budget food = new Budget
+            {
+                Name = "Food"
+            };
+
+            Budget utilities = new Budget
+            {
+                Name = "Utilities"
+            };
+
+            Budget entertainment = new Budget
+            {
+                Name = "Entertainment"
+            };
+
+            BudgetItem restaurant = new BudgetItem
+            {
+                Name = "Restaurant"
+            };
+
+            BudgetItem fastFood = new BudgetItem
+            {
+                Name = "Fast Food"
+            };
+
+            BudgetItem groceries = new BudgetItem
+            {
+                Name = "Groceries"
+            };
+
+            BudgetItem electricity = new BudgetItem
+            {
+                Name = "Electricity"
+            };
+
+            BudgetItem gas = new BudgetItem
+            {
+                Name = "Gas"
+            };
+
+            BudgetItem water = new BudgetItem
+            {
+                Name = "Water"
+            };
+
+            BudgetItem internet = new BudgetItem
+            {
+                Name = "Cable and Internet"
+            };
+
+            db.SaveChanges();
+
+            food.BudgetItems.Add(groceries);
+            food.BudgetItems.Add(fastFood);
+            food.BudgetItems.Add(restaurant);
+
+            utilities.BudgetItems.Add(gas);
+            utilities.BudgetItems.Add(water);
+            utilities.BudgetItems.Add(electricity);
+
+            entertainment.BudgetItems.Add(internet);
+
+            db.SaveChanges();
+
+            group.Budgets.Add(food);
+            group.Budgets.Add(utilities);
+            group.Budgets.Add(entertainment);
+
+            #endregion
+
+            db.SaveChanges();
+
+            user.GroupId = group.Id;
+
+            db.SaveChanges();
+
+            roleHelper.ChangeUserRoleTo(user.Id, "Head");
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Groups/Edit/5

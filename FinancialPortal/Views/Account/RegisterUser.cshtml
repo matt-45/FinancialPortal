@@ -182,15 +182,6 @@
                             <div class="form-horizontal">
                                 @Html.ValidationMessageFor(m => m.IncomeAmount, "", new { @class = "text-danger" })
                                 <div class="input-group mb-3">
-                                    @Html.TextBoxFor(m => m.IncomeAmount, new { @class = "form-control", @placeholder = "Income Amount", @id = "incomeAmount", @type = "number" })
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-money-bill"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
                                     <div class="dropdown">
                                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropdownButton">
                                             Dropdown button
@@ -205,11 +196,18 @@
                                             <a class="dropdown-item" href="#">Annually</a>
                                         </div>
                                     </div>
+                                    @Html.TextBoxFor(m => m.IncomeAmount, new { @class = "form-control", @placeholder = "Income Amount", @id = "incomeAmount", @type = "number" })
+
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-money-bill"></span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <!-- /.col -->
                                     <div class="col-12">
-                                        <a onclick="submitForm()" class="btn btn-primary btn-block btn-flat">
+                                        <a onclick="submitForm()" class="btn btn-primary btn-block btn-flat" style="color: white">
                                             Submit
                                         </a>
                                     </div>
@@ -221,9 +219,9 @@
                 </div>
             }
 
-            <div class="col-12 text-center m-1">
-                @Html.ActionLink("I already have an account", "Login", "Account", new { @class = "text-center" })
-            </div>
+        <div class="col-12 text-center mb-3">
+            @Html.ActionLink("I already have an account", "Login", "Account", new { @class = "text-center" })
+        </div>
             <!-- /.card -->
         </div>
     </div>

@@ -398,9 +398,10 @@
                 if (role == "Head" && numberOfUsers == 1) {
                     // show leaving will delete your account
                 } else if (role == "Head") {
+                    $("#leaveGroupHeadWithMembers").modal("toggle");
                     // show assign a new head before leaving
                 } else if (role != "Head") {
-                    $("#leaveGroupMemberModal").modal('toggle');
+                    $("#leaveGroupMemberModal").modal("toggle");
                 }
             }
 

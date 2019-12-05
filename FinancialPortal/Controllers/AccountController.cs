@@ -63,12 +63,6 @@ namespace FinancialPortal.Controllers
             return View();
         }
 
-        [Authorize]
-        public ActionResult CreateGroup()
-        {
-            return View();
-        }
-
         //
         // GET: /Account/Login
         [AllowAnonymous]

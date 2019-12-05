@@ -1,40 +1,172 @@
-﻿@model FinancialPortal.Models.Group
-
-@{
-    ViewBag.Title = "Create";
+﻿@{
+    Layout = null;
 }
+    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>de_bug</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<h2>Create</h2>
+    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="~/Content/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="~/Content/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="~/Content/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Content/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/Content/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="~/Content/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="~/Content/summernote/summernote-bs4.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
+    <link href="~/Content/datatables-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/datatables-select/css/select.bootstrap4.min.css" rel="stylesheet" />
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Group</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
+</head>
+<body class="hold-transition register-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <h1>Financial Portal</h1>
         </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Create a Group</p>
+                <div class="form-horizontal">
+                    @using (Html.BeginForm("Create", "Groups", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-horizontal">
+                            <div class="input-group mb-3">
+                                <input name="groupName" class="form-control" placeholder="Name"/>
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-users"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- /.col -->
+                                <div class="col-12">
+                                    <button class="btn btn-primary btn-block btn-flat" type="submit">Create Group</button>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                        </div>
+                    }
+                </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <!--<div class="social-auth-links text-center mb-3">
+              <p>- OR -</p>
+              <a href="#" class="btn btn-block btn-primary">
+                <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+              </a>
+              <a href="#" class="btn btn-block btn-danger">
+                <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+              </a>
+            </div>-->
+                <!-- /.social-auth-links -->
+                <p class="mb-1" style="padding-top: 5%">
+                    <a href=@Url.Action("ForgotPassword", "Account")>I forgot my password</a>
+                </p>
+                <p class="mb-0">
+                    <a href=@Url.Action("RegisterNewUser", "Account")>Register a new account</a>
+                </p>
             </div>
+            <!-- /.login-card-body -->
         </div>
     </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+
+
+
+
+
+
+
+
+    <!-- /.register-box -->
+    <!-- jQuery -->
+    <script src="~/Scripts/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/Scripts/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>$.widget.bridge('uibutton', $.ui.button)</script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Scripts/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/Scripts/chart.js/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="~/Scripts/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="~/Scripts/jqvmap/jquery.vmap.min.js"></script>
+    <script src="~/Scripts/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="~/Scripts/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="~/Scripts/moment/moment.min.js"></script>
+    <script src="~/Scripts/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/Scripts/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="~/Scripts/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/Scripts/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+
+
+    <script src="~/Scripts/dist/js/adminlte.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $(".dropdown-item").click(function () {
+                var text = $(this).text();
+                $("#dropdownButton").text($(this).text());
+                $("#dropdownButton").val($(this).text());
+                $("#hiddenIncomeType").val(text)
+                incomeIsSelected = true
+            });
+
+        })
+
+        function createGroup() {
+            $("#custom-tabs-two-messages-tab").click();
+        }
+
+        function createBanks() {
+            $("#custom-tabs-two-settings-tab").click();
+        }
+
+    </script>
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
