@@ -125,6 +125,16 @@ namespace FinancialPortal.Controllers
             return View(group);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LeaveMember(string userId)
+        {
+            var user = db.Users.Find(userId);
+            user.GroupId = null;
+            db.SaveChanges();
+            return RedirectToAction("Login", "Account");
+        }
+
         // GET: Groups/Delete/5
         public ActionResult Delete(int? id)
         {

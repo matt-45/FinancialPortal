@@ -57,6 +57,18 @@ namespace FinancialPortal.Controllers
             }
         }
 
+        [Authorize]
+        public ActionResult NoGroup()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult CreateGroup()
+        {
+            return View();
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -84,6 +96,11 @@ namespace FinancialPortal.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    var user = db.Users.FirstOrDefault(u => u.Email == model.Email);
+                    if (user.GroupId == null)
+                    {
+                        return RedirectToAction("NoGroup", "Account");
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -365,6 +382,7 @@ namespace FinancialPortal.Controllers
 
                 if (result.Succeeded)
                 {
+                    roleHelper.AddUserToRole(user.Id, "Member");
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771

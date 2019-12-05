@@ -164,7 +164,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link" onclick="leaveGroup(@user.ReturnRole(), @user.Group.Users.Count())">
+                                            <a href="#" class="nav-link" onclick="leaveGroup('@user.ReturnRole()', @user.Group.Users.Count())">
                                                 <i class="far fa-exclamation-triangle nav-icon"></i>
                                                 <p>Leave Group</p>
                                             </a>
@@ -268,7 +268,7 @@
             @using (Html.BeginForm("InviteUser", "Groups", FormMethod.Post, new { id = "inviteUserForm" }))
             {
                 <!-- Invite Modal -->
-                <div class="modal" id="inviteUserModal">
+                <div class="modal fade" id="inviteUserModal">
                     <div class="modal-dialog">
                         <div class="modal-content">
 
@@ -277,16 +277,16 @@
                             @Html.Hidden("groupId", user.GroupId)
                             <!-- Modal body -->
                             <div class="modal-body" style="text-align: center">
-                                <h2 class="modal-title" style="font-weight: bold">Enter an Email</h2>
+                                <h2 class="modal-title" style="font-weight: bold" id="emailHeader">Enter an Email</h2>
                                 @Html.TextBox("email", null, new { @class = "form-control" })
                             </div>
 
                             <!-- Modal footer -->
                             <div class="modal-footer">
-                                <a class="btn btn-success" id="submitInviteForm">
-                                    Test Submit
+                                <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
+                                <a class="btn btn-success" id="submitInviteForm" style="color: white">
+                                    Invite
                                 </a>
-                                <button type="submit" class="btn btn-success">Submit</button>
                             </div>
 
                         </div>
@@ -295,7 +295,7 @@
             }
         </div>
 
-        @Html.Partial("_LayoutModals", user)
+        @Html.Partial("_LayoutModals")
 
         
 
@@ -341,6 +341,7 @@
         <script>
 
             $("#submitInviteForm").on("click", function () {
+                $("#emailHeader").text("Sending invite...")
                 $("#inviteUserForm").submit()
             })
 
@@ -391,16 +392,20 @@
                 });
             }
 
-            function leaveGroup(isHead, numberOfUsers) {
-                if (isHead && numberOfUsers == 1) {
+            function leaveGroup(role, numberOfUsers) {
+                console.log(role)
+
+                if (role == "Head" && numberOfUsers == 1) {
                     // show leaving will delete your account
-                }
-                if (isHead) {
+                } else if (role == "Head") {
                     // show assign a new head before leaving
+                } else if (role != "Head") {
+                    $("#leaveGroupMemberModal").modal('toggle');
                 }
-                if (!isHead) {
-                    // show normal leaving modal
-                }
+            }
+
+            function submitLeaveMemberForm() {
+                $("#leaveMemberForm").submit();
             }
 
             $("#usersTable").DataTable({

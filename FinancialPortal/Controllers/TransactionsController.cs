@@ -70,7 +70,7 @@ namespace FinancialPortal.Controllers
                 Type = TransactionType.Withdrawal,
                 Created = DateTime.Now,
                 CreatorId = user.Id,
-                GroupId = user.GroupId,
+                GroupId = (int)user.GroupId,
                 BudgetId = budget.Id,
                 BudgetItemId = budgetItemId,
                 BankAccountId = bankAccountId
@@ -98,7 +98,7 @@ namespace FinancialPortal.Controllers
                 BankAccountId = bankId,
                 Type = TransactionType.Deposit,
                 Created = DateTime.Now,
-                GroupId = user.GroupId,
+                GroupId = (int)user.GroupId,
                 CreatorId = user.Id
             };
             account.Balance += amount;

@@ -1,0 +1,268 @@
+﻿@{
+    Layout = null;
+}
+    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>de_bug</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="~/Content/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="~/Content/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="~/Content/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Content/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/Content/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="~/Content/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="~/Content/summernote/summernote-bs4.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link href="~/Content/datatables-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/datatables-select/css/select.bootstrap4.min.css" rel="stylesheet" />
+
+</head>
+<body class="hold-transition register-page">
+    <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card card-primary card-outline">
+            <div class="card-header p-0 pt-1 border-bottom-0">
+                <h1 style="text-align: center">Financial Portal</h1>
+                <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Group</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Bank</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="custom-tabs-two-settings-tab" data-toggle="pill" href="#custom-tabs-two-settings" role="tab" aria-controls="custom-tabs-two-settings" aria-selected="false">Income</a>
+                    </li>
+                </ul>
+            </div>
+            @using (Html.BeginForm("RegisterNewUser", "Account", FormMethod.Post, new { id = "RegistrationForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("incomeType", null, new { id = "hiddenIncomeType" })
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-two-tabContent">
+                        <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
+                            <p class="login-box-msg">Create a new Group</p>
+                            <div class="form-horizontal">
+                                @Html.ValidationMessageFor(m => m.GroupName, "", new { @class = "text-danger" })
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.GroupName, new { @class = "form-control", @placeholder = "Group Name", @id = "groupName" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-layer-group"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- /.col -->
+                                    <div class="col-12">
+                                        <a class="btn btn-primary btn-block btn-flat" style="color: white" onclick="createGroup()">
+                                            Create Group
+                                        </a>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-two-messages" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
+                            <p class="login-box-msg">Create Accounts</p>
+                            <div class="form-horizontal">
+                                @Html.ValidationMessageFor(m => m.CheckingName, "", new { @class = "text-danger" })
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.CheckingName, new { @class = "form-control", @placeholder = "Checking Name", @id = "checkingName" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-university"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @Html.ValidationMessageFor(m => m.CheckingAmount, "", new { @class = "text-danger" })
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.CheckingAmount, new { @class = "form-control", @placeholder = "Checking Amount", @id = "checkingAmount", @type = "Number" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-money-bill"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @Html.ValidationMessageFor(m => m.SavingsName, "", new { @class = "text-danger" })
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.SavingsName, new { @class = "form-control", @placeholder = "Savings Name", @id = "savingsName" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-university"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @Html.ValidationMessageFor(m => m.SavingsAmount, "", new { @class = "text-danger" })
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.SavingsAmount, new { @class = "form-control", @placeholder = "Savings Amount", @id = "savingsAmount", @type = "Number" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-money-bill"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- /.col -->
+                                    <div class="col-12">
+                                        <a class="btn btn-primary btn-block btn-flat" style="color: white" onclick="createBanks()">
+                                            Save Accounts
+                                        </a>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-two-settings" role="tabpanel" aria-labelledby="custom-tabs-two-settings-tab">
+                            <p class="login-box-msg">Enter your Income</p>
+                            <div class="form-horizontal">
+                                @Html.ValidationMessageFor(m => m.IncomeAmount, "", new { @class = "text-danger" })
+                                <div class="input-group mb-3">
+                                    @Html.TextBoxFor(m => m.IncomeAmount, new { @class = "form-control", @placeholder = "Income Amount", @id = "incomeAmount", @type = "number" })
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-money-bill"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="dropdown">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropdownButton">
+                                            Dropdown button
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#">Hourly</a>
+                                            <a class="dropdown-item" href="#">Daily</a>
+                                            <a class="dropdown-item" href="#">Weekly</a>
+                                            <a class="dropdown-item" href="#">BiWeekly</a>
+                                            <a class="dropdown-item" href="#">SemiMonthly</a>
+                                            <a class="dropdown-item" href="#">Monthly</a>
+                                            <a class="dropdown-item" href="#">Annually</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- /.col -->
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary btn-block btn-flat">
+                                            Submit Test
+                                        </button>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="col-12 text-center m-1">
+                @Html.ActionLink("I already have an account", "Login", "Account", new { @class = "text-center" })
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- /.register-box -->
+    <!-- jQuery -->
+    <script src="~/Scripts/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/Scripts/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>$.widget.bridge('uibutton', $.ui.button)</script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Scripts/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/Scripts/chart.js/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="~/Scripts/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="~/Scripts/jqvmap/jquery.vmap.min.js"></script>
+    <script src="~/Scripts/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="~/Scripts/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="~/Scripts/moment/moment.min.js"></script>
+    <script src="~/Scripts/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/Scripts/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="~/Scripts/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/Scripts/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+
+
+    <script src="~/Scripts/dist/js/adminlte.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $(".dropdown-item").click(function () {
+                var text = $(this).text();
+                $("#dropdownButton").text($(this).text());
+                $("#dropdownButton").val($(this).text());
+                $("#hiddenIncomeType").val(text)
+                incomeIsSelected = true
+            });
+
+        })
+
+        function createGroup() {
+            $("#custom-tabs-two-messages-tab").click();
+        }
+
+        function createBanks() {
+            $("#custom-tabs-two-settings-tab").click();
+        }
+
+    </script>
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

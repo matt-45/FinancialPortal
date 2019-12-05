@@ -23,10 +23,11 @@ namespace FinancialPortal.Models
             }
         }
 
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
         public virtual Group Group { get; set; }
         public double IncomeAmount { get; set; }
         public IncomeType IncomeType { get; set; }
+
 
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
@@ -50,6 +51,31 @@ namespace FinancialPortal.Models
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
@@ -70,6 +96,25 @@ namespace FinancialPortal.Models
         public DbSet<BudgetItem> BudgetItems { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public enum IncomeType
     {

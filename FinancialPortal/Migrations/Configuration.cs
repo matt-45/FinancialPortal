@@ -27,6 +27,12 @@ namespace FinancialPortal.Migrations
             {
                 roleManager.Create(new IdentityRole { Name = "Member" });
             }
+            if (!context.Roles.Any(r => r.Name == "Guest"))
+            {
+                roleManager.Create(new IdentityRole { Name = "Guest" });
+            }
+
+
         }
     }
 }

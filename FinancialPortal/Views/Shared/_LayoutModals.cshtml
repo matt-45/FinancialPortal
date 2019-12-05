@@ -1,4 +1,11 @@
-﻿@model FinancialPortal.Models.ApplicationUser
+﻿@using FinancialPortal.Models
+@using Microsoft.AspNet.Identity
+
+@{
+    ApplicationDbContext db = new ApplicationDbContext();
+    var userTwo = db.Users.Find(User.Identity.GetUserId());
+}
+
 
 <!-- Budget Modal -->
 <div id="createBudgetModal" class="modal fade" role="dialog">
@@ -7,7 +14,7 @@
         @using (Html.BeginForm("Create", "Budgets", FormMethod.Post, new { id = "createBudgetForm" }))
         {
             @Html.AntiForgeryToken()
-            @Html.Hidden("GroupId", Model.GroupId)
+            @Html.Hidden("GroupId", userTwo.GroupId)
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title" style="font-weight: bold" id="createBudgetErrorHeader">Create Budget</h2>
@@ -50,7 +57,7 @@
                     </div>
                     <div id="accountCollapse" class="collapse" aria-labelledby="accountHeader"
                          data-parent="#ticketAccordion">
-                        @foreach (var account in Model.BankAccounts.ToList())
+                        @foreach (var account in userTwo.BankAccounts.ToList())
                         {
                             if (account.Type.ToString() == "Checking")
                             {
@@ -105,8 +112,54 @@
 </div>
 
 
+<!-- Leave Group Modal (member)-->
+<div id="leaveGroupMemberModal" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            @using (Html.BeginForm("LeaveMember", "Groups", FormMethod.Post, new { id = "leaveMemberForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("userId", userTwo.Id, new {id = "thisisatest"})
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <div style="text-align: center" class="col">
+                        <h3 class="modal-title" style="font-weight: bold">Are you sure?</h3>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal" style="width: 100%">No</button>
+                    <a class="btn btn-warning" style="width: 100%; color:black; cursor: pointer" onclick="submitLeaveMemberForm()">
+                        Yes
+                    </a>
+                </div>
+            }
 
-<!-- Leave Group Modal -->
+        </div>
+    </div>
+</div>
+
+<!-- Leave Group Modal (alone head)-->
+<div id="leaveGroupModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" style="font-weight: bold" id="depositHeader">Make a Deposit</h2>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-warning" onclick="submitDepositForm()" data-dismiss="modal" style="color: white; cursor: pointer">
+                    Leave
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Leave Group Modal (head with members)-->
 <div id="leaveGroupModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
