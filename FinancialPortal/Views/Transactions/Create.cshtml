@@ -72,7 +72,7 @@
                             <div style="padding-left: 20%">
                                 <a class="aBudgetClass" href="#" style="color:black" onclick="selectBudgetItem(@item.Id)">
                                     <div class="info-box mb-3" style="cursor: pointer" data-target="#budgetCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
-                                        <span class="info-box-icon bg-gradient-cyan elevation-1"><i class="iBudgetClass fas fa-cube"></i></span>
+                                        <span class="info-box-icon bg-gradient-purple elevation-1"><i class="iBudgetClass fas fa-cube"></i></span>
                                         <div class="info-box-content">
                                             <span class="info-box-text" style="font-size: large; font-weight: bold">@item.Name</span>
                                         </div>
@@ -105,7 +105,7 @@
                                     <div class="info-box mb-3" style="cursor: pointer" data-target="#priorityCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
                                         <span class="info-box-icon bg-blue elevation-1"><i class="iPriorityClass fas fa-university"></i></span>
                                         <div class="info-box-content">
-                                            <span class="info-box-text" style="font-size: large; font-weight: bold">@bank.Name</span>
+                                            <span class="info-box-text" style="font-size: large; font-weight: bold">@bank.Name: </span>
                                             <span class="info-box-text">$@bank.Balance</span>
                                         </div>
                                         <!-- /.info-box-content -->
@@ -120,7 +120,7 @@
                                     <div class="info-box mb-3" style="cursor: pointer" data-target="#priorityCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
                                         <span class="info-box-icon bg-green elevation-1"><i class="iPriorityClass fas fa-money-bill"></i></span>
                                         <div class="info-box-content">
-                                            <span class="info-box-text" style="font-size: large; font-weight: bold">@bank.Name</span>
+                                            <span class="info-box-text" style="font-size: large; font-weight: bold">@bank.Name: </span>
                                             <span class="info-box-text">$@bank.Balance</span>
                                         </div>
                                         <!-- /.info-box-content -->
@@ -281,6 +281,7 @@
 
             //Step 3: Get the text from the thing we clicked
             priorityText = $(this).find(".info-box-content > span").text();
+            console.log(priorityText)
 
             //Get the current class we are replacing
             var bgClass = $("#spanPriorityBgColor").attr("class");

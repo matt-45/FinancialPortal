@@ -8,8 +8,8 @@ namespace FinancialPortal.Models
     public class DashboardViewModel
     {
         public Group group { get; set; }
-        public double spentToday { get; set; }
-        public double spentWeek { get; set; }
-        public double spentMonth { get; set; }
+        public decimal spentToday { get; set; }
+        public decimal spentWeek { get; set; }
+        public decimal spentMonth { get; set; }
     }
 }

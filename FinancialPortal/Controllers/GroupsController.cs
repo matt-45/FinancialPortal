@@ -52,6 +52,16 @@ namespace FinancialPortal.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult KickUser(string userId)
+        {
+            var user = db.Users.Find(userId);
+
+            user.GroupId = null;
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
+
         // GET: Groups
         public ActionResult Index()
         {
@@ -82,91 +92,114 @@ namespace FinancialPortal.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(string groupName)
+        public ActionResult Create(string groupName, bool createBudgets)
         {
             var user = db.Users.Find(User.Identity.GetUserId());
 
             Group group = new Group
             {
                 Name = groupName,
-                Balance = 10000
+                Balance = 5000
             };
 
             db.Groups.Add(group);
 
-            #region Budgets
-
-            Budget food = new Budget
+            if (createBudgets)
             {
-                Name = "Food"
-            };
+                #region Budgets
 
-            Budget utilities = new Budget
-            {
-                Name = "Utilities"
-            };
+                Budget food = new Budget
+                {
+                    Name = "Food",
+                    Spent = 0,
+                    Target = 0
+                };
 
-            Budget entertainment = new Budget
-            {
-                Name = "Entertainment"
-            };
+                Budget utilities = new Budget
+                {
+                    Name = "Utilities",
+                    Spent = 0,
+                    Target = 0
+                };
 
-            BudgetItem restaurant = new BudgetItem
-            {
-                Name = "Restaurant"
-            };
+                Budget entertainment = new Budget
+                {
+                    Name = "Entertainment",
+                    Spent = 0,
+                    Target = 0
+                };
 
-            BudgetItem fastFood = new BudgetItem
-            {
-                Name = "Fast Food"
-            };
+                BudgetItem restaurant = new BudgetItem
+                {
+                    Name = "Restaurant",
+                    Spent = 0,
+                    Target = 0
+                };
 
-            BudgetItem groceries = new BudgetItem
-            {
-                Name = "Groceries"
-            };
+                BudgetItem fastFood = new BudgetItem
+                {
+                    Name = "Fast Food",
+                    Spent = 0,
+                    Target = 0
+                };
 
-            BudgetItem electricity = new BudgetItem
-            {
-                Name = "Electricity"
-            };
+                BudgetItem groceries = new BudgetItem
+                {
+                    Name = "Groceries",
+                    Spent = 0,
+                    Target = 0
+                };
 
-            BudgetItem gas = new BudgetItem
-            {
-                Name = "Gas"
-            };
+                BudgetItem electricity = new BudgetItem
+                {
+                    Name = "Electricity",
+                    Spent = 0,
+                    Target = 0
+                };
 
-            BudgetItem water = new BudgetItem
-            {
-                Name = "Water"
-            };
+                BudgetItem gas = new BudgetItem
+                {
+                    Name = "Gas",
+                    Spent = 0,
+                    Target = 0
+                };
 
-            BudgetItem internet = new BudgetItem
-            {
-                Name = "Cable and Internet"
-            };
+                BudgetItem water = new BudgetItem
+                {
+                    Name = "Water",
+                    Spent = 0,
+                    Target = 0
+                };
 
-            db.SaveChanges();
+                BudgetItem internet = new BudgetItem
+                {
+                    Name = "Cable and Internet",
+                    Spent = 0,
+                    Target = 0
+                };
 
-            food.BudgetItems.Add(groceries);
-            food.BudgetItems.Add(fastFood);
-            food.BudgetItems.Add(restaurant);
+                db.SaveChanges();
 
-            utilities.BudgetItems.Add(gas);
-            utilities.BudgetItems.Add(water);
-            utilities.BudgetItems.Add(electricity);
+                food.BudgetItems.Add(groceries);
+                food.BudgetItems.Add(fastFood);
+                food.BudgetItems.Add(restaurant);
 
-            entertainment.BudgetItems.Add(internet);
+                utilities.BudgetItems.Add(gas);
+                utilities.BudgetItems.Add(water);
+                utilities.BudgetItems.Add(electricity);
 
-            db.SaveChanges();
+                entertainment.BudgetItems.Add(internet);
 
-            group.Budgets.Add(food);
-            group.Budgets.Add(utilities);
-            group.Budgets.Add(entertainment);
+                db.SaveChanges();
 
-            #endregion
+                group.Budgets.Add(food);
+                group.Budgets.Add(utilities);
+                group.Budgets.Add(entertainment);
 
-            db.SaveChanges();
+                db.SaveChanges();
+
+                #endregion
+            }
 
             user.GroupId = group.Id;
 
@@ -210,10 +243,32 @@ namespace FinancialPortal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public ActionResult EditBudget(int budgetId, decimal balance, decimal startAmount)
+        {
+            var group = db.Groups.Find(budgetId);
+            group.Balance = balance;
+            group.StartAmount = startAmount;
+            db.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult LeaveMember(string userId)
         {
             var user = db.Users.Find(userId);
+            var group = db.Groups.Find(user.GroupId);
             user.GroupId = null;
+            db.Groups.Remove(group);
+            db.SaveChanges();
+            return RedirectToAction("Login", "Account");
+        }
+
+        public ActionResult LeaveGroupHeadWithMembers(string userId, string newHeadId)
+        {
+            var user = db.Users.Find(userId);
+            user.GroupId = null;
+            roleHelper.ChangeUserRoleTo(newHeadId, "Head");
             db.SaveChanges();
             return RedirectToAction("Login", "Account");
         }

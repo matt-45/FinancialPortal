@@ -165,7 +165,7 @@
                                         </li>
                                         <li class="nav-item">
                                             <a href="#" class="nav-link" onclick="leaveGroup('@user.ReturnRole()', @user.Group.Users.Count())">
-                                                <i class="far fa-exclamation-triangle nav-icon"></i>
+                                                <i class="fas fa-times-circle nav-icon"></i>
                                                 <p>Leave Group</p>
                                             </a>
                                         </li>
@@ -186,16 +186,10 @@
                                                 <p>Create New</p>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>View All</p>
-                                            </a>
-                                        </li>
                                         @foreach (var budget in user.Group.Budgets)
                                         {
                                             <li class="nav-item">
-                                                <a href="" class="nav-link">
+                                                <a href=@Url.Action("Details", "Budgets", new { id = budget.Id}) class="nav-link">
                                                     <i class="far fa-circle nav-icon"></i>
                                                     <p>@budget.Name</p>
                                                 </a>
@@ -394,12 +388,12 @@
 
             function leaveGroup(role, numberOfUsers) {
                 console.log(role)
+                console.log(numberOfUsers)
 
                 if (role == "Head" && numberOfUsers == 1) {
-                    // show leaving will delete your account
+                    $("#leaveGroupMemberModal").modal("toggle");
                 } else if (role == "Head") {
                     $("#leaveGroupHeadWithMembers").modal("toggle");
-                    // show assign a new head before leaving
                 } else if (role != "Head") {
                     $("#leaveGroupMemberModal").modal("toggle");
                 }

@@ -46,12 +46,13 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Create a Group</p>
                 <div class="form-horizontal">
-                    @using (Html.BeginForm("Create", "Groups", FormMethod.Post))
+                    @using (Html.BeginForm("Create", "Groups", FormMethod.Post, new { id = "createGroupForm"}))
                     {
                         @Html.AntiForgeryToken()
+                        @Html.Hidden("createBudgets", true, new { id = "hiddenCreateBudgetsId"})
                         <div class="form-horizontal">
                             <div class="input-group mb-3">
-                                <input name="groupName" class="form-control" placeholder="Name"/>
+                                <input name="groupName" class="form-control" placeholder="Name" />
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-users"></span>
@@ -61,23 +62,50 @@
                             <div class="row">
                                 <!-- /.col -->
                                 <div class="col-12">
-                                    <button class="btn btn-primary btn-block btn-flat" type="submit">Create Group</button>
+                                    <a class="btn btn-primary btn-block btn-flat" style="color: white" data-toggle="modal" data-target="#waitModal">
+                                        Create Group
+                                    </a>
                                 </div>
                                 <!-- /.col -->
+                            </div>
+                        </div>
+
+
+                        <!-- Leave Group Modal -->
+                        <div id="waitModal" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <div style="text-align: center" class="col">
+                                            <h3 class="modal-title" style="font-weight: bold">Wait!</h3>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body" style="text-align: center">
+                                        <h5>Three budgets have been created for you! If you want them be sure to give them values before starting!<br /><i class="far fa-smile pt-3"></i></h5>
+                                    </div>
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <a class="btn btn-danger mr-auto" style="width: 100%; color: white; cursor: pointer" onclick="iDontWantThese()">
+                                            I don't want these!
+                                        </a>
+                                        <button type="submit" class="btn btn-success" style="width: 100%">OK</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     }
                 </div>
 
                 <!--<div class="social-auth-links text-center mb-3">
-              <p>- OR -</p>
-              <a href="#" class="btn btn-block btn-primary">
-                <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-              </a>
-              <a href="#" class="btn btn-block btn-danger">
-                <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-              </a>
-            </div>-->
+                  <p>- OR -</p>
+                  <a href="#" class="btn btn-block btn-primary">
+                    <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                  </a>
+                  <a href="#" class="btn btn-block btn-danger">
+                    <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                  </a>
+                </div>-->
                 <!-- /.social-auth-links -->
                 <p class="mb-1" style="padding-top: 5%">
                     <a href=@Url.Action("ForgotPassword", "Account")>I forgot my password</a>
@@ -93,7 +121,7 @@
 
 
 
-
+    
 
 
 
@@ -150,6 +178,11 @@
 
         function createBanks() {
             $("#custom-tabs-two-settings-tab").click();
+        }
+
+        function iDontWantThese() {
+            $("#hiddenCreateBudgetsId").val(false);
+            $("#createGroupForm").submit();
         }
 
     </script>

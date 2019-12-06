@@ -4,8 +4,13 @@
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-4">
-                <h1 class="m-0 text-dark" style="font-weight: bold; font-size: 350%">$@Model.group.Balance (Monthly Budget)</h1>
+            <div class="col-sm-10">
+                <h1 class="m-0 text-dark" style="font-weight: bold; font-size: 350%">
+                    <a style="cursor: pointer" data-target="#editGroupBudgetModal" data-toggle="modal">
+                        <i class="fas fa-edit" style="color: #037bff"></i>
+                    </a>
+                    Monthly Balance: $@Model.group.Balance
+                </h1>
             </div>
         </div>
     </div>
@@ -19,7 +24,6 @@
                 <div id="partialOneDiv">
                     @Html.Partial("_DashboardPartialOne", Model.group)
                 </div>
-
             </section>
             <section class="col-lg-8">
                 <!--Row for quick info-->
@@ -88,59 +92,86 @@
 </section>
 <!-- /.content-wrapper -->
 
+<!-- Budget Item Edit Modal -->
+<div id="editGroupBudgetModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        @using (Html.BeginForm("EditBudget", "Groups", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("budgetId", Model.group.Id)
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" style="font-weight: bold">Edit Monthly Budget</h2>
+                </div>
+                <div class="modal-body">
+                    <h5>Money Left</h5>
+                    @Html.TextBox("balance", Model.group.Balance, new { @class = "form-control", @type = "number" })
+                    <h5 class="pt-3">Target: $@Model.group.TotalBudgetTarget (calculated from budget targets)</h5>
+                    @Html.TextBox("startAmount", Model.group.StartAmount, new { @class = "form-control", @type = "number" })
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
 @section scripts {
     <script>
-    //--------------
-    //- AREA CHART -
-    //--------------
+        //--------------
+        //- AREA CHART -
+        //--------------
 
-    // Get context with jQuery - using jQuery's .get() method.
-    var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
+        // Get context with jQuery - using jQuery's .get() method.
+        var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
 
-    var areaChartData = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'Digital Goods',
-          backgroundColor: 'rgba(60,141,188,0.9)',
-          borderColor: 'rgba(60,141,188,0.8)',
-          pointRadius: false,
-          pointColor: '#3b8bba',
-          pointStrokeColor: 'rgba(60,141,188,1)',
-          pointHighlightFill: '#fff',
-          pointHighlightStroke: 'rgba(60,141,188,1)',
-          data: [28, 48, 40, 19, 86, 27, 90]
-        },
-      ]
-    }
+        var areaChartData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [
+                {
+                    label: 'Digital Goods',
+                    backgroundColor: 'rgba(60,141,188,0.9)',
+                    borderColor: 'rgba(60,141,188,0.8)',
+                    pointRadius: false,
+                    pointColor: '#3b8bba',
+                    pointStrokeColor: 'rgba(60,141,188,1)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data: [28, 48, 40, 19, 86, 27, 90]
+                },
+            ]
+        }
 
-    var areaChartOptions = {
-      maintainAspectRatio: false,
-      responsive: true,
-      legend: {
-        display: false
-      },
-      scales: {
-        xAxes: [{
-          gridLines: {
-            display: false,
-          }
-        }],
-        yAxes: [{
-          gridLines: {
-            display: false,
-          }
-        }]
-      }
-    }
+        var areaChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        display: false,
+                    }
+                }]
+            }
+        }
 
-    // This will get the first returned node in the jQuery collection.
-    var areaChart = new Chart(areaChartCanvas, {
-      type: 'line',
-      data: areaChartData,
-      options: areaChartOptions
-    })
+        // This will get the first returned node in the jQuery collection.
+        var areaChart = new Chart(areaChartCanvas, {
+            type: 'line',
+            data: areaChartData,
+            options: areaChartOptions
+        })
     </script>
-    
-    
-    }
+
+
+}

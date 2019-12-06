@@ -58,9 +58,10 @@
                     </li>
                 </ul>
             </div>
-            @using (Html.BeginForm("RegisterNewUser", "Account", FormMethod.Post, new { id = "RegistrationForm" }))
+            @using (Html.BeginForm("RegisterNewUser", "Account", FormMethod.Post, new { id = "registrationForm" }))
             {
                 @Html.AntiForgeryToken()
+                @Html.Hidden("createBudgets", true, new { id = "hiddenCreateBudgetsId" })
                 @Html.Hidden("incomeType", null, new { id = "hiddenIncomeType" })
                 <div class="card-body">
                     <div class="tab-content" id="custom-tabs-two-tabContent">
@@ -118,7 +119,7 @@
                                     <!-- /.col -->
                                     <div class="col-12">
                                         <a class="btn btn-primary btn-block btn-flat" style="color: white" onclick="registerAccount()">
-                                            Register
+                                            Next
                                         </a>
                                     </div>
                                     <!-- /.col -->
@@ -141,7 +142,7 @@
                                     <!-- /.col -->
                                     <div class="col-12">
                                         <a class="btn btn-primary btn-block btn-flat" style="color: white" onclick="createGroup()">
-                                            Create Group
+                                            Next
                                         </a>
                                     </div>
                                     <!-- /.col -->
@@ -194,7 +195,7 @@
                                     <!-- /.col -->
                                     <div class="col-12">
                                         <a class="btn btn-primary btn-block btn-flat" style="color: white" onclick="createBanks()">
-                                            Save Accounts
+                                            Next
                                         </a>
                                     </div>
                                     <!-- /.col -->
@@ -208,7 +209,7 @@
                                 <div class="input-group mb-3">
                                     <div class="dropdown">
                                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="dropdownButton">
-                                            Dropdown button
+                                            Frequency
                                         </button>
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item" href="#">Hourly</a>
@@ -235,12 +236,36 @@
                                 <div class="row">
                                     <!-- /.col -->
                                     <div class="col-12">
-                                        <button type="submit" class="btn btn-primary btn-block btn-flat">
-                                            Submit
-                                        </button>
+                                        <a class="btn btn-primary btn-block btn-flat" data-toggle="modal" data-target="#waitModal" style="color: white">
+                                            Let's go!
+                                        </a>
                                     </div>
                                     <!-- /.col -->
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leave Group Modal -->
+                <div id="waitModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <div style="text-align: center" class="col">
+                                    <h3 class="modal-title" style="font-weight: bold">Wait!</h3>
+                                </div>
+                            </div>
+                            <div class="modal-body" style="text-align: center">
+                                <h5>Three budgets have been created for you! If you want them be sure to give them values before starting!<br /><i class="far fa-smile pt-3"></i></h5>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <a class="btn btn-danger mr-auto" style="width: 100%; color: white; cursor: pointer" onclick="iDontWantThese()">
+                                    I don't want these!
+                                </a>
+                                <button type="submit" class="btn btn-success" style="width: 100%">OK</button>
                             </div>
                         </div>
                     </div>
@@ -311,6 +336,11 @@
 
         function createBanks() {
             $("#custom-tabs-two-settings-tab").click();
+        }
+
+        function iDontWantThese() {
+            $("#hiddenCreateBudgetsId").val(false);
+            $("#registrationForm").submit();
         }
 
     </script>

@@ -48,28 +48,28 @@
                         </a>
                     </div>
                     <div class="col">
-                            <a style="color:black; cursor: pointer" id="demoManagerSignIn">
-                                <div class="info-box mb-3" style="cursor: pointer" data-target="#roleCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
-                                    <span class="info-box-icon bg-blue elevation-1"><i class="fas fa-users"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text" style="font-size: large; font-weight: bold">Join Group</span>
-                                        <span class="info-box-text">Join a group</span>
-                                    </div>
-                                    <!-- /.info-box-content -->
+                        <a style="color:black; cursor: pointer" data-toggle="modal" data-target="#joinGroupModal">
+                            <div class="info-box mb-3" style="cursor: pointer" data-target="#roleCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse">
+                                <span class="info-box-icon bg-blue elevation-1"><i class="fas fa-users"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text" style="font-size: large; font-weight: bold">Join Group</span>
+                                    <span class="info-box-text">Join a group</span>
                                 </div>
-                            </a>
+                                <!-- /.info-box-content -->
+                            </div>
+                        </a>
                     </div>
                 </div>
 
                 <!--<div class="social-auth-links text-center mb-3">
-          <p>- OR -</p>
-          <a href="#" class="btn btn-block btn-primary">
-            <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-          </a>
-          <a href="#" class="btn btn-block btn-danger">
-            <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-          </a>
-        </div>-->
+                  <p>- OR -</p>
+                  <a href="#" class="btn btn-block btn-primary">
+                    <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                  </a>
+                  <a href="#" class="btn btn-block btn-danger">
+                    <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                  </a>
+                </div>-->
                 <!-- /.social-auth-links -->
 
 
@@ -81,6 +81,30 @@
             <!-- /.login-card-body -->
         </div>
     </div>
+
+
+    <!-- Leave Group Modal (member)-->
+    <div id="joinGroupModal" class="modal fade">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <div style="text-align: center" class="col">
+                        <h3 class="modal-title" style="font-weight: bold">Join Group</h3>
+                    </div>
+                </div>
+                <div class="modal-header">
+                    <h5>Ask the head of a group for an invite by email.</h5>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success mr-auto" data-dismiss="modal" style="width: 100%">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- /.login-box -->
     <!-- jQuery -->
     <script src="../../Scripts/jquery/jquery.min.js"></script>
@@ -121,17 +145,17 @@
 
     <script>
         $(document).ready(function () {
-            
+
 
         })
 
         function registerAccount() {
             var email = $("#email").val();
-                var password = $("#password").val()
-                var rememberMe = $("#remember").val();
-                console.log(email)
-                console.log(password)
-                console.log(rememberMe)
+            var password = $("#password").val()
+            var rememberMe = $("#remember").val();
+            console.log(email)
+            console.log(password)
+            console.log(rememberMe)
         }
     </script>
 

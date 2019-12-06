@@ -163,7 +163,7 @@ namespace FinancialPortal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RegisterNewUser(RegisterNewUserViewModel model, string incomeType)
+        public async Task<ActionResult> RegisterNewUser(RegisterNewUserViewModel model, string incomeType, bool createBudgets)
         {
             if (ModelState.IsValid)
             {
@@ -176,84 +176,108 @@ namespace FinancialPortal.Controllers
                 Group group = new Group
                 {
                     Name = model.GroupName,
-                    Balance = 10000
+                    StartAmount = 10000,
+                    Balance = 1000
                 };
 
                 db.Groups.Add(group);
 
-                #region Budgets
-
-
-
-                Budget food = new Budget
+                if (createBudgets)
                 {
-                    Name = "Food"
-                };
+                    #region Budgets
 
-                Budget utilities = new Budget
-                {
-                    Name = "Utilities"
-                };
+                    Budget food = new Budget
+                    {
+                        Name = "Food",
+                        Spent = 0,
+                        Target = 0
+                    };
 
-                Budget entertainment = new Budget
-                {
-                    Name = "Entertainment"
-                };
+                    Budget utilities = new Budget
+                    {
+                        Name = "Utilities",
+                        Spent = 0,
+                        Target = 0
+                    };
 
-                BudgetItem restaurant = new BudgetItem
-                {
-                    Name = "Restaurant"
-                };
+                    Budget entertainment = new Budget
+                    {
+                        Name = "Entertainment",
+                        Spent = 0,
+                        Target = 0
+                    };
 
-                BudgetItem fastFood = new BudgetItem
-                {
-                    Name = "Fast Food"
-                };
+                    BudgetItem restaurant = new BudgetItem
+                    {
+                        Name = "Restaurant",
+                        Spent = 0,
+                        Target = 0
+                    };
 
-                BudgetItem groceries = new BudgetItem
-                {
-                    Name = "Groceries"
-                };
+                    BudgetItem fastFood = new BudgetItem
+                    {
+                        Name = "Fast Food",
+                        Spent = 0,
+                        Target = 0
+                    };
 
-                BudgetItem electricity = new BudgetItem
-                {
-                    Name = "Electricity"
-                };
+                    BudgetItem groceries = new BudgetItem
+                    {
+                        Name = "Groceries",
+                        Spent = 0,
+                        Target = 0
+                    };
 
-                BudgetItem gas = new BudgetItem
-                {
-                    Name = "Gas"
-                };
+                    BudgetItem electricity = new BudgetItem
+                    {
+                        Name = "Electricity",
+                        Spent = 0,
+                        Target = 0
+                    };
 
-                BudgetItem water = new BudgetItem
-                {
-                    Name = "Water"
-                };
+                    BudgetItem gas = new BudgetItem
+                    {
+                        Name = "Gas",
+                        Spent = 0,
+                        Target = 0
+                    };
 
-                BudgetItem internet = new BudgetItem
-                {
-                    Name = "Cable and Internet"
-                };
+                    BudgetItem water = new BudgetItem
+                    {
+                        Name = "Water",
+                        Spent = 0,
+                        Target = 0
+                    };
 
-                await db.SaveChangesAsync();
+                    BudgetItem internet = new BudgetItem
+                    {
+                        Name = "Cable and Internet",
+                        Spent = 0,
+                        Target = 0
+                    };
 
-                food.BudgetItems.Add(groceries);
-                food.BudgetItems.Add(fastFood);
-                food.BudgetItems.Add(restaurant);
+                    await db.SaveChangesAsync();
 
-                utilities.BudgetItems.Add(gas);
-                utilities.BudgetItems.Add(water);
-                utilities.BudgetItems.Add(electricity);
+                    food.BudgetItems.Add(groceries);
+                    food.BudgetItems.Add(fastFood);
+                    food.BudgetItems.Add(restaurant);
 
-                entertainment.BudgetItems.Add(internet);
+                    utilities.BudgetItems.Add(gas);
+                    utilities.BudgetItems.Add(water);
+                    utilities.BudgetItems.Add(electricity);
 
-                await db.SaveChangesAsync();
+                    entertainment.BudgetItems.Add(internet);
 
-                group.Budgets.Add(food);
-                group.Budgets.Add(utilities);
-                group.Budgets.Add(entertainment);
+                    await db.SaveChangesAsync();
 
-                #endregion
+                    group.Budgets.Add(food);
+                    group.Budgets.Add(utilities);
+                    group.Budgets.Add(entertainment);
+
+                    await db.SaveChangesAsync();
+
+                    #endregion
+                }
 
                 await db.SaveChangesAsync();
 

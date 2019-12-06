@@ -15,24 +15,16 @@ namespace FinancialPortal.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Budgets
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            var budgets = db.Budgets.Include(b => b.Group);
-            return View(budgets.ToList());
+            var budget = db.Budgets.Find(id);
+            return View(budget);
         }
 
         // GET: Budgets/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Budget budget = db.Budgets.Find(id);
-            if (budget == null)
-            {
-                return HttpNotFound();
-            }
+            var budget = db.Budgets.Find(id);
             return View(budget);
         }
 
@@ -83,16 +75,16 @@ namespace FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Amount,GroupId")] Budget budget)
+        public ActionResult Edit(int budgetId, string budgetName, decimal spentAmount, decimal targetAmount)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(budget).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name", budget.GroupId);
-            return View(budget);
+            var budget = db.Budgets.Find(budgetId);
+            budget.Name = budgetName;
+            budget.Spent = spentAmount;
+            budget.Target = targetAmount;
+
+            db.SaveChanges();
+
+            return RedirectToAction("Details", "Budgets", new { id = budgetId });
         }
 
         // GET: Budgets/Delete/5

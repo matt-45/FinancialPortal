@@ -1,4 +1,6 @@
-﻿@using FinancialPortal.Models
+﻿
+@using FinancialPortal.Models
+@using Microsoft.AspNet.Identity
 @model Group
 <!--Quick Action-->
 <a href=@Url.Action("Create", "Transactions") style="color:black">
@@ -29,53 +31,40 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th style="width: 10px">#</th>
-                    <th>Task</th>
+                    <th>Name</th>
+                    <th>Spent</th>
+                    <th>Target</th>
                     <th>Progress</th>
-                    <th style="width: 40px">Label</th>
+                    <th style="width: 40px">%</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1.</td>
-                    <td>Update software</td>
+                <tr style="background-color: #c9e3ff; cursor: pointer" data-toggle="modal" data-target="#editGroupBudgetModal">
+                    <td>@Model.Name</td>
+                    <td>@Model.Spent</td>
+                    <td>@Model.StartAmount</td>
                     <td>
                         <div class="progress progress-xs">
-                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                            <div class="progress-bar bg-blue" style="width: @Model.Percentage%"></div>
                         </div>
                     </td>
-                    <td><span class="badge bg-danger">55%</span></td>
+                    <td><span class="badge bg-blue">@Model.Percentage%</span></td>
                 </tr>
-                <tr>
-                    <td>2.</td>
-                    <td>Clean database</td>
-                    <td>
-                        <div class="progress progress-xs">
-                            <div class="progress-bar bg-warning" style="width: 70%"></div>
-                        </div>
-                    </td>
-                    <td><span class="badge bg-warning">70%</span></td>
-                </tr>
-                <tr>
-                    <td>3.</td>
-                    <td>Cron job running</td>
-                    <td>
-                        <div class="progress progress-xs progress-striped active">
-                            <div class="progress-bar bg-primary" style="width: 30%"></div>
-                        </div>
-                    </td>
-                    <td><span class="badge bg-primary">30%</span></td>
-                </tr>
-                <tr>
-                    <td>4.</td>
-                    <td>Fix and squish bugs</td>
-                    <td>
-                        <div class="progress progress-xs progress-striped active">
-                            <div class="progress-bar bg-success" style="width: 90%"></div>
-                        </div>
-                    </td>
-                    <td><span class="badge bg-success">90%</span></td>
-                </tr>
+                @foreach (var budget in Model.Budgets)
+                {
+                    <tr onclick="location.href = '@Url.Action("Details", "Budgets", new { id = budget.Id })'" style="cursor: pointer">
+                        <td>@budget.Name</td>
+                        <td>@budget.Spent</td>
+                        <td>@budget.Target</td>
+                        <td>
+                            <div class="progress progress-xs">
+                                <div class="progress-bar bg-green" style="width: @budget.Percentage%"></div>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-green">@budget.Percentage%</span></td>
+                    </tr>
+                }
+
             </tbody>
         </table>
     </div>
@@ -103,13 +92,59 @@
                 </tr>
             </thead>
             <tbody>
+                @{
+                    ApplicationDbContext db = new ApplicationDbContext();
+
+                    var loggedInUser = db.Users.Find(User.Identity.GetUserId());
+                    var loop = 1;
+                }
                 @foreach (var user in Model.Users)
                 {
-                    <tr style="cursor: pointer">
+                    var modalId = "viewMemberModal" + loop;
+                    <tr style="cursor: pointer" data-toggle="modal" data-target="#@modalId">
                         <td>@user.FirstName</td>
                         <td>@user.LastName</td>
                         <td>@user.ReturnRole()</td>
                     </tr>
+
+                    if (loggedInUser.Id != user.Id)
+                    {
+                        <!-- Leave Group Modal (member)-->
+                        <div id="@modalId" class="modal fade">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <div style="text-align: center" class="col">
+                                            <h3 class="modal-title" style="font-weight: bold">@user.FullName (@user.ReturnRole())</h3>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row m-1">
+                                            <a class="btn btn-warning" style="width: 100%; color:black; cursor: pointer" onclick="submitLeaveMemberForm()">
+                                                Make head of Group
+                                            </a>
+                                        </div>
+                                        <div class="row m-1 mb-3 mt-3">
+                                            <a class="btn btn-warning" style="width: 100%; color:black; cursor: pointer" href=@Url.Action("KickUser", "Groups", new { userId = user.Id})>
+                                                Kick from Group
+                                            </a>
+                                        </div>
+                                        <div class="row m-1">
+                                            <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal" style="width: 100%">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+
+                    }
+
+
+                    loop++;
                 }
             </tbody>
             <tfoot>

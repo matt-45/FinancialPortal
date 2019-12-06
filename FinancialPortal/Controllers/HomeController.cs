@@ -17,9 +17,9 @@ namespace FinancialPortal.Controllers
             var group = db.Groups.Find(user.GroupId);
             var viewModel = new DashboardViewModel();
             viewModel.group = group;
-            viewModel.spentToday = 0;
-            viewModel.spentWeek = 0;
-            viewModel.spentMonth = 0;
+            viewModel.spentToday = group.Transactions.Where(t => t.Created >= DateTime.Now.AddDays(-1)).Select(t => t.Amount).Sum();
+            viewModel.spentWeek = group.Transactions.Where(t => t.Created >= DateTime.Now.AddDays(-7)).Select(t => t.Amount).Sum();
+            viewModel.spentMonth = group.Transactions.Where(t => t.Created >= DateTime.Now.AddDays(-30)).Select(t => t.Amount).Sum();
             return View(viewModel);
         }
 

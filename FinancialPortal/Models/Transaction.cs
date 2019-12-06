@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FinancialPortal.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,9 +8,12 @@ namespace FinancialPortal.Models
 {
     public class Transaction
     {
+
         ApplicationDbContext db = new ApplicationDbContext();
+        NotificationHelper notificationHelper = new NotificationHelper();
+
         public int Id { get; set; }
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
         public string Memo { get; set; }
         public DateTime Created { get; set; }
         public TransactionType Type { get; set; }
@@ -34,9 +38,14 @@ namespace FinancialPortal.Models
         {
             var bank = db.BankAccounts.Find(BankAccountId);
             var group = db.Groups.Find(GroupId);
+            var budget = db.Budgets.Find(BudgetId);
+            var budgetItem = db.BudgetItems.Find(BudgetItemId);
             bank.Balance -= Amount;
             group.Balance -= Amount;
+            budget.Spent += Amount;
+            budgetItem.Spent += Amount;
             // check to see if there is an overdraft etc.
+            notificationHelper.CheckOverdrafts(Id);
             db.SaveChanges();
         }
 

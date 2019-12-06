@@ -25,7 +25,7 @@ namespace FinancialPortal.Models
 
         public int? GroupId { get; set; }
         public virtual Group Group { get; set; }
-        public double IncomeAmount { get; set; }
+        public decimal IncomeAmount { get; set; }
         public IncomeType IncomeType { get; set; }
 
 

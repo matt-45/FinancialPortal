@@ -92,15 +92,15 @@ namespace FinancialPortal.Models
         [Required(ErrorMessage = "Enter a name.")]
         public string CheckingName { get; set; }
         [Required(ErrorMessage = "Enter an amount.")]
-        public double CheckingAmount { get; set; }
+        public decimal CheckingAmount { get; set; }
 
         [Required(ErrorMessage = "Enter a name.")]
         public string SavingsName { get; set; }
         [Required(ErrorMessage = "Enter an amount.")]
-        public double SavingsAmount { get; set; }
+        public decimal SavingsAmount { get; set; }
 
         [Required(ErrorMessage = "Enter an amount.")]
-        public double IncomeAmount { get; set; }
+        public decimal IncomeAmount { get; set; }
         [Required(ErrorMessage = "Select a type.")]
         public IncomeType IncomeType { get; set; }
     }
@@ -135,15 +135,15 @@ namespace FinancialPortal.Models
         [Required(ErrorMessage = "Enter a name.")]
         public string CheckingName { get; set; }
         [Required(ErrorMessage = "Enter an amount.")]
-        public double CheckingAmount { get; set; }
+        public decimal CheckingAmount { get; set; }
 
         [Required(ErrorMessage = "Enter a name.")]
         public string SavingsName { get; set; }
         [Required(ErrorMessage = "Enter an amount.")]
-        public double SavingsAmount { get; set; }
+        public decimal SavingsAmount { get; set; }
 
         [Required(ErrorMessage = "Enter an amount.")]
-        public double IncomeAmount { get; set; }
+        public decimal IncomeAmount { get; set; }
     }
 
 

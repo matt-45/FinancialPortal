@@ -32,9 +32,6 @@
     </div>
 </div>
 
-
-
-
 <!-- Deposit Modal -->
 <div id="makeADepositModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -111,7 +108,6 @@
     </div>
 </div>
 
-
 <!-- Leave Group Modal (member)-->
 <div id="leaveGroupMemberModal" class="modal fade">
     <div class="modal-dialog modal-sm">
@@ -119,7 +115,7 @@
             @using (Html.BeginForm("LeaveMember", "Groups", FormMethod.Post, new { id = "leaveMemberForm" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.Hidden("userId", userTwo.Id, new {id = "thisisatest"})
+                @Html.Hidden("userId", userTwo.Id)
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <div style="text-align: center" class="col">
@@ -139,43 +135,57 @@
     </div>
 </div>
 
-<!-- Leave Group Modal (alone head)-->
-<div id="leaveGroupModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" style="font-weight: bold" id="depositHeader">Make a Deposit</h2>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-warning" onclick="submitDepositForm()" data-dismiss="modal" style="color: white; cursor: pointer">
-                    Leave
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Leave Group Modal (head with members)-->
 <div id="leaveGroupHeadWithMembers" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title" style="font-weight: bold" id="depositHeader">Make a Deposit</h2>
+                <h2 class="modal-title" style="font-weight: bold" id="depositHeader">Assign head before leaving.</h2>
             </div>
             <div class="modal-body">
-
-
+                <!--Users-->
+                <div class="card">
+                    <a style="cursor: pointer" data-card-widget="collapse">
+                        <div class="card-header">
+                            <h3 class="card-title" style="font-weight: bold">Select user to assign and leave.</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        <table id="usersTable" class="table table-bordered table-striped " style="table-layout: fixed">
+                            <thead>
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var tableUser in userTwo.Group.Users)
+                                {
+                                    <tr style="cursor: pointer" onclick="location.href = '@Url.Action("LeaveGroupHeadWithMembers", "Groups", new { userId = userTwo.Id, newHeadId = tableUser.Id })'">
+                                        <td>@tableUser.FirstName</td>
+                                        <td>@tableUser.LastName</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-warning" onclick="submitDepositForm()" data-dismiss="modal" style="color: white; cursor: pointer">
-                    Leave
-                </a>
             </div>
         </div>
     </div>

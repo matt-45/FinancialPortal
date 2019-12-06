@@ -48,17 +48,15 @@ namespace FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Amount,Name,BudgetId")] BudgetItem budgetItem)
+        public ActionResult Create(int budgetId, string budgetItemName)
         {
-            if (ModelState.IsValid)
-            {
-                db.BudgetItems.Add(budgetItem);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            var budgetItem = new BudgetItem();
+            budgetItem.BudgetId = budgetId;
+            budgetItem.Name = budgetItemName;
+            db.BudgetItems.Add(budgetItem);
+            db.SaveChanges();
 
-            ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Id", budgetItem.BudgetId);
-            return View(budgetItem);
+            return RedirectToAction("Details", "Budgets", new { id = budgetId});
         }
 
         // GET: BudgetItems/Edit/5
@@ -82,16 +80,14 @@ namespace FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Amount,Name,BudgetId")] BudgetItem budgetItem)
+        public ActionResult Edit(int itemId, string itemName, decimal spentAmount, decimal targetAmount)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(budgetItem).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Id", budgetItem.BudgetId);
-            return View(budgetItem);
+            var item = db.BudgetItems.Find(itemId);
+            item.Name = itemName;
+            item.Spent = spentAmount;
+            item.Target = targetAmount;
+            db.SaveChanges();
+            return RedirectToAction("Details", "Budgets", new { id = item.BudgetId });
         }
 
         // GET: BudgetItems/Delete/5

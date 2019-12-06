@@ -56,7 +56,7 @@ namespace FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int budgetItemId, int bankAccountId, double amount, string memo)
+        public ActionResult Create(int budgetItemId, int bankAccountId, decimal amount, string memo)
         {
             var user = db.Users.Find(User.Identity.GetUserId());
             var item = db.BudgetItems.Find(budgetItemId);
@@ -86,7 +86,7 @@ namespace FinancialPortal.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult CreateDeposit(int bankId, double amount, string memo) // bankid, amount
+        public ActionResult CreateDeposit(int bankId, decimal amount, string memo) // bankid, amount
         {
             var user = db.Users.Find(User.Identity.GetUserId());
             var group = user.Group;
