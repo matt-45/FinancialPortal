@@ -175,6 +175,7 @@
     <Compile Include="Controllers\BankAccountsController.cs" />
     <Compile Include="Controllers\BudgetItemsController.cs" />
     <Compile Include="Controllers\BudgetsController.cs" />
+    <Compile Include="Controllers\ChartsController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InvitationsController.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Helpers\SendEmail.cs" />
     <Compile Include="Helpers\UserRoleHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\DataModels\ChartData.cs" />
     <Compile Include="Models\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Models\ViewModels\TransactionCreateViewModel.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
@@ -733,6 +735,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Charts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -786,6 +789,7 @@
     <Content Include="Views\Account\NoGroup.cshtml" />
     <Content Include="Views\Groups\Create.cshtml" />
     <Content Include="Views\Budgets\Details.cshtml" />
+    <Content Include="Views\Shared\_LineChartPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

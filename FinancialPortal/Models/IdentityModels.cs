@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -11,6 +12,7 @@ namespace FinancialPortal.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public partial class ApplicationUser : IdentityUser
     {
+        ApplicationDbContext db = new ApplicationDbContext();
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
@@ -28,6 +30,17 @@ namespace FinancialPortal.Models
         public decimal IncomeAmount { get; set; }
         public IncomeType IncomeType { get; set; }
 
+
+        [NotMapped]
+        public ICollection<Notification> AllNotifications
+        {
+            get
+            {
+                var group = db.Groups.Find(GroupId);
+                var notifications = Notifications.Concat(group.Notifications).ToList();
+                return notifications;
+            }
+        }
 
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }

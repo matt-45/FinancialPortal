@@ -27,23 +27,51 @@
                 </tr>
             </thead>
             <tbody>
+                @{ 
+                    var loop = 1;
+                }
                 @foreach (var transaction in Model.Transactions)
                 {
-                <tr style="cursor: pointer">
-                    <td>@transaction.BankAccount.Name</td>
-                    @if (transaction.Budget == null)
-                    {
-                        <td>N/A</td>
-                    }
-                    else
-                    {
-                        <td>@transaction.Budget.Name</td>
-                    }
-                    <td>@transaction.Type.ToString()</td>
-                    <td>$@transaction.Amount</td>
-                    <td>@transaction.Creator.FullName</td>
-                    <td>@transaction.Created</td>
-                </tr>
+                    var modalId = "editOrDeleteModal" + 1;
+                    <tr style="cursor: pointer" data-toggle="modal" data-target="#@modalId">
+                        <td>@transaction.BankAccount.Name</td>
+                        @if (transaction.Budget == null)
+                        {
+                            <td>N/A</td>
+                        }
+                        else
+                        {
+                            <td>@transaction.Budget.Name</td>
+                        }
+                        <td>@transaction.Type.ToString()</td>
+                        <td>$@transaction.Amount</td>
+                        <td>@transaction.Creator.FullName</td>
+                        <td>@transaction.Created</td>
+                    </tr>
+
+                    <!-- Leave Group Modal (member)-->
+                    <div id=@modalId class="modal fade">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <div style="text-align: center" class="col">
+                                        <h3 class="modal-title" style="font-weight: bold">View or Delete?</h3>
+                                    </div>
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <a class="btn btn-danger" style="width: 100%; color: white; cursor: pointer" href=@Url.Action("Delete", "Transactions", new { id = transaction.Id})>
+                                        Delete
+                                    </a>
+                                    <a class="btn btn-success" style="width: 100%; color: white; cursor: pointer" href=@Url.Action("Details", "Transactions", new { id = transaction.Id})>
+                                        View
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 }
             </tbody>
             <tfoot>

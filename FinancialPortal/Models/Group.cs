@@ -36,6 +36,15 @@ namespace FinancialPortal.Models
         }
 
         [NotMapped]
+        public decimal SpentEstimate
+        {
+            get
+            {
+                return StartAmount - Transactions.Sum(t => t.Amount);
+            }
+        }
+
+        [NotMapped]
         public double Percentage
         {
             get

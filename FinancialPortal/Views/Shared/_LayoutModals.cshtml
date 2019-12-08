@@ -180,7 +180,7 @@
                                 </tr>
                             </tfoot>
                         </table>
-                        
+
                     </div>
                 </div>
             </div>
@@ -190,3 +190,74 @@
         </div>
     </div>
 </div>
+
+<!-- Create Bank Modal -->
+<div id="createBankModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" style="font-weight: bold" id="depositHeader">Create a Bank</h2>
+            </div>
+            @using (Html.BeginForm("Create", "BankAccounts", FormMethod.Post, new { id = "createBankForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("userId", userTwo.Id)
+                @Html.Hidden("type", null, new { id = "hiddenBankAccountId" })
+                <div class="modal-body">
+                    <div class="accordion" id="ticketAccordion">
+                        <div id="bankTypeHeader" class="info-box mb-3" style="cursor: pointer" data-target="#bankTypeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="bankTypeCollapse">
+                            <span id="spanBankTypeBgColor" class="info-box-icon bg-gradient-cyan elevation-1"><i id="spanBankTypeIcon" class="iBankTypeClass fas fa-exclamation"></i></span>
+                            <div class="info-box-content">
+                                <span id="spanBankType" class="info-box-text" style="font-size: large; font-weight: bold">Bank Type:</span>
+                                <span id="spanBankTypeBalance" class="info-box-text">Select a Type</span>
+                            </div>
+                            <i class="fas fa-chevron-down float-right"></i>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <div id="bankTypeCollapse" class="collapse" aria-labelledby="bankTypeHeader"
+                             data-parent="#ticketAccordion">
+                            <div style="padding-left: 20%">
+                                <a href="#" style="color:black">
+                                    <div id="bankTypeHeader" class="info-box mb-3 aBankTypeClass" style="cursor: pointer" data-target="#bankTypeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse" onclick="selectCreateBankType('Checking')">
+                                        <span class="info-box-icon bg-gradient-green elevation-1"><i class="iBankTypeClass fas fa-money-bill"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text bankTypeNameClass" style="font-size: large; font-weight: bold">Checking</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </a>
+                            </div>
+                            <div style="padding-left: 20%">
+                                <a href="#" style="color:black">
+                                    <div id="bankTypeHeader" class="info-box mb-3 aBankTypeClass" style="cursor: pointer" data-target="#bankTypeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse" onclick="selectCreateBankType('Savings')">
+                                        <span class="info-box-icon bg-gradient-blue elevation-1"><i class="iBankTypeClass fas fa-university"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text bankTypeNameClass" style="font-size: large; font-weight: bold">Savings</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <h4>Name</h4>
+                    <input type="text" id="bankNameId" class="form-control" name="name" />
+                    <h4 class="pt-3">Balance</h4>
+                    <input type="number" id="bankAmountId" class="form-control" name="balance" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-success" onclick="submitCreateBankForm()" data-dismiss="modal" style="color: white; cursor: pointer">
+                        Save
+                    </a>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -146,30 +146,16 @@ namespace FinancialPortal.Controllers
         }
 
         // GET: Transactions/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Transaction transaction = db.Transactions.Find(id);
-            if (transaction == null)
-            {
-                return HttpNotFound();
-            }
-            return View(transaction);
+            var transaction = db.Transactions.Find(id);
+            db.Transactions.Remove(transaction);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
         }
 
-        // POST: Transactions/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Transaction transaction = db.Transactions.Find(id);
-            db.Transactions.Remove(transaction);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
         protected override void Dispose(bool disposing)
         {

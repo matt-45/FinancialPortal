@@ -99,29 +99,14 @@ namespace FinancialPortal.Controllers
         }
 
         // GET: Notifications/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Notification notification = db.Notifications.Find(id);
-            if (notification == null)
-            {
-                return HttpNotFound();
-            }
-            return View(notification);
-        }
-
-        // POST: Notifications/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Notification notification = db.Notifications.Find(id);
+            var notification = db.Notifications.Find(id);
             db.Notifications.Remove(notification);
+
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Index", "Home");
         }
 
         protected override void Dispose(bool disposing)

@@ -48,33 +48,18 @@ namespace FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Amount,Name,Type,UserId")] BankAccount bankAccount)
+        public ActionResult Create(string userId, string type, string name, decimal balance)
         {
-            if (ModelState.IsValid)
+            var user = db.Users.Find(userId);
+            var bankAccount = new BankAccount
             {
-                db.BankAccounts.Add(bankAccount);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", bankAccount.UserId);
-            return View(bankAccount);
-        }
-
-        // GET: BankAccounts/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BankAccount bankAccount = db.BankAccounts.Find(id);
-            if (bankAccount == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", bankAccount.UserId);
-            return View(bankAccount);
+                Name = name,
+                Balance = balance,
+                Type = (AccountType)Enum.Parse(typeof(AccountType), type)
+            };
+            user.BankAccounts.Add(bankAccount);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: BankAccounts/Edit/5
@@ -82,16 +67,14 @@ namespace FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Amount,Name,Type,UserId")] BankAccount bankAccount)
+        public ActionResult Edit(int accountId, string accountName, decimal accountBalance)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(bankAccount).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", bankAccount.UserId);
-            return View(bankAccount);
+            var bankAccount = db.BankAccounts.Find(accountId);
+            bankAccount.Name = accountName;
+            bankAccount.Balance = accountBalance;
+
+            db.SaveChanges();
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: BankAccounts/Delete/5

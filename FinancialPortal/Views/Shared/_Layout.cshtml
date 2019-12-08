@@ -56,55 +56,34 @@
                 </ul>
 
 
-                <!-- Right navbar links -->
                 <ul class="navbar-nav ml-auto">
-                    <!-- Messages Dropdown Menu -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="far fa-comments"></i>
-                            <span class="badge badge-danger navbar-badge">3</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                            <a href="#" class="dropdown-item">
-                                <!-- Message Start -->
-                                <div class="media">
-                                    <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            Brad Diesel
-                                            <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">Call me whenever you can...</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                        </div>
-                    </li>
                     <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="far fa-bell"></i>
-                            <span class="badge badge-warning navbar-badge">15</span>
+                            <i class="far fa-bell fa-2x"></i>
+                            @if (user.AllNotifications.Count() > 0)
+                            {
+                                <span class="badge badge-warning navbar-badge">@(user.AllNotifications.Count())</span>
+                            }
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                            <span class="dropdown-item dropdown-header">15 Notifications</span>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-envelope mr-2"></i> 4 new messages
-                                <span class="float-right text-muted text-sm">3 mins</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                            <span class="dropdown-item dropdown-header">@user.AllNotifications.Count() Notifications</span>
+                            @foreach (var notification in user.AllNotifications)
+                            {
+                                if (!notification.IsRead)
+                                {
+                                    <div class="dropdown-divider"></div>
+                                    <a href=@Url.Action("Delete", "Notifications", new { id = notification.Id}) class="dropdown-item" style="cursor: pointer">
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <p>
+                                            @notification.Message
+                                        </p>
+                                    </a>
+                                }
+                            }
+                            @*<div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>*@
                         </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
-                            <i class="fas fa-th-large"></i>
-                        </a>
                     </li>
                 </ul>
             </nav>
@@ -141,7 +120,7 @@
                         <nav class="mt-2">
                             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                                 <!-- Add icons to the links using the .nav-icon class
-                            with font-awesome or any other icon font library -->
+                        with font-awesome or any other icon font library -->
                                 <li class="nav-item">
                                     <a href=@Url.Action("Index", "Home") class="nav-link active">
                                         <i class="nav-icon fas fa-th"></i>
@@ -171,6 +150,67 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-university "></i>
+                                        <p>
+                                            Bank Accounts
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+
+                                    @{
+                                        var loop = 1;
+                                    }
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a data-toggle="modal" data-target="#createBankModal" class="nav-link" style="cursor: pointer">
+                                            <i class="fa fa-plus-circle nav-icon"></i>
+                                            <p>Create New</p>
+                                        </a>
+                                    </li>
+                                    @foreach (var bankAccount in user.BankAccounts)
+                                    {
+                                        var modalId = "editBankAccountModal" + loop;
+
+                                        <li class="nav-item">
+                                            <a data-toggle="modal" data-target="#@modalId" class="nav-link" style="cursor: pointer">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>@bankAccount.Name</p>
+                                            </a>
+                                        </li>
+
+
+                                        <!-- Edit Bank Account Modal -->
+                                        <div id="@modalId" class="modal fade" role="dialog" style="z-index: -1">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                @using (Html.BeginForm("Edit", "BankAccounts", FormMethod.Post))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    @Html.Hidden("accountId", bankAccount.Id)
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h2 class="modal-title" style="font-weight: bold">Edit Bank Account</h2>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h4>Name</h4>
+                                                            @Html.TextBox("accountName", bankAccount.Name, new { @class = "form-control" })
+                                                            <h5 class="pt-3">Balance</h5>
+                                                            @Html.TextBox("accountBalance", bankAccount.Balance, new { @class = "form-control", @type = "number" })
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
+                                                            <button type="submit" class="btn btn-success">Save</button>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                        loop++;
+                                    }
+                                </ul>
+                                    </li>
                                 <li class="nav-item has-treeview">
                                     <a href="#" class="nav-link">
                                         <i class="nav-icon fas fa-layer-group"></i>
@@ -208,19 +248,14 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href=@Url.Action("Create", "Transaction", new { groupId = user.GroupId}) class="nav-link">
+                                            <a href=@Url.Action("Create", "Transactions", new { groupId = user.GroupId}) class="nav-link">
                                                 <i class="fa fa-plus-circle nav-icon"></i>
                                                 <p>Create</p>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a href="" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>View All</p>
-                                            </a>
-                                        </li>
                                     </ul>
                                 </li>
+
                             </ul>
                             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="padding-top: 250px">
                                 <li class="nav-item">
@@ -364,6 +399,28 @@
                 $("#errorHeader").text("")
             })
 
+            $(".aBankTypeClass").on("click", function () {
+                //Step 1: Get the icon from the thing we clicked
+                var icon = $(this).find(".iBankTypeClass").attr("class").replace("iBankTypeClass", "");
+
+                //Step 2: Get the BG color...
+                var bgColor = $(this).find(".elevation-1").attr("class");
+
+                //Step 3: Get the text from the thing we clicked
+                bankTypeText = $(this).find(".bankTypeNameClass").text();
+
+                //Get the current class we are replacing
+                var bgClass = $("#spanBankTypeBgColor").attr("class");
+                $("#spanBankTypeBgColor").removeClass(bgClass);
+                $("#spanBankTypeBgColor").addClass(bgColor);
+
+                var icoClass = $("#spanBankTypeIcon").attr("class");
+                $("#spanBankTypeIcon").removeClass(icoClass);
+                $("#spanBankTypeIcon").addClass(icon);
+                $("#spanBankTypeBalance").text(bankTypeText);
+                $("#errorHeader").text("")
+            })
+
             function selectBank(bankId) {
                 $("#hiddenBankId").val(bankId)
             }
@@ -386,10 +443,15 @@
                 });
             }
 
-            function leaveGroup(role, numberOfUsers) {
-                console.log(role)
-                console.log(numberOfUsers)
+            function selectCreateBankType(type) {
+                $("#hiddenBankAccountId").val(type)
+            }
 
+            function submitCreateBankForm() {
+                $("#createBankForm").submit();
+            }
+
+            function leaveGroup(role, numberOfUsers) {
                 if (role == "Head" && numberOfUsers == 1) {
                     $("#leaveGroupMemberModal").modal("toggle");
                 } else if (role == "Head") {

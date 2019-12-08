@@ -9,7 +9,7 @@
                     <a style="cursor: pointer" data-target="#editGroupBudgetModal" data-toggle="modal">
                         <i class="fas fa-edit" style="color: #037bff"></i>
                     </a>
-                    Monthly Balance: $@Model.group.Balance
+                    Monthly Balance: $@Model.Group.Balance
                 </h1>
             </div>
         </div>
@@ -22,7 +22,7 @@
         <div class="row">
             <section class="col-lg-4">
                 <div id="partialOneDiv">
-                    @Html.Partial("_DashboardPartialOne", Model.group)
+                    @Html.Partial("_DashboardPartialOne", Model.Group)
                 </div>
             </section>
             <section class="col-lg-8">
@@ -34,7 +34,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Spent Today</span>
-                                <span class="info-box-number">$@Model.spentToday</span>
+                                <span class="info-box-number">$@Model.SpentToday</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -45,7 +45,7 @@
 
                             <div class="info-box-content">
                                 <span class="info-box-text">Spent This Week</span>
-                                <span class="info-box-number">$@Model.spentWeek</span>
+                                <span class="info-box-number">$@Model.SpentWeek</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -55,13 +55,16 @@
                             <span class="info-box-icon bg-info"><i class="far fa-calendar"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">Spent This Month</span>
-                                <span class="info-box-number">$@Model.spentMonth</span>
+                                <span class="info-box-number">$@Model.SpentMonth</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
                     </div>
                 </div>
-                <!--Line Chart-->
+                <!--Line Chart Partial-->
+                @*<div id="lineChartDiv">
+            @Html.Partial("_LineChartPartial", Model.ChartData)
+        </div>*@
                 <div class="row">
                     <div class="col">
                         <div class="card card-primary" style="width: 100%">
@@ -84,7 +87,7 @@
                     </div>
                 </div>
                 <div id="partialTwoDiv">
-                    @Html.Partial("_DashboardPartialTwo", Model.group)
+                    @Html.Partial("_DashboardPartialTwo", Model.Group)
                 </div>
             </section>
         </div>
@@ -92,23 +95,23 @@
 </section>
 <!-- /.content-wrapper -->
 
-<!-- Budget Item Edit Modal -->
+<!-- Group Edit Modal -->
 <div id="editGroupBudgetModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         @using (Html.BeginForm("EditBudget", "Groups", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
-            @Html.Hidden("budgetId", Model.group.Id)
+            @Html.Hidden("budgetId", Model.Group.Id)
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title" style="font-weight: bold">Edit Monthly Budget</h2>
                 </div>
                 <div class="modal-body">
-                    <h5>Money Left</h5>
-                    @Html.TextBox("balance", Model.group.Balance, new { @class = "form-control", @type = "number" })
-                    <h5 class="pt-3">Target: $@Model.group.TotalBudgetTarget (calculated from budget targets)</h5>
-                    @Html.TextBox("startAmount", Model.group.StartAmount, new { @class = "form-control", @type = "number" })
+                    <h5>Money Left: $@Model.Group.SpentEstimate Spent (calculated from transactions)</h5>
+                    @Html.TextBox("balance", Model.Group.Balance, new { @class = "form-control", @type = "number" })
+                    <h5 class="pt-3">Target: $@Model.Group.TotalBudgetTarget (calculated from budget targets)</h5>
+                    @Html.TextBox("startAmount", Model.Group.StartAmount, new { @class = "form-control", @type = "number" })
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
@@ -121,6 +124,11 @@
 
 @section scripts {
     <script>
+        $(document).ready(function () {
+            var labels = JSON.parse('@Html.Raw(Json.Encode(Model.ChartData.Labels))')
+            var data = JSON.parse('@Html.Raw(Json.Encode(Model.ChartData.Data))')
+            console.log(data)
+        
         //--------------
         //- AREA CHART -
         //--------------
@@ -129,10 +137,10 @@
         var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
 
         var areaChartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: labels,
             datasets: [
                 {
-                    label: 'Digital Goods',
+                    label: 'Transaction Amount',
                     backgroundColor: 'rgba(60,141,188,0.9)',
                     borderColor: 'rgba(60,141,188,0.8)',
                     pointRadius: false,
@@ -140,7 +148,7 @@
                     pointStrokeColor: 'rgba(60,141,188,1)',
                     pointHighlightFill: '#fff',
                     pointHighlightStroke: 'rgba(60,141,188,1)',
-                    data: [28, 48, 40, 19, 86, 27, 90]
+                    data: data
                 },
             ]
         }
@@ -171,6 +179,7 @@
             data: areaChartData,
             options: areaChartOptions
         })
+            })
     </script>
 
 
