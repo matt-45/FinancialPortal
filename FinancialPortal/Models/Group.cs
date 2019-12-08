@@ -36,7 +36,7 @@ namespace FinancialPortal.Models
         }
 
         [NotMapped]
-        public decimal SpentEstimate
+        public decimal EstimatedBalance
         {
             get
             {

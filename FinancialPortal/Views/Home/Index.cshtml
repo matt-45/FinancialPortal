@@ -108,7 +108,7 @@
                     <h2 class="modal-title" style="font-weight: bold">Edit Monthly Budget</h2>
                 </div>
                 <div class="modal-body">
-                    <h5>Money Left: $@Model.Group.SpentEstimate Spent (calculated from transactions)</h5>
+                    <h5>Balance: ($@Model.Group.EstimatedBalance estimated)</h5>
                     @Html.TextBox("balance", Model.Group.Balance, new { @class = "form-control", @type = "number" })
                     <h5 class="pt-3">Target: $@Model.Group.TotalBudgetTarget (calculated from budget targets)</h5>
                     @Html.TextBox("startAmount", Model.Group.StartAmount, new { @class = "form-control", @type = "number" })

@@ -21,23 +21,6 @@ namespace FinancialPortal.Controllers
             var transactions = db.Transactions.Include(t => t.BankAccount).Include(t => t.BudgetItem).Include(t => t.Creator);
             return View(transactions.ToList());
         }
-
-        // GET: Transactions/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Transaction transaction = db.Transactions.Find(id);
-            if (transaction == null)
-            {
-                return HttpNotFound();
-            }
-            return View(transaction);
-        }
-
-        // GET: Transactions/Create
         public ActionResult Create(int? budgetId)
         {
             var user = db.Users.Find(User.Identity.GetUserId());
@@ -109,21 +92,29 @@ namespace FinancialPortal.Controllers
         }
 
         // GET: Transactions/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Details(int id, int? budgetId)
         {
-            if (id == null)
+            var transaction = db.Transactions.Find(id);
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var group = db.Groups.Find(user.GroupId);
+            
+            
+            var viewModel = new TransactionEditViewModel
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Transaction transaction = db.Transactions.Find(id);
-            if (transaction == null)
+                Group = group,
+                User = user,
+                Transaction = transaction
+            };
+            if (budgetId == null)
             {
-                return HttpNotFound();
+                viewModel.Budget = transaction.Budget;
             }
-            ViewBag.BankAccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.BankAccountId);
-            ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
-            ViewBag.CreatorId = new SelectList(db.Users, "Id", "FirstName", transaction.CreatorId);
-            return View(transaction);
+            else
+            {
+                viewModel.Budget = db.Budgets.Find(budgetId);
+            }
+
+            return View(viewModel);
         }
 
         // POST: Transactions/Edit/5
@@ -131,18 +122,18 @@ namespace FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Amount,Memo,Created,Type,CreatorId,BudgetItemId,BankAccountId")] Transaction transaction)
+        public ActionResult Edit(int transactionId, int budgetItemId, int budgetId, int bankAccountId, decimal amount, string memo)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(transaction).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.BankAccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.BankAccountId);
-            ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
-            ViewBag.CreatorId = new SelectList(db.Users, "Id", "FirstName", transaction.CreatorId);
-            return View(transaction);
+            var transaction = db.Transactions.Find(transactionId);
+            transaction.BudgetItemId = budgetItemId;
+            transaction.BudgetId = budgetId;
+            transaction.Amount = amount;
+            transaction.Memo = memo;
+            transaction.BankAccountId = bankAccountId;
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Transactions/Delete/5
