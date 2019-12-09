@@ -98,8 +98,7 @@ namespace FinancialPortal.Controllers
 
             Group group = new Group
             {
-                Name = groupName,
-                Balance = 5000
+                Name = groupName
             };
 
             db.Groups.Add(group);

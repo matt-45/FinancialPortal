@@ -5,10 +5,11 @@
     ApplicationDbContext db = new ApplicationDbContext();
     var user = db.Users.Find(User.Identity.GetUserId());
 }
+
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>de_bug</title>
+        <title>Financial Portal</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -37,6 +38,12 @@
         <link href="~/Content/datatables-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
         <link href="~/Content/datatables-select/css/select.bootstrap4.min.css" rel="stylesheet" />
 
+        <style>
+            .modal-backdrop {
+    z-index: 1037;
+}
+        </style>
+        
     </head>
     <body class="hold-transition sidebar-mini layout-fixed">
         <div class="wrapper">
@@ -180,10 +187,9 @@
                                             </a>
                                         </li>
 
-
                                         <!-- Edit Bank Account Modal -->
-                                        <div id="@modalId" class="modal fade" role="dialog" style="z-index: -1">
-                                            <div class="modal-dialog">
+                                        <div id="@modalId" class="modal fade editBankModal" role="dialog">
+                                            <div class="modal-dialog backdropClass">
                                                 <!-- Modal content-->
                                                 @using (Html.BeginForm("Edit", "BankAccounts", FormMethod.Post))
                                                 {
@@ -471,7 +477,6 @@
             $("#transactionsTable").DataTable({
                 searching: false
             });
-
 
         </script>
 

@@ -361,7 +361,7 @@
     <Content Include="Content\summernote\summernote.css" />
     <Content Include="Content\tempusdominus-bootstrap-4\css\tempusdominus-bootstrap-4.css" />
     <Content Include="Content\tempusdominus-bootstrap-4\css\tempusdominus-bootstrap-4.min.css" />
-    <Content Include="favicon.ico" />
+    <Content Include="favicon.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap\js\bootstrap.bundle.js" />
@@ -791,6 +791,7 @@
     <Content Include="Views\Budgets\Details.cshtml" />
     <Content Include="Views\Shared\_LineChartPartial.cshtml" />
     <Content Include="Views\Transactions\Details.cshtml" />
+    <None Include="Properties\PublishProfiles\MatthewParkFinancialPortal - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

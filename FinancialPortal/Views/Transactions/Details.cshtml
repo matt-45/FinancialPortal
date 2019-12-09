@@ -31,13 +31,13 @@
                     </a>
                 </div>
                 <div class="accordion" id="ticketAccordion">
-                    @if (Model.Transaction.Budget != Model.Budget)
+                    @if (Model.Transaction.Budget == Model.Budget)
                     {
                         <div id="budgetHeader" class="info-box mb-3" style="cursor: pointer" data-target="#budgetCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="budgetCollapse">
                             <span id="spanBudgetBgColor" class="info-box-icon bg-gradient-purple elevation-1"><i id="spanBudgetIcon" class="fas fa-cube"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text" style="font-size: large; font-weight: bold">Budget Item:</span>
-                                <span id="spanBudget" class="info-box-text">@Model.Budget.Name</span>
+                                <span id="spanBudget" class="info-box-text">@Model.Transaction.BudgetItem.Name</span>
                             </div>
                             <i class="fas fa-chevron-down float-right"></i>
                             <!-- /.info-box-content -->
@@ -213,7 +213,7 @@
                         @foreach (var budget in Model.Group.Budgets)
                         {
                             <div class="col-6">
-                                <a href=@Url.Action("Create", "Transactions", new { budgetId = budget.Id}) class="small-box-footer selectBudgetClass" style="color: black">
+                                <a href=@Url.Action("Details", "Transactions", new { id = Model.Transaction.Id, budgetId = budget.Id}) class="small-box-footer selectBudgetClass" style="color: black">
                                     <div class="info-box">
                                         <span class="info-box-icon bg-blue"><i class="fas fa-cubes"></i></span>
                                         <div class="info-box-content">
@@ -235,6 +235,7 @@
         @Html.AntiForgeryToken()
         @Html.Hidden("transactionId", Model.Transaction.Id)
         @Html.Hidden("budgetItemId", Model.Transaction.BudgetItem.Id, new { id = "budgetItemId" })
+        @Html.Hidden("budgetId", Model.Budget.Id)
         @Html.Hidden("bankAccountId", Model.Transaction.BankAccountId, new { id = "hiddenBankAccountId"})
         @Html.Hidden("amount", Model.Transaction.Amount, new { id = "hiddenTransactionAmountId" })
         @Html.Hidden("memo", Model.Transaction.Memo, new { id = "hiddenTransactionMemoId" })

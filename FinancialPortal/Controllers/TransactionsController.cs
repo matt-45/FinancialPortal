@@ -125,11 +125,23 @@ namespace FinancialPortal.Controllers
         public ActionResult Edit(int transactionId, int budgetItemId, int budgetId, int bankAccountId, decimal amount, string memo)
         {
             var transaction = db.Transactions.Find(transactionId);
+            var bank = db.BankAccounts.Find(transaction.BankAccountId);
+            var group = db.Groups.Find(transaction.GroupId);
+            var budget = db.Budgets.Find(transaction.BudgetId);
+            var budgetItem = db.BudgetItems.Find(transaction.BudgetItemId);
+
+            bank.Balance += transaction.Amount;
+            group.Balance += transaction.Amount;
+            budget.Spent -= transaction.Amount;
+            budgetItem.Spent -= transaction.Amount;
+
             transaction.BudgetItemId = budgetItemId;
             transaction.BudgetId = budgetId;
             transaction.Amount = amount;
             transaction.Memo = memo;
             transaction.BankAccountId = bankAccountId;
+
+            transaction.Calculate();
 
             db.SaveChanges();
 
