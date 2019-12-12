@@ -44,7 +44,6 @@ namespace FinancialPortal.Models
             group.Balance -= Amount;
             budget.Spent += Amount;
             budgetItem.Spent += Amount;
-            // check to see if there is an overdraft etc.
             notificationHelper.CheckOverdrafts(Id);
             db.SaveChanges();
         }
