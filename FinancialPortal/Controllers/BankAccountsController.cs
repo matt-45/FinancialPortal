@@ -14,48 +14,21 @@ namespace FinancialPortal.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: BankAccounts
-        public ActionResult Index()
-        {
-            var bankAccounts = db.BankAccounts.Include(b => b.User);
-            return View(bankAccounts.ToList());
-        }
 
-        // GET: BankAccounts/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BankAccount bankAccount = db.BankAccounts.Find(id);
-            if (bankAccount == null)
-            {
-                return HttpNotFound();
-            }
-            return View(bankAccount);
-        }
-
-        // GET: BankAccounts/Create
-        public ActionResult Create()
-        {
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
-            return View();
-        }
 
         // POST: BankAccounts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(string userId, string type, string name, decimal balance)
+        public ActionResult Create(string userId, AccountType type, string name, decimal balance)
         {
             var user = db.Users.Find(userId);
             var bankAccount = new BankAccount
             {
                 Name = name,
                 Balance = balance,
-                Type = (AccountType)Enum.Parse(typeof(AccountType), type)
+                Type = type
             };
             user.BankAccounts.Add(bankAccount);
             db.SaveChanges();

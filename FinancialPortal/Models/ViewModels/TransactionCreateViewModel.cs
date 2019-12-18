@@ -10,5 +10,6 @@ namespace FinancialPortal.Models
         public ApplicationUser User { get; set; }
         public Group Group { get; set; }
         public Budget? Budget { get; set; }
+        public string DateTime { get; set; }
     }
 }

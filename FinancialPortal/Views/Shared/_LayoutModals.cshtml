@@ -203,7 +203,7 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.Hidden("userId", userTwo.Id)
-                @Html.Hidden("type", null, new { id = "hiddenBankAccountId" })
+                @Html.Hidden("type", null, new { id = "hiddenBankAccountIdCreate" })
                 <div class="modal-body">
                     <div class="accordion" id="ticketAccordion">
                         <div id="bankTypeHeader" class="info-box mb-3" style="cursor: pointer" data-target="#bankTypeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="bankTypeCollapse">
@@ -219,7 +219,7 @@
                              data-parent="#ticketAccordion">
                             <div style="padding-left: 20%">
                                 <a href="#" style="color:black">
-                                    <div id="bankTypeHeader" class="info-box mb-3 aBankTypeClass" style="cursor: pointer" data-target="#bankTypeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse" onclick="selectCreateBankType('Checking')">
+                                    <div id="bankTypeHeader" class="info-box mb-3 aBankTypeClass" style="cursor: pointer" data-target="#bankTypeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse" onclick="selectCreateBankType(0)">
                                         <span class="info-box-icon bg-gradient-green elevation-1"><i class="iBankTypeClass fas fa-money-bill"></i></span>
                                         <div class="info-box-content">
                                             <span class="info-box-text bankTypeNameClass" style="font-size: large; font-weight: bold">Checking</span>
@@ -230,7 +230,7 @@
                             </div>
                             <div style="padding-left: 20%">
                                 <a href="#" style="color:black">
-                                    <div id="bankTypeHeader" class="info-box mb-3 aBankTypeClass" style="cursor: pointer" data-target="#bankTypeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse" onclick="selectCreateBankType('Savings')">
+                                    <div id="bankTypeHeader" class="info-box mb-3 aBankTypeClass" style="cursor: pointer" data-target="#bankTypeCollapse" data-toggle="collapse" aria-expanded="true" aria-controls="roleCollapse" onclick="selectCreateBankType(1)">
                                         <span class="info-box-icon bg-gradient-blue elevation-1"><i class="iBankTypeClass fas fa-university"></i></span>
                                         <div class="info-box-content">
                                             <span class="info-box-text bankTypeNameClass" style="font-size: large; font-weight: bold">Savings</span>

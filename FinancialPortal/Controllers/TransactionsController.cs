@@ -31,6 +31,7 @@ namespace FinancialPortal.Controllers
             }
             viewModel.User = user;
             viewModel.Group = user.Group;
+            viewModel.DateTime = DateTime.Now.ToString("MM/dd/yyyy");
             return View(viewModel);
         }
 

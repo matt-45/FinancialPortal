@@ -54,21 +54,7 @@ namespace FinancialPortal.Controllers
             return RedirectToAction("Details", "Budgets", new { id = budget.Id});
         }
 
-        // GET: Budgets/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Budget budget = db.Budgets.Find(id);
-            if (budget == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name", budget.GroupId);
-            return View(budget);
-        }
+
 
         // POST: Budgets/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
