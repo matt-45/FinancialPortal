@@ -450,13 +450,59 @@
                 });
             }
 
-            function selectCreateBankType(type) {
-                $("#hiddenBankAccountIdCreate").val(type)
+            function submitCreateBudgetForm() {
+                var title = $("#projectTitleTextBox").val();
+                var titleIsEntered = false;
+                if (title == "") {
+                    $("#createBudgetErrorHeader").text("Enter a Name")
+                } else {
+                    titleIsEntered = true;
+                }
+                if (titleIsEntered) {
+                    $("#createBudgetForm").submit()
+                }
             }
 
-            function submitCreateBankForm() {
-                $("#createBankForm").submit();
+            function selectCreateBankType(type) {
+            $("#hiddenBankAccountIdCreate").val(type)
             }
+
+            function checkBankAccountCreationFields() {
+                var typeIsSelected = false;
+                var nameIsEntered = false;
+                var balanceIsEntered = false;
+                var type = $("#hiddenBankAccountIdCreate").val();
+                var name = $("#bankNameId").val();
+                var balance = $("#bankAmountId").val();
+
+                if (type != "") {
+                    typeIsSelected = true;
+                }
+                if (name != "") {
+                    nameIsEntered = true;
+                }
+                if (balance != "") {
+                    balanceIsEntered = true;
+                }
+
+                if (!typeIsSelected) {
+                    $("#createABankErrorHeader").text("Select a Type")
+                } else if (!nameIsEntered) {
+                    $("#createABankErrorHeader").text("Enter a Name")
+                } else if (!balanceIsEntered) {
+                    $("#createABankErrorHeader").text("Enter a Balance")
+                } else {
+                    $("#createABankErrorHeader").text("Create a Bank")
+                }
+
+                if ($("#createABankErrorHeader").text() == "Create a Bank") {
+                    $("#createABankErrorHeader").text("Creating bank...")
+                    $("#createBankForm").submit();
+                }
+            
+
+            }
+
 
             function leaveGroup(role, numberOfUsers) {
                 if (role == "Head" && numberOfUsers == 1) {
@@ -482,4 +528,5 @@
         </script>
 
         @RenderSection("scripts", required: false)
+
     </body>
